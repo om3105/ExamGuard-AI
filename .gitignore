@@ -1,0 +1,18 @@
+# Dependencies
+node_modules/
+backend/venv/
+__pycache__/
+
+# Next.js
+.next/
+out/
+build/
+
+# Environment
+.env
+.env.local
+.DS_Store
+
+# IDE
+.vscode/
+.idea/
