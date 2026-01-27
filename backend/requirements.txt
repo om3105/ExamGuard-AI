@@ -1,7 +1,7 @@
 fastapi
 uvicorn
-sqlalchemy
-psycopg2-binary
+motor
+beanie
 python-jose[cryptography]
 passlib[bcrypt]
 pydantic
@@ -9,3 +9,5 @@ python-multipart
 websockets
 numpy
 scikit-learn
+python-dotenv
+email-validator
