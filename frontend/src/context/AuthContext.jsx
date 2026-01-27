@@ -1,19 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
+const AuthContext = createContext(null);
 
-interface AuthContextType {
-    token: string | null;
-    username: string | null;
-    login: (token: string, username: string) => void;
-    logout: () => void;
-    isAuthenticated: boolean;
-}
-
-const AuthContext = createContext<AuthContextType | null>(null);
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-    const [token, setToken] = useState<string | null>(localStorage.getItem('token'));
-    const [username, setUsername] = useState<string | null>(localStorage.getItem('username'));
+export const AuthProvider = ({ children }) => {
+    const [token, setToken] = useState(localStorage.getItem('token'));
+    const [username, setUsername] = useState(localStorage.getItem('username'));
 
     useEffect(() => {
         if (token) {
@@ -31,7 +22,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, [username]);
 
-    const login = (newToken: string, newUsername: string) => {
+    const login = (newToken, newUsername) => {
         setToken(newToken);
         setUsername(newUsername);
     };

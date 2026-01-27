@@ -3,7 +3,7 @@ import { useAuth } from '../context/AuthContext';
 import api from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
 
-const LoginPage: React.FC = () => {
+const LoginPage = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -11,7 +11,7 @@ const LoginPage: React.FC = () => {
     const { login } = useAuth();
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setLoading(true);
@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
 
             login(response.data.access_token, username);
             navigate('/dashboard');
-        } catch (err: any) {
+        } catch (err) {
             setError(err.response?.data?.detail || 'Invalid credentials. Please try again.');
         } finally {
             setLoading(false);
@@ -45,29 +45,29 @@ const LoginPage: React.FC = () => {
                     className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
                 />
                 <div className="relative z-20 flex flex-col justify-center px-12 text-white">
-                    <div className="flex flex-col items-center mb-8">
-                        <img src="/src/assets/logo.png" alt="ExamGuard Logo" className="w-24 h-24 object-contain mb-4 drop-shadow-lg" />
-                        <h1 className="text-5xl font-bold tracking-tight">ExamGuard</h1>
+                    <div className="flex flex-col items-center mb-10 text-center">
+                        <img src="/src/assets/logo.png" alt="ExamGuard Logo" className="w-48 h-48 object-contain mb-6 drop-shadow-2xl" />
+                        <h1 className="text-6xl font-extrabold tracking-tight">ExamGuard</h1>
                     </div>
-                    <p className="text-xl text-blue-100 max-w-lg leading-relaxed">
+                    <p className="text-xl text-blue-100 max-w-lg leading-relaxed text-center mx-auto">
                         Welcome to our secure assessment portal. We leverage advanced behavioral biometrics to ensure fair and integrity-driven evaluations for all candidates.
                     </p>
-                    <div className="mt-12 flex gap-4">
-                        <div className="flex items-center gap-2">
-                            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
-                                <svg className="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    <div className="mt-12 flex justify-center gap-8">
+                        <div className="flex flex-col items-center gap-2">
+                            <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm shadow-lg">
+                                <svg className="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             </div>
-                            <div>
-                                <p className="font-semibold">AI Verified</p>
+                            <div className="text-center">
+                                <p className="font-semibold text-lg">AI Verified</p>
                                 <p className="text-sm text-blue-200">Real-time Analysis</p>
                             </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm">
-                                <svg className="w-6 h-6 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
+                        <div className="flex flex-col items-center gap-2">
+                            <div className="w-14 h-14 rounded-full bg-white/10 flex items-center justify-center backdrop-blur-sm shadow-lg">
+                                <svg className="w-8 h-8 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path></svg>
                             </div>
-                            <div>
-                                <p className="font-semibold">Secure</p>
+                            <div className="text-center">
+                                <p className="font-semibold text-lg">Secure</p>
                                 <p className="text-sm text-blue-200">Bank-grade Encryption</p>
                             </div>
                         </div>

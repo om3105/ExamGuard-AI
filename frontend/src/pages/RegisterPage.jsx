@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import api from '../services/api';
 import { useNavigate, Link } from 'react-router-dom';
 
-const RegisterPage: React.FC = () => {
+const RegisterPage = () => {
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -10,7 +10,7 @@ const RegisterPage: React.FC = () => {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
-    const handleSubmit = async (e: React.FormEvent) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
         setLoading(true);
@@ -18,7 +18,7 @@ const RegisterPage: React.FC = () => {
         try {
             await api.post('/auth/register', { username, email, password });
             navigate('/login');
-        } catch (err: any) {
+        } catch (err) {
             setError(err.response?.data?.detail || 'Registration failed. Please Check your input.');
         } finally {
             setLoading(false);
@@ -36,39 +36,39 @@ const RegisterPage: React.FC = () => {
                     className="absolute inset-0 w-full h-full object-cover mix-blend-overlay"
                 />
                 <div className="relative z-20 flex flex-col justify-center px-12 text-white">
-                    <div className="flex flex-col items-center mb-8">
-                        <img src="/src/assets/logo.png" alt="ExamGuard Logo" className="w-24 h-24 object-contain mb-4 drop-shadow-lg" />
-                        <h1 className="text-5xl font-bold tracking-tight">ExamGuard</h1>
+                    <div className="flex flex-col items-center mb-10 text-center">
+                        <img src="/src/assets/logo.png" alt="ExamGuard Logo" className="w-48 h-48 object-contain mb-6 drop-shadow-2xl" />
+                        <h1 className="text-6xl font-extrabold tracking-tight">ExamGuard</h1>
                     </div>
-                    <p className="text-xl text-indigo-100 max-w-lg leading-relaxed">
+                    <p className="text-xl text-indigo-100 max-w-lg leading-relaxed text-center mx-auto">
                         Join thousands of professionals who have validated their skills through our secure, unbiased assessment platform.
                     </p>
-                    <div className="mt-12 space-y-4">
-                        <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 mt-1">
-                                <span className="font-bold">1</span>
+                    <div className="mt-12 space-y-6 flex flex-col items-center">
+                        <div className="flex flex-col items-center text-center gap-2">
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-md">
+                                <span className="font-bold text-lg">1</span>
                             </div>
                             <div>
                                 <h3 className="font-semibold text-lg">Create Profile</h3>
-                                <p className="text-indigo-200">Set up your secure candidate identity.</p>
+                                <p className="text-indigo-200 text-sm">Set up your secure candidate identity.</p>
                             </div>
                         </div>
-                        <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 mt-1">
-                                <span className="font-bold">2</span>
+                        <div className="flex flex-col items-center text-center gap-2">
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-md">
+                                <span className="font-bold text-lg">2</span>
                             </div>
                             <div>
                                 <h3 className="font-semibold text-lg">Calibrate Biometrics</h3>
-                                <p className="text-indigo-200">Complete a short typing task to establish your unique baseline.</p>
+                                <p className="text-indigo-200 text-sm">Establish your unique baseline.</p>
                             </div>
                         </div>
-                        <div className="flex items-start gap-4">
-                            <div className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center shrink-0 mt-1">
-                                <span className="font-bold">3</span>
+                        <div className="flex flex-col items-center text-center gap-2">
+                            <div className="w-10 h-10 rounded-full bg-white/20 flex items-center justify-center shadow-md">
+                                <span className="font-bold text-lg">3</span>
                             </div>
                             <div>
                                 <h3 className="font-semibold text-lg">Take Assessment</h3>
-                                <p className="text-indigo-200">Prove your skills in a fair, secure environment.</p>
+                                <p className="text-indigo-200 text-sm">Prove your skills securely.</p>
                             </div>
                         </div>
                     </div>
