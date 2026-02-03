@@ -13,7 +13,7 @@ services:
       - key: MONGODB_DB
         value: examguard
       - key: ADMIN_SECRET_KEY
-        generate: true
+        sync: false
       - key: ALLOWED_ORIGINS
         sync: false
 
@@ -31,7 +31,7 @@ services:
       - key: MONGODB_DB
         value: examguard
       - key: SECRET_KEY
-        generate: true
+        sync: false
       - key: ALLOWED_ORIGINS
         sync: false
       - key: JUDGE0_API_URL
