@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+import os
 from app.db.session import init_db
 
 @asynccontextmanager
@@ -16,7 +17,7 @@ app = FastAPI(title="ExamGuard AI API", lifespan=lifespan)
 # CORS middleware for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://localhost:3000", "http://localhost:5174", "http://localhost:5175"],
+    allow_origins=os.getenv("ALLOWED_ORIGINS", "http://localhost:5173,http://localhost:3000,http://localhost:5174,http://localhost:5175").split(","),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
