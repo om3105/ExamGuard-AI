@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 from fastapi import HTTPException, status
 from typing import List, Optional
+import os
 from app.models.all_models import Exam, ExamCreate, ExamSubmission
 
 class ExamService:
@@ -96,3 +97,49 @@ class ExamService:
             "submitted_at": submission.submitted_at.isoformat(),
             "status": submission.status
         }
+
+    @staticmethod
+    async def execute_code(source_code: str, language_id: int, stdin: str = "") -> dict:
+        """Execute code using Judge0 API."""
+        import httpx
+        import os
+        import base64
+
+        judge0_url = os.getenv("JUDGE0_API_URL", "https://judge0-ce.p.rapidapi.com")
+        # Note: If using RapidAPI, headers are needed. If self-hosted, they might differ.
+        # For this implementation, we assume a standard Judge0 instance or RapidAPI with key in env.
+        
+        headers = {
+            "Content-Type": "application/json",
+        }
+        
+        api_key = os.getenv("JUDGE0_API_KEY")
+        if api_key:
+            headers["X-RapidAPI-Key"] = api_key
+            headers["X-RapidAPI-Host"] = "judge0-ce.p.rapidapi.com"
+
+        # Judge0 expects base64 encoded input if specified, but usually plain text works for source_code
+        payload = {
+            "source_code": source_code,
+            "language_id": language_id,
+            "stdin": stdin,
+            "wait": "true" # specific for synchronous response
+        }
+
+        async with httpx.AsyncClient() as client:
+            try:
+                response = await client.post(
+                    f"{judge0_url}/submissions",
+                    params={"base64_encoded": "false", "wait": "true"},
+                    json=payload,
+                    headers=headers,
+                    timeout=10.0
+                )
+                response.raise_for_status()
+                return response.json()
+            except Exception as e:
+                print(f"Judge0 Error: {e}")
+                raise HTTPException(
+                    status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+                    detail=f"Code execution service unavailable: {str(e)}"
+                )
