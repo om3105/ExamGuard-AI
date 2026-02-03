@@ -1,8 +1,14 @@
 import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from beanie import init_beanie
-from app.models.admin_models import AdminUser
 import bcrypt
+import sys
+import os
+
+# Add parent directory to path so we can import app
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from app.models.admin_models import AdminUser
 
 async def create_default_admin():
     """Create a default admin user for testing"""
