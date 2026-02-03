@@ -28,6 +28,8 @@ services:
         sync: false
       - key: MONGODB_DB
         value: examguard
+      - key: SECRET_KEY
+        generate: true
       - key: ALLOWED_ORIGINS
         sync: false
       - key: JUDGE0_API_URL
