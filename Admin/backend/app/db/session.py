@@ -13,8 +13,7 @@ async def init_admin_db():
     # MongoDB connection string - shared with user backend
     CONNECTION_STRING = os.getenv("MONGODB_URL", "mongodb://localhost:27017/examguard")
     
-    import certifi
-    client = AsyncIOMotorClient(CONNECTION_STRING, tlsCAFile=certifi.where())
+    client = AsyncIOMotorClient(CONNECTION_STRING)
     db_name = os.getenv("MONGODB_DB")
     database = client[db_name] if db_name else client.get_default_database()
     

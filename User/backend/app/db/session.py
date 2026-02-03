@@ -10,8 +10,7 @@ async def init_db():
     # Note: In a real app we'd load this from config
     mongodb_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017/examguard")
     
-    import certifi
-    client = AsyncIOMotorClient(mongodb_url, tlsCAFile=certifi.where())
+    client = AsyncIOMotorClient(mongodb_url)
     db_name = os.getenv("MONGODB_DB")
     database = client[db_name] if db_name else client.get_default_database()
     

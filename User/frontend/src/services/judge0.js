@@ -1,45 +1,43 @@
 import axios from 'axios';
 
-import axios from 'axios';
-
+const JUDGE0_API_URL = import.meta.env.VITE_JUDGE0_API_URL || "https://ce.judge0.com"; // Default to CE Demo (Subject to Rate Limits)
+// For robust usage, use your own instance or RapidAPI: 
+// const JUDGE0_API_URL = "https://judge0-ce.p.rapidapi.com";
 
 const api = axios.create({
-    baseURL: import.meta.env.VITE_USER_API_URL || 'http://localhost:8002',
+    baseURL: JUDGE0_API_URL,
     headers: {
         "Content-Type": "application/json",
+        // "X-RapidAPI-Key": "YOUR_API_KEY", // Uncomment and add key if using RapidAPI
+        // "X-RapidAPI-Host": "judge0-ce.p.rapidapi.com"
     },
-});
-
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
 });
 
 export const submitCode = async (sourceCode, languageId, stdin = "") => {
     try {
-        const response = await api.post("/exams/execute", {
+        const response = await api.post("/submissions", {
             source_code: sourceCode,
             language_id: languageId,
-            stdin: stdin
+            stdin: stdin,
+            base64_encoded: false,
+            wait: false, // Async submission
         });
-        // Backend returns result directly
-        return response.data;
+        return response.data.token;
     } catch (error) {
-        console.error("Code Execution Error:", error);
+        console.error("Judge0 Submission Error:", error);
         throw error;
     }
 };
 
-// With backend proxy, we get result immediately, so we mock this or remove it.
-// The hook expects a token, but we return result. We need to update hook too.
-// Actually, let's keep the signature but adapt behavior.
-// If we return the result object directly from submitCode, the hook needs to handle it.
-// Let's look at the hook again. It expects a token and then polls.
-// We should update the hook to just await submitCode if it returns result.
-
+export const getSubmissionResult = async (token) => {
+    try {
+        const response = await api.get(`/submissions/${token}?base64_encoded=false&fields=stdout,stderr,status,compile_output,time,memory`);
+        return response.data;
+    } catch (error) {
+        console.error("Judge0 Result Error:", error);
+        throw error;
+    }
+};
 
 // Common Language IDs in Judge0
 export const LANGUAGE_OPTIONS = [
