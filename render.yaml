@@ -1,0 +1,36 @@
+services:
+  # Admin Backend Service
+  - type: web
+    name: examguard-admin-backend
+    runtime: python
+    repo: https://github.com/om3105/ExamGuard-AI
+    rootDir: Admin/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGODB_URL
+        sync: false
+      - key: MONGODB_DB
+        value: examguard
+      - key: ALLOWED_ORIGINS
+        sync: false
+
+  # User Backend Service
+  - type: web
+    name: examguard-user-backend
+    runtime: python
+    repo: https://github.com/om3105/ExamGuard-AI
+    rootDir: User/backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: MONGODB_URL
+        sync: false
+      - key: MONGODB_DB
+        value: examguard
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: JUDGE0_API_URL
+        value: https://judge0-ce.p.rapidapi.com
+      - key: JUDGE0_API_KEY
+        sync: false
