@@ -46,3 +46,17 @@ async def get_submission(submission_id: str, current_user: User = Depends(get_cu
     Get submission details for the completion page.
     """
     return await ExamService.get_submission(submission_id, user_id=str(current_user.id))
+
+@router.post("/execute")
+async def execute_code(
+    payload: dict,
+    current_user: User = Depends(get_current_user)
+):
+    """
+    Execute code via Judge0.
+    """
+    source_code = payload.get("source_code")
+    language_id = payload.get("language_id", 63) # Default JavaScript
+    stdin = payload.get("stdin", "")
+    
+    return await ExamService.execute_code(source_code, language_id, stdin)

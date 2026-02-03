@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { submitCode, getSubmissionResult } from '../services/judge0';
+import { submitCode } from '../services/judge0';
 
 export const useCodeExecution = (initialLanguageId = 71) => {
     const [code, setCode] = useState("");
@@ -10,34 +10,25 @@ export const useCodeExecution = (initialLanguageId = 71) => {
 
     const runTestCase = async (testCase) => {
         try {
-            const token = await submitCode(code, languageId, testCase.input);
-            return new Promise((resolve, reject) => {
-                const interval = setInterval(async () => {
-                    try {
-                        const result = await getSubmissionResult(token);
-                        if (result.status.id >= 3) {
-                            clearInterval(interval);
+            // submitCode now calls backend which returns the result directly
+            const result = await submitCode(code, languageId, testCase.input);
 
-                            // Normalizing output: trim whitespace and newlines for comparison
-                            const actualOutput = (result.stdout || "").trim();
-                            const expectedOutput = (testCase.output || "").trim();
-                            const passed = actualOutput === expectedOutput;
+            // Backend should return standard structure or Judge0 structure.
+            // Our Execute Service returns Judge0 structure: stdout, etc.
 
-                            resolve({
-                                input: testCase.input,
-                                expected: testCase.output,
-                                actual: actualOutput,
-                                passed: passed,
-                                status: result.status.description,
-                                error: result.stderr || result.compile_output
-                            });
-                        }
-                    } catch (err) {
-                        clearInterval(interval);
-                        reject(err);
-                    }
-                }, 1000);
-            });
+            // Normalizing output: trim whitespace and newlines for comparison
+            const actualOutput = (result.stdout || "").trim();
+            const expectedOutput = (testCase.output || "").trim();
+            const passed = actualOutput === expectedOutput;
+
+            return {
+                input: testCase.input,
+                expected: testCase.output,
+                actual: actualOutput,
+                passed: passed,
+                status: result.status?.description || "Completed",
+                error: result.stderr || result.compile_output
+            };
         } catch (error) {
             return {
                 input: testCase.input,
