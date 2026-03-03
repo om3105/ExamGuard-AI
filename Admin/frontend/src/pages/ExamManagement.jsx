@@ -152,11 +152,18 @@ const ExamManagement = () => {
 
                                 <div className="flex items-center gap-2">
                                     <button
-                                        onClick={() => window.open(`http://localhost:5174/exam/${exam._id}`, '_blank')}
+                                        onClick={() => navigate(`/exams/${exam._id}/preview`)}
                                         className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-gray-200"
-                                        title="Preview Exam"
+                                        title="Preview Exam Content"
                                     >
                                         <Eye className="w-5 h-5" />
+                                    </button>
+                                    <button
+                                        onClick={() => navigate(`/exams/${exam._id}/results`)}
+                                        className="p-2 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors border border-gray-200"
+                                        title="View Results"
+                                    >
+                                        <Award className="w-5 h-5" />
                                     </button>
                                     <button
                                         onClick={() => handleDelete(exam._id)}

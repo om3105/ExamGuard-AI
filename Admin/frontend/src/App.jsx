@@ -12,6 +12,8 @@ import Students from './pages/Students';
 import Analytics from './pages/Analytics';
 import CreateAdmin from './pages/CreateAdmin';
 import CreateExam from './pages/CreateExam';
+import ExamResults from './pages/ExamResults';
+import PreviewExam from './pages/PreviewExam';
 import './App.css';
 
 const ProtectedRoute = ({ children }) => {
@@ -101,6 +103,26 @@ function AppRoutes() {
           <ProtectedRoute>
             <DashboardLayout>
               <CreateExam />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/exams/:examId/results"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <ExamResults />
+            </DashboardLayout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/exams/:examId/preview"
+        element={
+          <ProtectedRoute>
+            <DashboardLayout>
+              <PreviewExam />
             </DashboardLayout>
           </ProtectedRoute>
         }

@@ -78,6 +78,14 @@ const ExamPage = () => {
                 setAnswers(initialAnswers);
             } catch (error) {
                 console.error("Failed to load exam", error);
+                if (error.response && error.response.status === 401) {
+                    // Redirect to login if unauthorized
+                    window.location.href = '/login';
+                    return;
+                }
+                if (error.response && error.response.status === 404) {
+                    // Keep exam null to show "Exam not found"
+                }
             } finally {
                 setLoading(false);
             }
@@ -173,8 +181,8 @@ const ExamPage = () => {
                 </div>
                 <div className="flex items-center gap-6">
                     <div className={`px-4 py-2 rounded-lg font-mono font-bold text-lg shadow-inner border tracking-wider transition-all duration-300 ${timerState === 'critical' ? 'bg-red-100 text-red-700 border-red-300 animate-pulse' :
-                            timerState === 'warning' ? 'bg-yellow-100 text-yellow-700 border-yellow-300' :
-                                'bg-gray-100 text-gray-700 border-gray-200'
+                        timerState === 'warning' ? 'bg-yellow-100 text-yellow-700 border-yellow-300' :
+                            'bg-gray-100 text-gray-700 border-gray-200'
                         }`}>
                         ⏱ {formattedTime}
                     </div>

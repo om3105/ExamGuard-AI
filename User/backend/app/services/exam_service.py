@@ -66,6 +66,43 @@ class ExamService:
             submitted_at=datetime.now(timezone.utc)
         )
         
+        # Calculate Score
+        total_score = 0
+        user_answers = submission.answers
+        
+        for section_idx, section in enumerate(exam.sections):
+            for question_idx, question in enumerate(section.questions):
+                # Check if user answered this question
+                s_idx_str = str(section_idx)
+                q_idx_str = str(question_idx)
+                
+                if s_idx_str in user_answers and q_idx_str in user_answers[s_idx_str]:
+                    user_answer = user_answers[s_idx_str][q_idx_str]
+                    
+                    if question.type == 'mcq':
+                        # Check correctness
+                        is_correct = False
+                        
+                        # Method 1: correct_option_index
+                        if question.correct_option_index is not None:
+                            if int(user_answer) == question.correct_option_index:
+                                is_correct = True
+                        # Method 2: is_correct flag in options
+                        elif question.options:
+                            try:
+                                selected_opt_idx = int(user_answer)
+                                if 0 <= selected_opt_idx < len(question.options):
+                                    if question.options[selected_opt_idx].is_correct:
+                                        is_correct = True
+                            except (ValueError, IndexError):
+                                pass
+                                
+                        if is_correct:
+                            total_score += question.points
+                            
+        submission.score = total_score
+        submission.status = "COMPLETED"
+        
         await submission.insert()
         
         return {

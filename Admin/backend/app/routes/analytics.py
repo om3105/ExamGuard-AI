@@ -27,7 +27,8 @@ async def get_dashboard_overview(current_admin: AdminUser = Depends(get_current_
                 "exam_title": sub.exam_title,
                 "user_id": sub.user_id,
                 "submitted_at": sub.submitted_at,
-                "status": sub.status
+                "status": sub.status,
+                "score": sub.score
             }
             for sub in recent_submissions
         ]

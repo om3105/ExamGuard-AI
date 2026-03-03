@@ -205,8 +205,9 @@ const Dashboard = () => {
                                                 {submission.status}
                                             </span>
                                         </div>
-                                        <div className="flex justify-between items-center text-xs text-gray-500">
+                                        <div className="flex justify-between items-center text-xs text-gray-500 mt-2">
                                             <span>User: {submission.user_id}</span>
+                                            <span className="font-semibold text-gray-700">Score: {submission.score !== undefined && submission.score !== null ? submission.score : '-'}</span>
                                             <span>{new Date(submission.submitted_at).toLocaleDateString()}</span>
                                         </div>
                                     </div>

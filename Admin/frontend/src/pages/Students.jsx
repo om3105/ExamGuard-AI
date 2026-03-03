@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import { studentAPI } from '../services/adminApi';
-import { Users, Mail, Calendar, Trash2, UserCheck, Search, Filter, GraduationCap } from 'lucide-react';
+import { Users, Mail, Calendar, Trash2, UserCheck, Search, Filter, GraduationCap, AlertCircle } from 'lucide-react';
+import Modal from '../components/Modal';
 
 const Students = () => {
     const [students, setStudents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredStudents, setFilteredStudents] = useState([]);
+    const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+    const [studentToDelete, setStudentToDelete] = useState(null);
 
     useEffect(() => {
         fetchStudents();
@@ -31,12 +34,19 @@ const Students = () => {
         }
     };
 
-    const handleDelete = async (id) => {
-        if (!window.confirm('Are you sure you want to delete this student? This will also delete all their submissions.')) return;
+    const handleDeleteClick = (student) => {
+        setStudentToDelete(student);
+        setDeleteModalOpen(true);
+    };
+
+    const confirmDelete = async () => {
+        if (!studentToDelete) return;
 
         try {
-            await studentAPI.delete(id);
-            setStudents(students.filter((student) => student.id !== id));
+            await studentAPI.delete(studentToDelete.id);
+            setStudents(students.filter((s) => s.id !== studentToDelete.id));
+            setDeleteModalOpen(false);
+            setStudentToDelete(null);
         } catch (error) {
             console.error('Failed to delete student:', error);
             alert('Failed to delete student');
@@ -141,7 +151,7 @@ const Students = () => {
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <button
-                                                onClick={() => handleDelete(student.id)}
+                                                onClick={() => handleDeleteClick(student)}
                                                 className="text-red-600 hover:text-red-900 inline-flex items-center gap-1"
                                             >
                                                 <Trash2 className="w-4 h-4" />
@@ -173,6 +183,39 @@ const Students = () => {
                     </div>
                 )}
             </div>
+
+            {/* Delete Confirmation Modal */}
+            <Modal
+                isOpen={deleteModalOpen}
+                onClose={() => setDeleteModalOpen(false)}
+                title="Confirm Deletion"
+            >
+                <div>
+                    <div className="flex items-center justify-center mb-6">
+                        <div className="bg-red-100 p-3 rounded-full">
+                            <AlertCircle className="w-8 h-8 text-red-600" />
+                        </div>
+                    </div>
+                    <p className="text-center text-gray-600 mb-6">
+                        Are you sure you want to delete student <strong>{studentToDelete?.username}</strong>?
+                        This action cannot be undone and will permanently remove all their exam submissions.
+                    </p>
+                    <div className="flex gap-3 justify-end">
+                        <button
+                            onClick={() => setDeleteModalOpen(false)}
+                            className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+                        >
+                            Cancel
+                        </button>
+                        <button
+                            onClick={confirmDelete}
+                            className="px-4 py-2 text-sm font-medium text-white bg-red-600 border border-transparent rounded-lg hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors"
+                        >
+                            Delete Student
+                        </button>
+                    </div>
+                </div>
+            </Modal>
         </div>
     );
 };
