@@ -97,9 +97,11 @@ class ExamSubmission(Document):
     exam_id: str
     exam_title: str
     submitted_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
-    answers: dict  # {section_index: {question_index: answer}}
-    status: str = "COMPLETED"  # COMPLETED, GRADED
+    answers: dict
+    status: str = "COMPLETED"
     score: Optional[float] = None
+    anomaly_score: Optional[int] = None
+    risk_level: Optional[str] = None
     
     class Settings:
         name = "exam_submissions"
@@ -108,3 +110,22 @@ class ExamSubmission(Document):
         json_encoders = {
             datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()
         }
+
+
+class BehaviorLog(Document):
+    """Behavioral biometrics data captured during exam."""
+    submission_id: str
+    user_id: str
+    exam_id: str
+    keystroke_count: int = 0
+    avg_typing_speed: float = 0.0
+    backspace_ratio: float = 0.0
+    paste_count: int = 0
+    pasted_chars: int = 0
+    tab_switch_count: int = 0
+    mouse_click_count: int = 0
+    time_per_question: dict = {}
+    recorded_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+    class Settings:
+        name = "behavior_logs"

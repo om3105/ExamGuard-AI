@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import os
 
 from app.models.admin_models import AdminUser
-from app.models.shared_models import Exam, ExamSubmission, User
+from app.models.shared_models import Exam, ExamSubmission, User, BehaviorLog
 
 load_dotenv()
 
@@ -20,10 +20,10 @@ async def init_admin_db():
     # Initialize all models (admin + shared user models)
     await init_beanie(
         database=database,
-        document_models=[AdminUser, Exam, ExamSubmission, User]
+        document_models=[AdminUser, Exam, ExamSubmission, User, BehaviorLog]
     )
     
     print("✅ Admin database initialized")
 
 # Export models for easy import
-__all__ = ['init_admin_db', 'Exam', 'ExamSubmission', 'User']
+__all__ = ['init_admin_db', 'Exam', 'ExamSubmission', 'User', 'BehaviorLog']

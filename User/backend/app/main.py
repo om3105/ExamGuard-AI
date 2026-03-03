@@ -10,6 +10,7 @@ async def lifespan(app: FastAPI):
 
 from app.api.routes.auth_routes import router as auth_router
 from app.api.routes.exam_routes import router as exam_router
+from app.api.routes.behavior_routes import router as behavior_router
 
 app = FastAPI(title="ExamGuard AI API", lifespan=lifespan)
 
@@ -24,6 +25,7 @@ app.add_middleware(
 
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(exam_router, prefix="/exams", tags=["Exams"])
+app.include_router(behavior_router, prefix="/behavior", tags=["Behavior"])
 
 @app.get("/")
 def read_root():

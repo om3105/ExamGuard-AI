@@ -100,10 +100,36 @@ class ExamSubmission(Document):
     answers: dict  # {section_index: {question_index: answer}}
     status: str = "COMPLETED"  # COMPLETED, GRADED
     score: Optional[float] = None
+    anomaly_score: Optional[int] = None    # 0-100 integrity risk score
+    risk_level: Optional[str] = None       # LOW, MEDIUM, HIGH
     
     class Settings:
         name = "exam_submissions"
     
+    class Config:
+        json_encoders = {
+            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()
+        }
+
+
+class BehaviorLog(Document):
+    """Stores aggregated behavioral biometric data captured during an exam session."""
+    submission_id: str
+    user_id: str
+    exam_id: str
+    keystroke_count: int = 0
+    avg_typing_speed: float = 0.0    # keys per second
+    backspace_ratio: float = 0.0     # backspace / total keys
+    paste_count: int = 0
+    pasted_chars: int = 0
+    tab_switch_count: int = 0
+    mouse_click_count: int = 0
+    time_per_question: dict = {}     # {"sIdx-qIdx": milliseconds}
+    recorded_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+    class Settings:
+        name = "behavior_logs"
+
     class Config:
         json_encoders = {
             datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()

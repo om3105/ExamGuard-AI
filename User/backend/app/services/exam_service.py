@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from fastapi import HTTPException, status
 from typing import List, Optional
 from app.models.all_models import Exam, ExamCreate, ExamSubmission
+from app.services.anomaly_service import AnomalyService
 
 class ExamService:
     @staticmethod
@@ -104,6 +105,12 @@ class ExamService:
         submission.status = "COMPLETED"
         
         await submission.insert()
+
+        # Run anomaly detection (non-blocking — errors logged silently)
+        try:
+            await AnomalyService.score_submission(str(submission.id))
+        except Exception as e:
+            print(f"[AnomalyService] Scoring failed for {submission.id}: {e}")
         
         return {
             "submission_id": str(submission.id),

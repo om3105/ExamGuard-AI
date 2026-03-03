@@ -16,5 +16,5 @@ async def init_db():
     
     # Initialize Beanie with the document models
     # We will add models to this list as we create them
-    from app.models.all_models import User, Exam, ExamSubmission
-    await init_beanie(database=database, document_models=[User, Exam, ExamSubmission])
+    from app.models.all_models import User, Exam, ExamSubmission, BehaviorLog
+    await init_beanie(database=database, document_models=[User, Exam, ExamSubmission, BehaviorLog])
