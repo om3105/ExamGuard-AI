@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { analyticsAPI, examAPI } from '../services/adminApi';
 import { BarChart3, TrendingUp, Users, FileText, CheckCircle, AlertTriangle, ShieldAlert } from 'lucide-react';
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area, Legend } from 'recharts';
 
 const Analytics = () => {
     const [overview, setOverview] = useState(null);
@@ -188,6 +188,7 @@ const Analytics = () => {
                                 <Tooltip
                                     contentStyle={{ backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e5e7eb', boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)' }}
                                 />
+                                <Legend verticalAlign="bottom" height={36} />
                             </PieChart>
                         </ResponsiveContainer>
                     ) : (
