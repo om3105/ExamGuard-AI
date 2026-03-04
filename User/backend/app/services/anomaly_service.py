@@ -45,22 +45,33 @@ class AnomalyService:
         and update the ExamSubmission with the result.
         Returns dict with anomaly_score and risk_level.
         """
+        submission = await ExamSubmission.get(submission_id)
+        if not submission:
+            return {"anomaly_score": 0, "risk_level": "LOW"}
+
+        # Look up by user_id and exam_id since submission_id is generated late
         log = await BehaviorLog.find_one(
-            BehaviorLog.submission_id == submission_id
+            BehaviorLog.user_id == submission.user_id,
+            BehaviorLog.exam_id == submission.exam_id
         )
 
         # No behavior data — score is 0 (benefit of the doubt)
         if not log:
+            submission.anomaly_score = 0
+            submission.risk_level = "LOW"
+            await submission.save()
             return {"anomaly_score": 0, "risk_level": "LOW"}
 
         anomaly_score = cls._apply_rules(log)
         risk_level = cls._score_to_level(anomaly_score)
 
+        # Update log with the real submission ID
+        log.submission_id = submission_id
+        await log.save()
+
         # Persist back to the submission
-        submission = await ExamSubmission.get(submission_id)
-        if submission:
-            submission.anomaly_score = anomaly_score
-            submission.risk_level = risk_level
-            await submission.save()
+        submission.anomaly_score = anomaly_score
+        submission.risk_level = risk_level
+        await submission.save()
 
         return {"anomaly_score": anomaly_score, "risk_level": risk_level}
