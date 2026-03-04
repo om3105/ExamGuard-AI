@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { analyticsAPI, examAPI } from '../services/adminApi';
-import { BarChart3, TrendingUp, Users, FileText, CheckCircle, Clock } from 'lucide-react';
+import { BarChart3, TrendingUp, Users, FileText, CheckCircle, AlertTriangle, ShieldAlert } from 'lucide-react';
+
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, AreaChart, Area } from 'recharts';
 
 const Analytics = () => {
@@ -61,9 +62,11 @@ const Analytics = () => {
             : 0
     }));
 
-    const statusData = [
-        { name: 'Completed', value: overview?.recent_submissions?.filter(s => s.status === 'COMPLETED').length || 0, color: '#10B981' },
-        { name: 'Pending', value: overview?.recent_submissions?.filter(s => s.status !== 'COMPLETED').length || 0, color: '#F59E0B' }
+    // Integrity Risk Distribution (Pie Chart)
+    const riskData = [
+        { name: 'Low Risk', value: overview?.recent_submissions?.filter(s => s.risk_level === 'LOW' || !s.risk_level).length || 0, color: '#10B981' },
+        { name: 'Medium Risk', value: overview?.recent_submissions?.filter(s => s.risk_level === 'MEDIUM').length || 0, color: '#F59E0B' },
+        { name: 'High Risk', value: overview?.recent_submissions?.filter(s => s.risk_level === 'HIGH').length || 0, color: '#EF4444' }
     ];
 
     const performanceTrendData = examStats.map((exam, index) => ({
@@ -123,15 +126,21 @@ const Analytics = () => {
                     colorClass="bg-purple-100 text-purple-600"
                 />
                 <StatCard
-                    title="Avg Completion"
-                    value={`${overview?.total_submissions > 0
-                        ? Math.round((overview.recent_submissions?.filter(s => s.status === 'COMPLETED').length / overview.total_submissions) * 100)
-                        : 0}%`}
-                    subtext="Success rate"
-                    icon={CheckCircle}
-                    colorClass="bg-orange-100 text-orange-600"
+                    title="Average Risk Score"
+                    value={overview?.avg_anomaly_score || 0}
+                    subtext="Out of 100"
+                    icon={ShieldAlert}
+                    colorClass={`bg-blue-100 ${overview?.avg_anomaly_score > 60 ? 'text-red-600' : 'text-blue-600'}`}
+                />
+                <StatCard
+                    title="High Risk Submissions"
+                    value={overview?.high_risk_submissions || 0}
+                    subtext="Requires manual review"
+                    icon={AlertTriangle}
+                    colorClass="bg-red-100 text-red-600"
                 />
             </div>
+
 
             {/* Charts Section */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
@@ -159,12 +168,12 @@ const Analytics = () => {
                 </div>
 
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                    <h3 className="text-lg font-semibold text-gray-800 mb-6">Submission Status</h3>
-                    {statusData.some(d => d.value > 0) ? (
+                    <h3 className="text-lg font-semibold text-gray-800 mb-6">Integrity Risk Distribution</h3>
+                    {riskData.some(d => d.value > 0) ? (
                         <ResponsiveContainer width="100%" height={300}>
                             <PieChart>
                                 <Pie
-                                    data={statusData}
+                                    data={riskData}
                                     cx="50%"
                                     cy="50%"
                                     innerRadius={60}
@@ -172,7 +181,7 @@ const Analytics = () => {
                                     paddingAngle={5}
                                     dataKey="value"
                                 >
-                                    {statusData.map((entry, index) => (
+                                    {riskData.map((entry, index) => (
                                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                                     ))}
                                 </Pie>
@@ -184,7 +193,7 @@ const Analytics = () => {
                     ) : (
                         <div className="h-64 flex flex-col items-center justify-center text-gray-400">
                             <div className="w-12 h-12 rounded-full border-2 border-gray-200 mb-2 opacity-50"></div>
-                            <p>No submission data</p>
+                            <p>No risk data available</p>
                         </div>
                     )}
                 </div>
@@ -203,7 +212,7 @@ const Analytics = () => {
                                     <tr>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Exam</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Student ID</th>
-                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Integrity Risk</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Score</th>
                                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
                                     </tr>
@@ -218,14 +227,21 @@ const Analytics = () => {
                                                 {submission.user_id}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
-                                                <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${submission.status === 'COMPLETED'
-                                                        ? 'bg-green-100 text-green-800'
-                                                        : 'bg-yellow-100 text-yellow-800'
-                                                    }`}>
-                                                    {submission.status}
-                                                </span>
+                                                {submission.risk_level === 'HIGH' ? (
+                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800 border border-red-200">
+                                                        High Risk ({submission.anomaly_score})
+                                                    </span>
+                                                ) : submission.risk_level === 'MEDIUM' ? (
+                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800 border border-yellow-200">
+                                                        Med Risk ({submission.anomaly_score})
+                                                    </span>
+                                                ) : (
+                                                    <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800 border border-green-200">
+                                                        Low Risk ({submission.anomaly_score || 0})
+                                                    </span>
+                                                )}
                                             </td>
-                                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                            <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
                                                 {submission.score !== null ? submission.score : '-'}
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">

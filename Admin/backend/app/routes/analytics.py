@@ -14,6 +14,13 @@ async def get_dashboard_overview(current_admin: AdminUser = Depends(get_current_
     total_students = await User.count()
     total_submissions = await ExamSubmission.count()
     
+    # Calculate global integrity risk stats
+    all_submissions = await ExamSubmission.find_all().to_list()
+    high_risk_submissions = sum(1 for s in all_submissions if s.risk_level == "HIGH")
+    
+    valid_scores = [s.anomaly_score for s in all_submissions if s.anomaly_score is not None]
+    avg_anomaly_score = sum(valid_scores) / len(valid_scores) if valid_scores else 0
+    
     # Get recent submissions
     recent_submissions = await ExamSubmission.find_all().sort("-submitted_at").limit(5).to_list()
     
@@ -21,6 +28,8 @@ async def get_dashboard_overview(current_admin: AdminUser = Depends(get_current_
         "total_exams": total_exams,
         "total_students": total_students,
         "total_submissions": total_submissions,
+        "high_risk_submissions": high_risk_submissions,
+        "avg_anomaly_score": round(avg_anomaly_score, 1),
         "recent_submissions": [
             {
                 "id": str(sub.id),
@@ -28,11 +37,14 @@ async def get_dashboard_overview(current_admin: AdminUser = Depends(get_current_
                 "user_id": sub.user_id,
                 "submitted_at": sub.submitted_at,
                 "status": sub.status,
-                "score": sub.score
+                "score": sub.score,
+                "anomaly_score": sub.anomaly_score,
+                "risk_level": sub.risk_level
             }
             for sub in recent_submissions
         ]
     }
+
 
 @router.get("/exams/{exam_id}/results")
 async def get_exam_results(exam_id: str, current_admin: AdminUser = Depends(get_current_admin)):
