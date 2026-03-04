@@ -21,6 +21,25 @@ const ExamPage = () => {
     const [exam, setExam] = useState(null);
     const [loading, setLoading] = useState(true);
     const [answers, setAnswers] = useState({});
+    const [tabViolations, setTabViolations] = useState(0);
+    const [showTabWarning, setShowTabWarning] = useState(false);
+    const MAX_TAB_VIOLATIONS = 3;
+
+    // Actual user start time (instead of global scheduled time)
+    const [actualStartTime, setActualStartTime] = useState(null);
+
+    // Calculate or retrieve actual start time
+    useEffect(() => {
+        if (exam) {
+            const storageKey = `exam_start_${examId}`;
+            let storedStart = sessionStorage.getItem(storageKey);
+            if (!storedStart) {
+                storedStart = new Date().toISOString();
+                sessionStorage.setItem(storageKey, storedStart);
+            }
+            setActualStartTime(storedStart);
+        }
+    }, [exam, examId]);
 
     // Hooks Initialization
     const { isSubmitting, submitExam, showSubmitModal, setShowSubmitModal } = useExamSubmission(examId);
@@ -36,7 +55,7 @@ const ExamPage = () => {
         hasShownLowTimeWarning,
         dismissLowTimeWarning
     } = useExamTimer(
-        exam?.start_time,
+        actualStartTime,
         exam?.duration_minutes,
         () => submitExam(answers) // Auto-submit on time up
     );
@@ -59,6 +78,30 @@ const ExamPage = () => {
     useEffect(() => {
         logQuestionChange(currentSectionIndex, currentQuestionIndex);
     }, [currentSectionIndex, currentQuestionIndex]);
+
+    // Tab Switch Blocking
+    useEffect(() => {
+        if (!exam) return;
+
+        const handleVisibilityChange = () => {
+            if (document.visibilityState === 'hidden') {
+                setTabViolations(prev => {
+                    const next = prev + 1;
+                    if (next >= MAX_TAB_VIOLATIONS) {
+                        // Auto-submit on 3rd violation
+                        submitExam(answers);
+                    }
+                    return next;
+                });
+            } else {
+                // Student came back — show warning overlay
+                setShowTabWarning(true);
+            }
+        };
+
+        document.addEventListener('visibilitychange', handleVisibilityChange);
+        return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+    }, [exam, answers]);
 
     // Code Execution Hook
     const {
@@ -183,6 +226,32 @@ const ExamPage = () => {
 
     return (
         <div className="h-screen flex flex-col bg-gray-50 font-sans">
+
+            {/* ── Tab Switch Warning Overlay ── */}
+            {showTabWarning && (
+                <div className="fixed inset-0 z-50 flex items-center justify-center bg-red-900/95 backdrop-blur-sm">
+                    <div className="text-center max-w-md px-8 py-10 bg-white rounded-2xl shadow-2xl border-4 border-red-500">
+                        <div className="text-6xl mb-4">🚨</div>
+                        <h2 className="text-2xl font-extrabold text-red-700 mb-2">Tab Switch Detected!</h2>
+                        <p className="text-gray-700 mb-4">
+                            Switching tabs or leaving the exam window is a violation of exam integrity rules.
+                        </p>
+                        <div className={`inline-block px-4 py-2 rounded-full font-bold text-sm mb-6 ${tabViolations >= MAX_TAB_VIOLATIONS - 1
+                            ? 'bg-red-100 text-red-800'
+                            : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                            ⚠ Violation {tabViolations} of {MAX_TAB_VIOLATIONS} — {MAX_TAB_VIOLATIONS - tabViolations} remaining before auto-submit
+                        </div>
+                        <button
+                            onClick={() => setShowTabWarning(false)}
+                            className="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-bold rounded-xl transition-colors"
+                        >
+                            I Understand — Return to Exam
+                        </button>
+                    </div>
+                </div>
+            )}
+
             {/* Header */}
             <header className="bg-white border-b px-6 py-3 flex justify-between items-center shadow-sm z-10">
                 <div className="flex items-center gap-4">
