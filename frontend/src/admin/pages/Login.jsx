@@ -18,7 +18,7 @@ const Login = () => {
 
         try {
             await login(credentials);
-            navigate('/dashboard');
+            navigate('/admin/dashboard');
         } catch (err) {
             setError(err.response?.data?.detail || 'Login failed. Please check your credentials.');
         } finally {
@@ -139,7 +139,7 @@ const Login = () => {
                     <div className="mt-6 text-center">
                         <p className="text-sm text-gray-600">
                             Don't have an account?{' '}
-                            <Link to="/register" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
+                            <Link to="/admin/register" className="font-medium text-blue-600 hover:text-blue-500 transition-colors">
                                 Create one
                             </Link>
                         </p>

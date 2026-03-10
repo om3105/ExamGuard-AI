@@ -95,7 +95,7 @@ const Register = () => {
                                         value={formData.full_name}
                                         onChange={handleChange}
                                         className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
-                                        placeholder="John Doe"
+                                        placeholder="Enter your full name"
                                     />
                                 </div>
                             </div>
@@ -114,7 +114,7 @@ const Register = () => {
                                         value={formData.username}
                                         onChange={handleChange}
                                         className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
-                                        placeholder="johndoe"
+                                        placeholder="Choose a username"
                                     />
                                 </div>
                             </div>
@@ -133,7 +133,7 @@ const Register = () => {
                                         value={formData.email}
                                         onChange={handleChange}
                                         className="appearance-none block w-full pl-10 pr-3 py-3 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm transition-colors"
-                                        placeholder="john@example.com"
+                                        placeholder="admin@organization.com"
                                     />
                                 </div>
                             </div>
@@ -186,7 +186,7 @@ const Register = () => {
 
                     <div className="mt-10 border-t border-gray-200 pt-6">
                         <p className="text-xs text-center text-gray-400">
-                            © 2024 ExamGuard Inc. All rights reserved. <br />Admin Registration
+                            © 2026 ExamGuard Global. All rights reserved. <br />Crafted by <span className="font-medium text-gray-500">Om Chandrakant Deo</span>
                         </p>
                     </div>
                 </div>

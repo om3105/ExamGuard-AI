@@ -26,7 +26,7 @@ const CreateAdmin = () => {
             await adminAuth.createAdmin(formData);
             setSuccess(true);
             setTimeout(() => {
-                navigate('/dashboard'); // Optionally redirect
+                navigate('/admin/dashboard'); // Optionally redirect
             }, 2000);
             setFormData({ username: '', email: '', password: '', full_name: '', role: 'admin' });
         } catch (err) {

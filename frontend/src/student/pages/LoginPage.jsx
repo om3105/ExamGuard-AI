@@ -157,8 +157,9 @@ const LoginPage = () => {
                     </div>
 
                     <div className="mt-10 border-t border-gray-200 pt-6">
-                        <p className="text-xs text-center text-gray-400">
-                            © 2026 ExamGuard Global. All rights reserved. <br />Crafted by <span className="font-medium text-gray-500">Om Chandrakant Deo</span>
+                        <p className="text-[11px] text-center text-gray-400 tracking-wide">
+                            © 2026 ExamGuard Global. All rights reserved.<br />
+                            Crafted by <span className="font-medium text-gray-500">Om Chandrakant Deo</span>
                         </p>
                     </div>
                 </div>
