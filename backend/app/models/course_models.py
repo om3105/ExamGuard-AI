@@ -1,8 +1,22 @@
+"""
+course_models.py — Course learning system data models.
+
+Defines the course hierarchy:
+  Course → CourseModule → Lesson (video/notes)
+                        → CourseQuiz (multiple choice)
+                        → CodingProblem (Judge0 execution)
+
+Also defines:
+- CourseProgress   Per-student lesson completion, quiz/coding scores
+- CourseEnrollment Enrollment request/approval workflow
+- CourseCreate     Pydantic input schema for course creation
+"""
 from beanie import Document
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from datetime import datetime, timezone
 from bson import ObjectId
+from pymongo import IndexModel, ASCENDING
 
 
 # --- Quiz Models ---
@@ -95,6 +109,9 @@ class CourseProgress(Document):
 
     class Settings:
         name = "course_progress"
+        indexes = [
+            IndexModel([('user_id', ASCENDING), ('course_id', ASCENDING)], unique=True),
+        ]
 
 
 # --- Enrollment Approval ---
@@ -108,3 +125,7 @@ class CourseEnrollment(Document):
 
     class Settings:
         name = "course_enrollments"
+        indexes = [
+            IndexModel([('user_id', ASCENDING), ('course_id', ASCENDING)]),
+            IndexModel([('status', ASCENDING)]),
+        ]

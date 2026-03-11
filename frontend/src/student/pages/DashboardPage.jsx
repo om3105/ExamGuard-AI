@@ -53,7 +53,7 @@ const DashboardPage = () => {
                                 <span className="text-sm font-semibold text-gray-700">{username}</span>
                                 <span className="text-xs text-gray-500">Candidate ID: 8492-2024</span>
                             </div>
-                            <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200">
+                            <div onClick={() => navigate('/profile')} className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200 cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all" title="View Profile">
                                 {username?.charAt(0).toUpperCase()}
                             </div>
                             <button
@@ -293,7 +293,7 @@ const DashboardPage = () => {
                                                     <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
                                                         <span className="flex items-center gap-1">
                                                             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                                            {new Date(exam.start_time).toLocaleString()}
+                                                            {new Date(exam.start_time).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
                                                         </span>
                                                         <span className="flex items-center gap-1">
                                                             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

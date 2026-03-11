@@ -1,17 +1,39 @@
+"""
+all_models.py — Core data models for users, exams, and submissions.
+
+Defines Beanie Document models for:
+- User          Student accounts (username, email, profile)
+- Exam          Exam definitions with sections containing MCQ and Coding questions
+- ExamSubmission Student exam attempts with scoring and integrity data
+- BehaviorLog   Behavioral biometrics captured during exam sessions
+- ExamAssignment Maps exams to assigned students with attempt limits
+
+Also defines Pydantic schemas: UserCreate, UserResponse, UserUpdate,
+ExamCreate, MCQOption, Section, TestCase, etc.
+"""
 from beanie import Document
 from pydantic import BaseModel, EmailStr, Field
 from typing import Optional
 from datetime import datetime, timezone
+from pymongo import IndexModel, ASCENDING
 
 class User(Document):
     username: str = Field(..., unique=True)
     email: EmailStr = Field(..., unique=True)
     password_hash: str
+    full_name: Optional[str] = None
+    phone_number: Optional[str] = None
+    course: Optional[str] = None
+    college: Optional[str] = None
     is_active: bool = True
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
     
     class Settings:
         name = "users"
+        indexes = [
+            IndexModel([('email', ASCENDING)], unique=True),
+            IndexModel([('username', ASCENDING)], unique=True),
+        ]
 
 class UserCreate(BaseModel):
     username: str
@@ -22,8 +44,19 @@ class UserResponse(BaseModel):
     id: str
     username: str
     email: EmailStr
+    full_name: Optional[str] = None
+    phone_number: Optional[str] = None
+    course: Optional[str] = None
+    college: Optional[str] = None
     created_at: datetime
     is_active: bool = True
+
+class UserUpdate(BaseModel):
+    full_name: Optional[str] = None
+    email: Optional[EmailStr] = None
+    phone_number: Optional[str] = None
+    course: Optional[str] = None
+    college: Optional[str] = None
 
 class Token(BaseModel):
     access_token: str
@@ -110,6 +143,7 @@ class ExamSubmission(Document):
     
     class Settings:
         name = "exam_submissions"
+        indexes = ["user_id", "exam_id", "status"]
     
     class Config:
         json_encoders = {
@@ -134,6 +168,7 @@ class BehaviorLog(Document):
 
     class Settings:
         name = "behavior_logs"
+        indexes = ["submission_id", "exam_id", "user_id"]
 
     class Config:
         json_encoders = {
@@ -151,6 +186,11 @@ class ExamAssignment(Document):
 
     class Settings:
         name = "exam_assignments"
+        indexes = [
+            IndexModel([('exam_id', ASCENDING)]),
+            IndexModel([('assigned_students', ASCENDING)]),
+            IndexModel([('exam_id', ASCENDING), ('assigned_students', ASCENDING)]),
+        ]
     
     class Config:
         json_encoders = {

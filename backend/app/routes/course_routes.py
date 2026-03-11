@@ -3,6 +3,7 @@ from typing import List
 from app.models.course_models import Course, CourseEnrollment
 from app.models.all_models import User
 from app.core.security import get_current_user
+from app.utils.datetime_utils import ensure_utc_isoformat
 
 router = APIRouter()
 
@@ -22,6 +23,7 @@ async def list_available_courses(current_user: User = Depends(get_current_user))
         course_dict = course.dict()
         course_dict["_id"] = str(course.id)
         course_dict["enrollment_status"] = enrollment_map.get(str(course.id), None)
+        ensure_utc_isoformat(course_dict)
         results.append(course_dict)
 
     return results
@@ -41,6 +43,7 @@ async def get_course_details(course_id: str, current_user: User = Depends(get_cu
     course_dict = course.dict()
     course_dict["_id"] = str(course.id)
     course_dict["enrollment_status"] = enrollment_status
+    ensure_utc_isoformat(course_dict)
 
     # Only show full content if APPROVED
     if enrollment_status != "APPROVED":

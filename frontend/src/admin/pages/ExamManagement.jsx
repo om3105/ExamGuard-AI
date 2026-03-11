@@ -219,6 +219,13 @@ const ExamManagement = () => {
                                         <UserPlus className="w-5 h-5" />
                                     </button>
                                     <button
+                                        onClick={() => navigate(`/admin/exams/${exam._id}/edit`)}
+                                        className="p-2 text-gray-500 hover:text-amber-600 hover:bg-amber-50 rounded-lg transition-colors border border-gray-200"
+                                        title="Edit Exam"
+                                    >
+                                        <Edit className="w-5 h-5" />
+                                    </button>
+                                    <button
                                         onClick={() => navigate(`/admin/exams/${exam._id}/preview`)}
                                         className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors border border-gray-200"
                                         title="Preview Exam Content"

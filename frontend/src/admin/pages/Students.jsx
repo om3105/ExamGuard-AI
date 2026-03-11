@@ -139,10 +139,13 @@ const Students = () => {
                             <div className="p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                                 <div className="flex items-center gap-6">
                                     <div className="h-24 w-24 rounded-2xl bg-gradient-to-br from-blue-100 to-blue-200 flex items-center justify-center text-blue-700 font-bold text-4xl shadow-inner border border-blue-100">
-                                        {selectedStudent.username.charAt(0).toUpperCase()}
+                                        {(selectedStudent.full_name || selectedStudent.username).charAt(0).toUpperCase()}
                                     </div>
                                     <div>
-                                        <h1 className="text-3xl font-bold text-gray-900">{selectedStudent.username}</h1>
+                                        <h1 className="text-3xl font-bold text-gray-900">{selectedStudent.full_name || selectedStudent.username}</h1>
+                                        {selectedStudent.full_name && (
+                                            <p className="text-sm text-gray-400 mt-0.5">@{selectedStudent.username}</p>
+                                        )}
                                         <div className="flex items-center gap-4 mt-2 text-sm text-gray-600">
                                             <span className="flex items-center gap-1.5"><Mail className="w-4 h-4 text-gray-400" />{selectedStudent.email}</span>
                                             <span className="flex items-center gap-1.5"><Calendar className="w-4 h-4 text-gray-400" />Joined {new Date(selectedStudent.created_at).toLocaleDateString()}</span>
@@ -178,6 +181,31 @@ const Students = () => {
                                     >
                                         <Trash2 className="w-4 h-4" /> Delete Student
                                     </button>
+                                </div>
+                            </div>
+
+                            {/* ── Student Profile Details ── */}
+                            <div className="px-8 sm:px-10 pb-6 border-t border-gray-100 pt-6">
+                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                    <Users className="w-4 h-4 text-gray-300" /> Profile Details
+                                </h3>
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                                    <div className="bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+                                        <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Full Name</p>
+                                        <p className="text-sm text-gray-800 font-medium mt-1">{selectedStudent.full_name || <span className="text-gray-300 italic font-normal">Not provided</span>}</p>
+                                    </div>
+                                    <div className="bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+                                        <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Phone Number</p>
+                                        <p className="text-sm text-gray-800 font-medium mt-1">{selectedStudent.phone_number || <span className="text-gray-300 italic font-normal">Not provided</span>}</p>
+                                    </div>
+                                    <div className="bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+                                        <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Course / Program</p>
+                                        <p className="text-sm text-gray-800 font-medium mt-1">{selectedStudent.course || <span className="text-gray-300 italic font-normal">Not provided</span>}</p>
+                                    </div>
+                                    <div className="bg-slate-50 rounded-xl px-4 py-3 border border-slate-100">
+                                        <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">College / Organization</p>
+                                        <p className="text-sm text-gray-800 font-medium mt-1">{selectedStudent.college || <span className="text-gray-300 italic font-normal">Not provided</span>}</p>
+                                    </div>
                                 </div>
                             </div>
 

@@ -1,3 +1,11 @@
+"""
+analytics.py — Admin analytics dashboard endpoints.
+
+Provides system-wide statistics and drill-down reports:
+- Overview: total exams, students, submissions, high-risk count
+- Exam results: per-exam submission list with behavioral data
+- Student performance: per-student exam history and scores
+"""
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import Dict, List
 from bson import ObjectId

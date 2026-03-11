@@ -1,3 +1,11 @@
+"""
+course_progress_routes.py — Student course progress tracking.
+
+Handles lesson completion, quiz submission/grading, and progress
+percentage calculation. Each student has a CourseProgress document
+per enrolled course that tracks: completed_lessons[], quiz_scores{},
+coding_scores{}, and progress_percentage.
+"""
 from fastapi import APIRouter, HTTPException, status, Depends
 from app.models.course_models import Course, CourseProgress
 from app.models.all_models import User

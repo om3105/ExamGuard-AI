@@ -1,164 +1,188 @@
 # ExamGuard AI
 
-ExamGuard AI is a comprehensive, secure, and intelligent examination management system designed to facilitate seamless online assessments. It features dual portals for Administrators and Students, ensuring a robust environment for creating, monitoring, and taking exams with integrated proctoring capabilities.
+> Secure, AI-powered online examination platform with proctoring, course management, and student analytics.
 
-## 🚀 Project Overview
+## Overview
 
-The system is split into two distinct applications:
+ExamGuard AI is a full-stack examination management system with two portals:
 
-1.  **Admin Portal**: For creating exams, managing students, and viewing analytics.
-2.  **User (Student) Portal**: For students to take assigned exams in a secure environment.
+- **Admin Portal** — Create exams, manage courses, approve enrollments, monitor student progress, view analytics
+- **Student Portal** — Take assigned exams (MCQ + Coding), enroll in courses, learn via video/quizzes, track progress
 
 ### Key Features
--   **Role-Based Access Control**: Separate secure logins for Admins and Students.
--   **Comprehensive Exam Creation**: Support for Multiple Choice Questions (MCQs) and Coding Challenges (with test cases).
--   **Real-time Exam Interface**: Timer-based assessments with auto-submit functionality.
--   **Proctoring Features**: Tab switch detection and full-screen enforcement.
--   **Analytics Dashboard**: Visual insights into exam performance and student statistics.
 
-## 🛠 Tech Stack
+| Feature | Description |
+|---------|-------------|
+| **MCQ + Coding Exams** | Multi-section exams with auto-graded MCQs and Judge0-powered coding challenges |
+| **Proctoring** | Tab-switch detection, paste monitoring, behavioral biometrics scoring |
+| **Course System** | Modules → Lessons → Quizzes → Coding Problems with progress tracking |
+| **Analytics** | Admin dashboard with exam results, student performance, and integrity risk scores |
+| **Live Monitoring** | Real-time exam session monitoring for administrators |
 
-### Backend (Admin & User)
--   **Framework**: FastAPI (Python) - High performance, easy to use.
--   **Database**: MongoDB (via Motor & Beanie ODM) - Flexible document storage.
--   **Authentication**: JWT (JSON Web Tokens) with OAuth2.
--   **Security**: BCrypt password hashing.
+## Architecture
 
-### Frontend (Admin & User)
--   **Framework**: React (Vite) - Fast modern web development.
--   **Styling**: Tailwind CSS - Utility-first CSS framework.
--   **Icons**: Lucide React.
--   **HTTP Client**: Axios.
+```
+┌─────────────────┐         ┌──────────────────┐         ┌─────────────┐
+│  React Frontend │ ──API──▶│  FastAPI Backend  │ ──ODM──▶│  MongoDB    │
+│  (Vite, :5173)  │         │  (Uvicorn, :9000) │         │  (Atlas)    │
+└─────────────────┘         └────────┬─────────┘         └─────────────┘
+                                     │
+                                     ▼
+                            ┌──────────────────┐
+                            │  Judge0 API      │
+                            │  (Code Execution) │
+                            └──────────────────┘
+```
 
-## � API Documentation
+## Tech Stack
 
-### Admin API (Port 9000)
-Base URL: `http://localhost:9000/admin/api`
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18 + Vite, Tailwind CSS, Lucide Icons, Recharts, Axios |
+| Backend | FastAPI, Python 3.12, Beanie ODM, Motor (async MongoDB) |
+| Auth | JWT (python-jose), bcrypt (passlib) |
+| Database | MongoDB (local or Atlas) |
+| Code Execution | Judge0 CE via RapidAPI |
+| Deployment | Render (backend), Vercel (frontend) |
 
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| **Auth** | | | |
-| `POST` | `/auth/login` | Admin login (returns JWT) | No |
-| `POST` | `/auth/register` | Register new admin | No |
-| `GET` | `/auth/me` | Get current admin details | Yes |
-| **Exams** | | | |
-| `GET` | `/exams` | List all exams | Yes |
-| `POST` | `/exams` | Create new exam | Yes |
-| `GET` | `/exams/{id}` | Get exam details | Yes |
-| `PUT` | `/exams/{id}` | Update exam | Yes |
-| `DELETE` | `/exams/{id}` | Delete exam | Yes |
-| **Students** | | | |
-| `GET` | `/students` | List all registered students | Yes |
-| `GET` | `/students/{id}/submissions` | Get student's exam submissions | Yes |
-| **Analytics** | | | |
-| `GET` | `/analytics/overview` | System-wide stats | Yes |
-
-### User API (Port 8002)
-Base URL: `http://localhost:8002/api`
-
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| **Auth** | | | |
-| `POST` | `/auth/register` | Student registration | No |
-| `POST` | `/auth/token` | Student login (returns JWT) | No |
-| **Exams** | | | |
-| `GET` | `/exams/available` | List assigned/active exams | Yes |
-| `GET` | `/exams/{id}/take` | Start valid exam session | Yes |
-| `POST` | `/exams/{id}/submit` | Submit exam answers | Yes |
-
-### Code Execution API (External)
-The platform uses **Judge0** for compiling and executing code.
-
-| Method | Endpoint | Description |
-| :--- | :--- | :--- |
-| `POST` | `/submissions` | Submit code for execution |
-| `GET` | `/submissions/{token}` | Get execution result |
-
-### Test Management (via Admin API)
-Tests (Exams) are managed via the standard Exam endpoints but include specific structures for coding challenges.
-
-| Feature | Description | Interaction |
-| :--- | :--- | :--- |
-| **Test Cases** | Defined within `coding` questions | Stored in MongoDB `exams` collection |
-| **Validation** | Auto-graded against hidden test cases | Backend `exam_service.py` logic |
-
-## �📂 Project Structure
+## Project Structure
 
 ```
 EXAMGUARD-AI/
-├── Admin/                  # Administrator Application
-│   ├── backend/            # FastAPI Backend (Port 9000)
-│   │   ├── app/            # Application Logic (Routes, Models)
-│   │   └── scripts/        # Utility scripts (Seed data, Setup)
-│   └── frontend/           # React Frontend (Port 5175)
+├── backend/
+│   ├── app/
+│   │   ├── core/           # Security, logging, error handling
+│   │   ├── db/             # MongoDB connection (Beanie init)
+│   │   ├── models/         # Beanie document models
+│   │   │   ├── all_models.py       # User, Exam, Submission, BehaviorLog
+│   │   │   ├── course_models.py    # Course, Module, Lesson, Quiz, Progress
+│   │   │   └── admin_models.py     # AdminUser
+│   │   ├── routes/         # FastAPI routers (15 route files)
+│   │   ├── services/       # Business logic (exam, anomaly)
+│   │   └── utils/          # Helpers (datetime formatting)
+│   ├── tests/              # PyTest test suite
+│   ├── Dockerfile
+│   └── requirements.txt
 │
-├── User/                   # Student Application
-│   ├── backend/            # FastAPI Backend (Port 8002)
-│   │   ├── app/            # Application Logic
-│   │   └── scripts/        # Utility scripts
-│   └── frontend/           # React Frontend (Port 5174)
+├── frontend/
+│   └── src/
+│       ├── admin/          # Admin portal
+│       │   ├── pages/      # Dashboard, ExamMgmt, Courses, Analytics, Progress...
+│       │   ├── components/ # Sidebar, Modal
+│       │   ├── context/    # AdminAuthContext
+│       │   └── services/   # adminApi.js (Axios client)
+│       ├── student/        # Student portal
+│       │   ├── pages/      # Dashboard, ExamPage, CourseView, WaitingRoom...
+│       │   ├── components/ # Exam UI (CodeEditor, QuestionPalette, etc.)
+│       │   ├── hooks/      # useExamTimer, useExamNavigation, useBehaviorLogger...
+│       │   ├── context/    # AuthContext
+│       │   └── services/   # api.js (Axios client)
+│       ├── App.jsx         # Route definitions
+│       └── main.jsx        # Entry point
+│
+├── docs/                   # Developer documentation
+│   ├── DEVELOPER_GUIDE.md
+│   └── API_REFERENCE.md
+├── render.yaml             # Render deployment blueprint
+└── .env.example            # Environment variable template
 ```
 
-## ⚡️ Quick Start Guide
+## Quick Start
 
 ### Prerequisites
--   Python 3.8+
--   Node.js 16+
--   MongoDB (running locally on default port 27017)
 
-### 1. Database Setup
-Ensure your local MongoDB instance is running. The application will automatically create the `examguard_db` database and collections upon first run.
+- Python 3.10+
+- Node.js 18+
+- MongoDB (local instance or Atlas URI)
+- Judge0 API key ([RapidAPI](https://rapidapi.com/judge0-official/api/judge0-ce))
 
-### 2. Admin Portal Setup
+### 1. Clone & Setup Backend
 
-**Backend:**
 ```bash
-cd Admin/backend
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+git clone <repository-url>
+cd EXAMGUARD-AI
+
+# Create Python virtual environment
+python -m venv .venv
+source .venv/bin/activate    # macOS/Linux
+# .venv\Scripts\activate     # Windows
+
+# Install dependencies
+cd backend
 pip install -r requirements.txt
-uvicorn main:app --reload --port 9000
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your MongoDB URI, secret keys, and Judge0 API key
 ```
 
-**Frontend:**
+### 2. Setup Frontend
+
 ```bash
-cd Admin/frontend
+cd frontend
 npm install
-npm run dev -- --port 5175
 ```
-Access Admin Portal at: `http://localhost:5175`
 
-### 3. User Portal Setup
+### 3. Run Development Servers
 
-**Backend:**
 ```bash
-cd User/backend
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8002
+# Terminal 1 — Backend (port 9000)
+cd backend
+uvicorn app.main:app --reload --port 9000
+
+# Terminal 2 — Frontend (port 5173)
+cd frontend
+npm run dev
 ```
 
-**Frontend:**
+### 4. Access the Application
+
+| Portal | URL |
+|--------|-----|
+| Student Portal | http://localhost:5173 |
+| Admin Portal | http://localhost:5173/admin |
+| API Docs (Swagger) | http://localhost:9000/docs |
+
+### 5. Create First Admin
+
+Register an admin account via the API or the admin registration page.
+
+## Environment Variables
+
+Copy `backend/.env.example` to `backend/.env` and configure:
+
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `MONGODB_URL` | MongoDB connection string | ✅ |
+| `MONGODB_DB` | Database name | ✅ |
+| `SECRET_KEY` | JWT signing key for students | ✅ |
+| `ADMIN_SECRET_KEY` | JWT signing key for admins | ✅ |
+| `JUDGE0_API_URL` | Judge0 API base URL | ✅ |
+| `JUDGE0_API_KEY` | RapidAPI key for Judge0 | ✅ |
+| `CORS_ORIGINS` | Comma-separated allowed origins | ✅ |
+| `ENVIRONMENT` | `development` or `production` | ✅ |
+| `LOG_LEVEL` | Logging level (INFO, DEBUG, etc.) | Optional |
+
+## Testing
+
 ```bash
-cd User/frontend
-npm install
-npm run dev -- --port 5174
+# Run all backend tests
+cd backend
+source ../.venv/bin/activate
+python -m pytest tests/ -v --tb=short
 ```
-Access User Portal at: `http://localhost:5174`
 
-## 👨‍💻 Development Workflow
+## Documentation
 
-1.  **Branching**: Work on feature branches (`feature/your-feature`) and merge to `main` via Pull Requests.
-2.  **Code Structure**:
-    -   **Models**: Defined in `backend/app/models/` using Beanie (Pydantic). Shared models are often replicated or symlinked if strict separation is needed, but currently defined independently for service isolation.
-    -   **API Routes**: Modular routes in `backend/app/routes` or `api/routes`.
-    -   **React Components**: Reusable UI components in `frontend/src/components`.
-3.  **Testing**:
-    -   Use `scripts/` folder in backend for testing database interactions and seeding data.
-    -   Manual verification via the browser for UI flows.
+- [Developer Guide](docs/DEVELOPER_GUIDE.md) — System workflows, architecture deep-dive
+- [API Reference](docs/API_REFERENCE.md) — Complete endpoint documentation
 
-## 🔄 Recent Updates
--   **Refactored Architecture**: Split monolithic codebase into isolated Admin and User apps.
--   **Enhanced Security**: Implemented JWT auth flow for both portals.
--   **Admin Registration**: Added public registration flow for new admins.
+## Deployment
+
+- **Backend** → [Render](https://render.com) (see `render.yaml`)
+- **Frontend** → [Vercel](https://vercel.com) (see `frontend/vercel.json`)
+- **Database** → MongoDB Atlas
+
+## Author
+
+**Om Chandrakant Deo** — ExamGuard Global © 2026

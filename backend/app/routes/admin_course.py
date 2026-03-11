@@ -1,3 +1,9 @@
+"""
+admin_course.py — Admin course CRUD endpoints.
+
+Allows administrators to create, update, and delete courses
+with their modules, lessons, quizzes, and coding problems.
+"""
 from fastapi import APIRouter, HTTPException, status, Depends
 from typing import List
 from app.models.course_models import Course, CourseCreate
@@ -35,7 +41,7 @@ async def get_course(course_id: str, current_admin: AdminUser = Depends(get_curr
 
 @router.put("/{course_id}", response_model=Course)
 async def update_course(course_id: str, course_data: CourseCreate, current_admin: AdminUser = Depends(get_current_admin)):
-    """Update a course"""
+    """Update a course (preserves enrolled_students and instructor_id)"""
     course = await Course.get(course_id)
     if not course:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Course not found")
@@ -44,6 +50,7 @@ async def update_course(course_id: str, course_data: CourseCreate, current_admin
     course.description = course_data.description
     course.thumbnail_url = course_data.thumbnail_url
     course.modules = course_data.modules
+    # Preserve enrolled_students and instructor_id — do NOT overwrite
     
     await course.save()
     return course

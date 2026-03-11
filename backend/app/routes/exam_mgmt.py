@@ -1,3 +1,13 @@
+"""
+exam_mgmt.py — Admin exam management endpoints.
+
+Provides admin-only CRUD for exams:
+- Create exams with MCQ and Coding sections
+- Update exam configuration (title, duration, questions, test cases)
+- Delete exams
+- Assign exams to students with max_attempts
+- View exam details and assignments
+"""
 from fastapi import APIRouter, HTTPException, status, Depends
 from typing import List
 from bson import ObjectId
@@ -6,6 +16,7 @@ from app.models.all_models import Exam, ExamSubmission
 from app.models.all_models import ExamAssignment
 from app.routes.admin_auth import get_current_admin
 from app.models.admin_models import AdminUser
+from app.utils.datetime_utils import ensure_utc_isoformat
 
 router = APIRouter()
 
@@ -37,7 +48,13 @@ async def create_exam(exam_data: ExamCreate, current_admin: AdminUser = Depends(
 async def list_all_exams(current_admin: AdminUser = Depends(get_current_admin)):
     """Get all exams (admin only)"""
     exams = await Exam.find_all().to_list()
-    return exams
+    results = []
+    for exam in exams:
+        d = exam.dict()
+        d["_id"] = str(exam.id)
+        ensure_utc_isoformat(d)
+        results.append(d)
+    return results
 
 @router.get("/{exam_id}")
 async def get_exam_details(exam_id: str, current_admin: AdminUser = Depends(get_current_admin)):
@@ -48,17 +65,35 @@ async def get_exam_details(exam_id: str, current_admin: AdminUser = Depends(get_
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Exam not found"
         )
-    return exam
+    d = exam.dict()
+    d["_id"] = str(exam.id)
+    ensure_utc_isoformat(d)
+    return d
+
+@router.get("/{exam_id}/attempt-count")
+async def get_attempt_count(exam_id: str, current_admin: AdminUser = Depends(get_current_admin)):
+    """Get the number of attempts/submissions for an exam"""
+    submissions = await ExamSubmission.find({"exam_id": exam_id}).to_list()
+    in_progress = [s for s in submissions if s.status == "IN_PROGRESS"]
+    return {
+        "count": len(submissions),
+        "has_in_progress": len(in_progress) > 0,
+        "completed": len([s for s in submissions if s.status in ("COMPLETED", "GRADED")])
+    }
 
 @router.put("/{exam_id}")
 async def update_exam(exam_id: str, exam_data: ExamCreate, current_admin: AdminUser = Depends(get_current_admin)):
-    """Update an existing exam (admin only)"""
+    """Update an existing exam (admin only) with attempt-aware safety"""
     exam = await Exam.get(exam_id)
     if not exam:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Exam not found"
         )
+    
+    # Check for existing submissions
+    submission_count = await ExamSubmission.find({"exam_id": exam_id}).count()
+    has_attempts = submission_count > 0
     
     # Update exam fields
     exam.title = exam_data.title
@@ -69,7 +104,13 @@ async def update_exam(exam_id: str, exam_data: ExamCreate, current_admin: AdminU
     exam.start_time = exam_data.start_time
     
     await exam.save()
-    return exam
+    
+    result = exam.dict()
+    result["_id"] = str(exam.id)
+    result["has_attempts"] = has_attempts
+    result["attempt_count"] = submission_count
+    ensure_utc_isoformat(result)
+    return result
 
 @router.delete("/{exam_id}")
 async def delete_exam(exam_id: str, current_admin: AdminUser = Depends(get_current_admin)):

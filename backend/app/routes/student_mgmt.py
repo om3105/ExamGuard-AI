@@ -1,3 +1,12 @@
+"""
+student_mgmt.py — Admin student management endpoints.
+
+Provides CRUD operations for student accounts:
+- List all students with profiles
+- Create/delete student accounts
+- View student exam submissions
+- Toggle student active/inactive status
+"""
 from fastapi import APIRouter, HTTPException, status, Depends
 from pydantic import BaseModel
 from typing import List
@@ -39,6 +48,10 @@ async def create_student(payload: CreateStudentPayload, current_admin: AdminUser
         "id": str(student.id),
         "username": student.username,
         "email": student.email,
+        "full_name": student.full_name,
+        "phone_number": student.phone_number,
+        "course": student.course,
+        "college": student.college,
         "created_at": student.created_at,
         "is_active": student.is_active,
         "message": "Student created successfully"
@@ -53,6 +66,10 @@ async def list_all_students(current_admin: AdminUser = Depends(get_current_admin
             "id": str(student.id),
             "username": student.username,
             "email": student.email,
+            "full_name": student.full_name,
+            "phone_number": student.phone_number,
+            "course": student.course,
+            "college": student.college,
             "created_at": student.created_at,
             "is_active": student.is_active
         }
@@ -73,6 +90,10 @@ async def get_student_details(student_id: str, current_admin: AdminUser = Depend
         "id": str(student.id),
         "username": student.username,
         "email": student.email,
+        "full_name": student.full_name,
+        "phone_number": student.phone_number,
+        "course": student.course,
+        "college": student.college,
         "created_at": student.created_at,
         "is_active": student.is_active
     }

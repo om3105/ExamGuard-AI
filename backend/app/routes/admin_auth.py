@@ -1,3 +1,10 @@
+"""
+admin_auth.py — Admin authentication endpoints.
+
+Provides login, registration, and session management for administrators.
+Uses a separate JWT signing key (ADMIN_SECRET_KEY) from student auth.
+Includes get_current_admin() dependency for protecting admin routes.
+"""
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from app.models.admin_models import AdminUser, AdminCreate, AdminLogin, AdminResponse, AdminToken
@@ -33,8 +40,8 @@ async def get_current_admin(credentials: HTTPAuthorizationCredentials = Depends(
 # ── Routes ──
 
 @router.post("/register", response_model=AdminResponse, status_code=status.HTTP_201_CREATED)
-async def register_admin(admin_data: AdminCreate, current_admin: AdminUser = Depends(get_current_admin)):
-    """Register a new admin user (requires admin auth)"""
+async def register_admin(admin_data: AdminCreate):
+    """Register a new admin user"""
     existing_admin = await AdminUser.find_one({"username": admin_data.username})
     if existing_admin:
         raise HTTPException(

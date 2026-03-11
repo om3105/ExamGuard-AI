@@ -118,7 +118,7 @@ const CourseList = () => {
                                 <span className="text-sm font-semibold text-gray-700">{username}</span>
                                 <span className="text-xs text-gray-500">Student Profile</span>
                             </div>
-                            <div className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200">
+                            <div onClick={() => navigate('/profile')} className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200 cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all" title="View Profile">
                                 {username?.charAt(0).toUpperCase()}
                             </div>
                             <button onClick={handleLogout} className="ml-2 text-sm text-gray-500 hover:text-red-600 transition-colors">

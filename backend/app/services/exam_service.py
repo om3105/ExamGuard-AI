@@ -1,9 +1,30 @@
+"""
+exam_service.py — Core exam business logic.
+
+Handles the complete exam lifecycle:
+- create_exam()     Create a new exam document
+- get_all_exams()   List exams assigned to a student (with attempt counts)
+- get_exam_by_id()  Get full exam details for taking
+- start_session()   Create or reconnect to an IN_PROGRESS submission
+- submit_exam()   Grade MCQ answers, calculate scores, trigger anomaly scoring
+- get_submission()  Retrieve completed submission details
+
+Attempt control logic:
+  1. Check exam start_time has passed
+  2. Count COMPLETED/GRADED submissions (not IN_PROGRESS)
+  3. Block if count >= max_attempts from ExamAssignment
+  4. Reconnect to existing IN_PROGRESS session if one exists
+"""
 from datetime import datetime, timezone
 from fastapi import HTTPException, status
 from typing import List, Optional
 from app.models.all_models import Exam, ExamCreate, ExamSubmission, ExamAssignment
 from app.services.anomaly_service import AnomalyService
+from app.utils.datetime_utils import ensure_utc_isoformat
+from app.core.logging_config import get_logger
 from bson import ObjectId
+
+logger = get_logger("exam")
 
 class ExamService:
     @staticmethod
@@ -50,6 +71,7 @@ class ExamService:
             exam_dict["max_attempts"] = max_attempts
             exam_dict["attempt_count"] = attempt_count
             exam_dict["is_blocked"] = attempt_count >= max_attempts and max_attempts != 0
+            ensure_utc_isoformat(exam_dict)
             
             results.append(exam_dict)
             
@@ -78,6 +100,8 @@ class ExamService:
         exam_dict["_id"] = str(exam.id)
         exam_dict["max_attempts"] = assignment.max_attempts
         exam_dict["attempt_count"] = attempt_count
+        ensure_utc_isoformat(exam_dict)
+        
         return exam_dict
 
     @staticmethod
@@ -120,6 +144,7 @@ class ExamService:
         
         if active:
             # Reconnect to active session
+            logger.info("Reconnecting user=%s to active session for exam=%s", user_id, exam_id)
             return {"submission_id": str(active.id)}
             
         # 4. Create new IN_PROGRESS shell
@@ -133,6 +158,7 @@ class ExamService:
             submitted_at=datetime.utcnow()
         )
         await submission.insert()
+        logger.info("Exam started: user=%s exam=%s submission=%s attempt=%d", user_id, exam_id, str(submission.id), submission.attempt_number)
         return {"submission_id": str(submission.id)}
 
     @staticmethod

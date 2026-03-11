@@ -37,6 +37,7 @@ export const examAPI = {
     getSubmissions: (id) => api.get(`/exams/${id}/submissions`),
     assign: (id, data) => api.post(`/exams/${id}/assign`, data),
     getAssignment: (id) => api.get(`/exams/${id}/assign`),
+    getAttemptCount: (id) => api.get(`/exams/${id}/attempt-count`),
 };
 
 // Student management
@@ -72,6 +73,13 @@ export const enrollmentAPI = {
     reject: (id) => api.post(`/enrollments/${id}/reject`),
     addStudent: (courseId, userId) => api.post(`/courses/${courseId}/add-student`, { user_id: userId }),
     removeStudent: (courseId, userId) => api.delete(`/courses/${courseId}/remove-student`, { data: { user_id: userId } }),
+};
+
+// Student Progress monitoring
+export const progressAPI = {
+    getOverview: () => api.get('/progress/overview'),
+    getStudents: () => api.get('/progress/students'),
+    getStudentDetail: (id) => api.get(`/progress/student/${id}`),
 };
 
 export default api;

@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
-import { LayoutDashboard, FileText, Users, BarChart3, LogOut, Menu, X, UserPlus, BookOpen, Activity, ClipboardCheck } from 'lucide-react';
+import { LayoutDashboard, FileText, Users, BarChart3, LogOut, Menu, X, UserPlus, BookOpen, Activity, ClipboardCheck, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 import logo from '../assets/logo.png'; // Import the logo
 
@@ -18,6 +18,7 @@ const Sidebar = () => {
         { path: '/admin/students', label: 'Students', icon: Users },
         { path: '/admin/monitoring', label: 'Live Radar', icon: Activity },
         { path: '/admin/analytics', label: 'Analytics', icon: BarChart3 },
+        { path: '/admin/progress', label: 'Student Progress', icon: TrendingUp },
         { path: '/admin/register', label: 'Create Admin', icon: UserPlus },
     ];
 

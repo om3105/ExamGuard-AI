@@ -7,17 +7,29 @@ from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
 from passlib.context import CryptContext
+from app.core.logging_config import get_logger
 
 from app.models.all_models import User
 
 load_dotenv()
+logger = get_logger("security")
 
-SECRET_KEY = os.getenv("SECRET_KEY", "your_secret_key_here")
+# Security: raise error in production if secret key is not set
+_default_key = "your_secret_key_here"
+SECRET_KEY = os.getenv("SECRET_KEY", _default_key)
+if SECRET_KEY == _default_key and os.getenv("ENVIRONMENT", "development") == "production":
+    raise RuntimeError("SECRET_KEY must be set in production! Update .env with a strong random key.")
+
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "30"))
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/token")
+
+
+def is_strong_password(password: str) -> bool:
+    """Validate password strength — minimum 8 characters."""
+    return len(password) >= 8
 
 def verify_password(plain_password, hashed_password):
     return pwd_context.verify(plain_password, hashed_password)

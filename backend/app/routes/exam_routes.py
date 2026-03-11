@@ -1,17 +1,28 @@
+"""
+exam_routes.py — Student-facing exam endpoints.
+
+Handles the student exam lifecycle:
+- GET /             List exams assigned to the current student
+- GET /{id}         Get exam details (questions, sections)
+- POST /{id}/start  Create an IN_PROGRESS submission session
+- POST /{id}/submit Submit answers and trigger grading
+- POST /execute     Proxy code execution requests to Judge0
+
+The /execute endpoint acts as a secure proxy so the frontend
+never needs direct access to the Judge0 API key.
+"""
 from fastapi import APIRouter, HTTPException, status, Depends
+from pydantic import BaseModel
+from typing import List
+import os
+import httpx
+import asyncio
+
 from app.models.all_models import Exam, ExamCreate, User
 from app.core.security import get_current_user
 from app.services.exam_service import ExamService
-from typing import List
 
 router = APIRouter()
-
-@router.post("/", response_model=Exam, status_code=status.HTTP_201_CREATED)
-async def create_exam(exam_data: ExamCreate):
-    """
-    Create a new exam with sections (Aptitude, Technical, Coding).
-    """
-    return await ExamService.create_exam(exam_data)
 
 @router.get("/")
 async def get_all_exams(current_user: User = Depends(get_current_user)):
@@ -59,11 +70,7 @@ async def get_submission(submission_id: str, current_user: User = Depends(get_cu
     """
     return await ExamService.get_submission(submission_id, user_id=str(current_user.id))
 
-from pydantic import BaseModel
-import os
-import httpx
-import asyncio
-
+# --- Judge0 Code Execution Proxy ---
 class CodeExecutionRequest(BaseModel):
     source_code: str
     language_id: int

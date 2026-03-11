@@ -43,6 +43,17 @@ export const getSubmissionDetails = async (submissionId) => {
     return response.data;
 };
 
+// Profile endpoints
+export const getStudentProfile = async () => {
+    const response = await api.get('/student/profile/');
+    return response.data;
+};
+
+export const updateStudentProfile = async (data) => {
+    const response = await api.put('/student/profile/update', data);
+    return response.data;
+};
+
 export const executeCode = async (sourceCode, languageId, stdin, expectedOutput) => {
     const response = await api.post(`/exams/execute`, {
         source_code: sourceCode,

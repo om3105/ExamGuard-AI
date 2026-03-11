@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { courseAPI } from '../services/adminApi';
-import { BookOpen, Plus, FileVideo, FileText, LayoutList, Trash2, Zap, X } from 'lucide-react';
+import { BookOpen, Plus, FileVideo, FileText, LayoutList, Trash2, Zap, X, Edit } from 'lucide-react';
 
 const CourseManagement = () => {
+    const navigate = useNavigate();
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
@@ -109,12 +111,21 @@ const CourseManagement = () => {
                                     <span className="text-xs font-semibold text-gray-400 uppercase">
                                         {course.enrolled_students?.length || 0} Enrolled
                                     </span>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={() => navigate(`/admin/courses/${course._id}/edit`)}
+                                        className="p-1.5 text-gray-400 hover:text-amber-600 hover:bg-amber-50 rounded transition-colors"
+                                        title="Edit Course"
+                                    >
+                                        <Edit className="w-4 h-4" />
+                                    </button>
                                     <button
                                         onClick={() => handleDeleteCourse(course._id)}
                                         className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
                                     >
                                         <Trash2 className="w-4 h-4" />
                                     </button>
+                                </div>
                                 </div>
                             </div>
                         </div>
