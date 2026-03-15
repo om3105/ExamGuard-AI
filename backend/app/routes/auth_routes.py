@@ -18,6 +18,7 @@ oauth2_scheme = OAuth2PasswordBearer(tokenUrl="token")
 
 @router.post("/register", response_model=UserResponse, status_code=status.HTTP_201_CREATED)
 async def register(user: UserCreate):
+    logger.debug("Registration attempt for username: %s, email: %s", user.username, user.email)
     existing_username = await User.find_one(User.username == user.username)
     if existing_username:
         raise HTTPException(
@@ -57,15 +58,24 @@ async def register(user: UserCreate):
 
 @router.post("/token", response_model=Token)
 async def login(form_data: OAuth2PasswordRequestForm = Depends()):
+    logger.debug("Login attempt for username: %s", form_data.username)
     user = await User.find_one(User.username == form_data.username)
-    if not user or not verify_password(form_data.password, user.password_hash):
-        logger.warning("Failed login attempt for username: %s", form_data.username)
+    if not user:
+        logger.warning("Login failed — user not found: %s", form_data.username)
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Incorrect username or password",
+            headers={"WWW-Authenticate": "Bearer"},
+        )
+    logger.debug("User found — verifying password")
+    if not verify_password(form_data.password, user.password_hash):
+        logger.warning("Login failed — wrong password for username: %s", form_data.username)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
             headers={"WWW-Authenticate": "Bearer"},
         )
     
-    logger.info("Successful login: %s", user.username)
     access_token = create_access_token(data={"sub": user.username})
+    logger.info("Successful login — token issued for: %s", user.username)
     return {"access_token": access_token, "token_type": "bearer"}

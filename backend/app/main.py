@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from app.db.session import init_db
+from app.db.session import init_db, is_db_connected
 from app.core.logging_config import setup_logging, get_logger
 from app.core.error_handlers import register_error_handlers
 import time
@@ -13,8 +13,12 @@ logger = get_logger("main")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("Starting ExamGuard AI API...")
-    await init_db()
-    logger.info("Database initialized successfully")
+    try:
+        await init_db()
+        logger.info("Database initialized successfully")
+    except RuntimeError as exc:
+        logger.error("Startup aborted — database initialization failed: %s", exc)
+        raise
     yield
     logger.info("Shutting down ExamGuard AI API")
 
@@ -86,8 +90,10 @@ def read_root():
 
 @app.get("/health", tags=["Health"])
 async def health_check():
-    """Basic health check endpoint for deployment monitoring"""
+    """Health check endpoint — reports API and database status."""
+    db_ok = is_db_connected()
     return {
-        "status": "healthy",
-        "service": "ExamGuard AI"
+        "status": "healthy" if db_ok else "degraded",
+        "service": "ExamGuard AI",
+        "database": "connected" if db_ok else "disconnected",
     }
