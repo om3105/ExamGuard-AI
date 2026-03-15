@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import { analyticsAPI } from '../services/adminApi';
 import { ArrowLeft, Search, FileText, Users, ChevronDown, ChevronUp, ShieldCheck, ShieldAlert, ShieldOff } from 'lucide-react';
@@ -31,28 +31,35 @@ const ExamResults = () => {
     const [results, setResults] = useState(null);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
-    const [filteredSubmissions, setFilteredSubmissions] = useState([]);
     const [expandedRow, setExpandedRow] = useState(null);
     const [riskFilter, setRiskFilter] = useState('ALL');
 
     useEffect(() => { fetchResults(); }, [examId]);
 
-    useEffect(() => {
-        if (results?.submissions) {
-            const filtered = results.submissions.filter(sub => {
-                const matchesSearch = !searchTerm || sub.user_id?.toLowerCase().includes(searchTerm.toLowerCase());
-                const matchesRisk = riskFilter === 'ALL' || sub.risk_level === riskFilter;
-                return matchesSearch && matchesRisk;
-            });
-            setFilteredSubmissions(filtered);
-        }
+    // Derive filtered list from source data — no secondary state needed.
+    const filteredSubmissions = useMemo(() => {
+        if (!results?.submissions) return [];
+        return results.submissions.filter(sub => {
+            const matchesSearch = !searchTerm || sub.user_id?.toLowerCase().includes(searchTerm.toLowerCase());
+            const matchesRisk = riskFilter === 'ALL' || sub.risk_level === riskFilter;
+            return matchesSearch && matchesRisk;
+        });
     }, [results, searchTerm, riskFilter]);
+
+    // Aggregate risk counts once; recompute only when submissions change.
+    const riskCounts = useMemo(() => {
+        const counts = { HIGH: 0, MEDIUM: 0, LOW: 0, None: 0 };
+        results?.submissions?.forEach(s => {
+            if (s.risk_level) counts[s.risk_level] = (counts[s.risk_level] || 0) + 1;
+            else counts.None += 1;
+        });
+        return counts;
+    }, [results?.submissions]);
 
     const fetchResults = async () => {
         try {
             const response = await analyticsAPI.getExamResults(examId);
             setResults(response.data);
-            setFilteredSubmissions(response.data?.submissions || []);
         } catch (error) {
             console.error('Failed to fetch results:', error);
         } finally {
@@ -72,12 +79,6 @@ const ExamResults = () => {
             <button onClick={() => navigate('/admin/exams')} className="mt-4 text-blue-600 hover:text-blue-800">Return to Exams</button>
         </div>
     );
-
-    const riskCounts = { HIGH: 0, MEDIUM: 0, LOW: 0, None: 0 };
-    results.submissions?.forEach(s => {
-        if (s.risk_level) riskCounts[s.risk_level] = (riskCounts[s.risk_level] || 0) + 1;
-        else riskCounts.None += 1;
-    });
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">

@@ -55,26 +55,33 @@ class ExamService:
             return []
             
         exams = await Exam.find({"_id": {"$in": [ObjectId(eid) for eid in assigned_exam_ids]}}).to_list()
-        
-        # We also need to check attempt counts so the frontend knows if they can start
+
+        # Fetch attempt counts for all exams in a single aggregation instead of one query per exam
+        exam_ids_str = [str(exam.id) for exam in exams]
+        agg_result = await ExamSubmission.aggregate([
+            {"$match": {"user_id": user_id, "exam_id": {"$in": exam_ids_str}, "status": {"$in": ["COMPLETED", "GRADED"]}}},
+            {"$group": {"_id": "$exam_id", "count": {"$sum": 1}}}
+        ]).to_list()
+        attempt_counts = {item["_id"]: item["count"] for item in agg_result}
+
+        # Build lookup map for O(1) assignment access
+        assignment_map = {a.exam_id: a for a in assignments}
+
         results = []
         for exam in exams:
-            assignment = next((a for a in assignments if a.exam_id == str(exam.id)), None)
+            assignment = assignment_map.get(str(exam.id))
             max_attempts = assignment.max_attempts if assignment else 1
-            
-            attempt_count = await ExamSubmission.find(
-                {"user_id": user_id, "exam_id": str(exam.id), "status": {"$in": ["COMPLETED", "GRADED"]}}
-            ).count()
-            
+            attempt_count = attempt_counts.get(str(exam.id), 0)
+
             exam_dict = exam.dict()
             exam_dict["_id"] = str(exam.id)
             exam_dict["max_attempts"] = max_attempts
             exam_dict["attempt_count"] = attempt_count
             exam_dict["is_blocked"] = attempt_count >= max_attempts and max_attempts != 0
             ensure_utc_isoformat(exam_dict)
-            
+
             results.append(exam_dict)
-            
+
         return results
 
     @staticmethod
