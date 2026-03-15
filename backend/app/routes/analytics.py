@@ -22,20 +22,26 @@ async def get_dashboard_overview(current_admin: AdminUser = Depends(get_current_
     total_exams = await Exam.count()
     total_students = await User.count()
     total_submissions = await ExamSubmission.count()
-    
-    # Calculate global integrity risk stats
-    all_submissions = await ExamSubmission.find_all().to_list()
-    high_risk_submissions = sum(1 for s in all_submissions if s.risk_level == "HIGH")
-    
-    valid_scores = [s.anomaly_score for s in all_submissions if s.anomaly_score is not None]
-    avg_anomaly_score = sum(valid_scores) / len(valid_scores) if valid_scores else 0
-    
+
+    # Use a single aggregation to compute high-risk count and avg anomaly score
+    # instead of loading the entire collection into memory.
+    # $avg ignores null values automatically, so no pre-filtering needed.
+    risk_agg = await ExamSubmission.aggregate([
+        {"$group": {
+            "_id": None,
+            "high_risk_count": {"$sum": {"$cond": [{"$eq": ["$risk_level", "HIGH"]}, 1, 0]}},
+            "avg_anomaly_score": {"$avg": "$anomaly_score"}
+        }}
+    ]).to_list()
+    high_risk_submissions = risk_agg[0]["high_risk_count"] if risk_agg else 0
+    avg_anomaly_score = round(risk_agg[0]["avg_anomaly_score"] or 0, 1) if risk_agg else 0
+
     # Get recent submissions with student names
     recent_submissions = await ExamSubmission.find_all().sort("-submitted_at").limit(10).to_list()
 
     # Resolve user IDs to names
     user_ids = list(set(sub.user_id for sub in recent_submissions))
-    users = await User.find({"_id": {"$in": [ObjectId(uid) for uid in user_ids if len(uid) == 24]}}).to_list()
+    users = await User.find({"_id": {"$in": [ObjectId(uid) for uid in user_ids if ObjectId.is_valid(uid)]}}).to_list()
     user_map = {str(u.id): u.username for u in users}
 
     return {

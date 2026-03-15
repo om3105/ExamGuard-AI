@@ -1,7 +1,25 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { analyticsAPI, examAPI } from '../services/adminApi';
 import { FileText, Users, ClipboardCheck, TrendingUp, Calendar, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+
+// Defined outside the component so it is not re-created on every render.
+const StatCard = ({ title, value, subtext, badgeColor, badgeText, icon: Icon }) => (
+    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between h-full hover:shadow-md transition-shadow">
+        <div className="flex items-start justify-between">
+            <div>
+                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h3>
+                <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
+            </div>
+            <div className={`p-2 rounded-lg ${badgeColor} bg-opacity-20`}>
+                <Icon className={`w-5 h-5 ${badgeText}`} />
+            </div>
+        </div>
+        <div className="mt-4 text-xs text-gray-500 flex items-center gap-1">
+            {subtext}
+        </div>
+    </div>
+);
 
 const Dashboard = () => {
     const [stats, setStats] = useState(null);
@@ -37,7 +55,16 @@ const Dashboard = () => {
     }
 
     // Sort exams by start time (newest first) and take latest 5
-    const recentExams = [...exams].sort((a, b) => new Date(b.start_time) - new Date(a.start_time)).slice(0, 5);
+    const recentExams = useMemo(
+        () => [...exams].sort((a, b) => new Date(b.start_time) - new Date(a.start_time)).slice(0, 5),
+        [exams]
+    );
+
+    const avgScore = useMemo(() => {
+        const subs = stats?.recent_submissions;
+        if (!subs?.length) return 0;
+        return Math.round(subs.reduce((acc, curr) => acc + (curr.score || 0), 0) / subs.length);
+    }, [stats?.recent_submissions]);
 
     const getExamStatus = (exam) => {
         const now = new Date();
@@ -48,23 +75,6 @@ const Dashboard = () => {
         if (now >= start && now <= end) return { label: 'Active', color: 'bg-green-100 text-green-800' };
         return { label: 'Completed', color: 'bg-gray-100 text-gray-800' };
     };
-
-    const StatCard = ({ title, value, subtext, badgeColor, badgeText, icon: Icon }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between h-full hover:shadow-md transition-shadow">
-            <div className="flex items-start justify-between">
-                <div>
-                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h3>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
-                </div>
-                <div className={`p-2 rounded-lg ${badgeColor} bg-opacity-20`}>
-                    <Icon className={`w-5 h-5 ${badgeText}`} />
-                </div>
-            </div>
-            <div className="mt-4 text-xs text-gray-500 flex items-center gap-1">
-                {subtext}
-            </div>
-        </div>
-    );
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -102,9 +112,7 @@ const Dashboard = () => {
                 />
                 <StatCard
                     title="Avg Score"
-                    value={`${stats?.recent_submissions?.length > 0
-                        ? Math.round(stats.recent_submissions.reduce((acc, curr) => acc + (curr.score || 0), 0) / stats.recent_submissions.length)
-                        : 0}`}
+                    value={`${avgScore}`}
                     subtext="Across all exams"
                     badgeColor="bg-orange-100"
                     badgeText="text-orange-600"

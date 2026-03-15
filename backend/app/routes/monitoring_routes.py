@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException, status, Depends
 from typing import List
 from datetime import datetime, timezone
+from bson import ObjectId
 # Import models
 from app.models.all_models import ExamSubmission, BehaviorLog, User
 from app.routes.admin_auth import get_current_admin
@@ -16,17 +17,33 @@ async def get_live_sessions(current_admin: AdminUser = Depends(get_current_admin
     """
     # 1. Get all IN_PROGRESS submissions
     active_submissions = await ExamSubmission.find({"status": "IN_PROGRESS"}).to_list()
-    
+
+    if not active_submissions:
+        return []
+
+    # Batch-fetch all required users and behavior logs in two queries
+    # instead of one query per session (N+1 → 2 queries total).
+    user_ids = list({sub.user_id for sub in active_submissions})
+    submission_ids = [str(sub.id) for sub in active_submissions]
+
+    users = await User.find(
+        {"_id": {"$in": [ObjectId(uid) for uid in user_ids if ObjectId.is_valid(uid)]}}
+    ).to_list()
+    user_map = {str(u.id): u for u in users}
+
+    behavior_logs = await BehaviorLog.find(
+        {"submission_id": {"$in": submission_ids}}
+    ).to_list()
+    behavior_map = {log.submission_id: log for log in behavior_logs}
+
     live_data = []
-    
+
     for sub in active_submissions:
-        # Get the student details
-        student = await User.get(sub.user_id)
+        student = user_map.get(sub.user_id)
         student_name = student.username if student else "Unknown Student"
         student_email = student.email if student else ""
-        
-        # Get the latest behavior log for this submission
-        log = await BehaviorLog.find_one({"submission_id": str(sub.id)})
+
+        log = behavior_map.get(str(sub.id))
         
         session_info = {
             "submission_id": str(sub.id),

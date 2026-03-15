@@ -2,13 +2,13 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
+from bson import ObjectId
 from app.models.course_models import CourseEnrollment, Course
 from app.models.all_models import User
 from app.routes.admin_auth import get_current_admin
 from app.models.admin_models import AdminUser
 
 router = APIRouter()
-
 
 class StudentCourseRequest(BaseModel):
     user_id: str
@@ -23,17 +23,32 @@ async def get_enrollment_requests(status_filter: Optional[str] = None, current_a
 
     enrollments = await CourseEnrollment.find(query).sort("-requested_at").to_list()
 
+    if not enrollments:
+        return []
+
+    # Batch-fetch all required students and courses in two queries
+    # instead of one query per enrollment (N+1 → 2 queries total).
+    student_ids = list({e.user_id for e in enrollments})
+    course_ids = list({e.course_id for e in enrollments})
+
+    students = await User.find(
+        {"_id": {"$in": [ObjectId(sid) for sid in student_ids if ObjectId.is_valid(sid)]}}
+    ).to_list()
+    student_map = {str(s.id): s.username for s in students}
+
+    courses_list = await Course.find(
+        {"_id": {"$in": [ObjectId(cid) for cid in course_ids if ObjectId.is_valid(cid)]}}
+    ).to_list()
+    course_name_map = {str(c.id): c.title for c in courses_list}
+
     results = []
     for enroll in enrollments:
-        # Fetch student and course names for display
-        student = await User.get(enroll.user_id)
-        course = await Course.get(enroll.course_id)
         results.append({
             "id": str(enroll.id),
             "user_id": enroll.user_id,
             "course_id": enroll.course_id,
-            "student_name": student.username if student else "Unknown",
-            "course_title": course.title if course else "Unknown",
+            "student_name": student_map.get(enroll.user_id, "Unknown"),
+            "course_title": course_name_map.get(enroll.course_id, "Unknown"),
             "status": enroll.status,
             "requested_at": enroll.requested_at,
             "approved_by": enroll.approved_by,

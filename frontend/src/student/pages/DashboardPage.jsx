@@ -27,6 +27,16 @@ const DashboardPage = () => {
         fetchData();
     }, []);
 
+    // Compute filtered course lists once to avoid repeated .filter() calls in the JSX.
+    const approvedCourses = React.useMemo(
+        () => courses.filter(c => c.enrollment_status === 'APPROVED'),
+        [courses]
+    );
+    const pendingCourses = React.useMemo(
+        () => courses.filter(c => c.enrollment_status === 'PENDING'),
+        [courses]
+    );
+
     const handleLogout = () => {
         logout();
         navigate('/login');
@@ -84,7 +94,7 @@ const DashboardPage = () => {
                             <div>
                                 <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Learning Progress</h3>
                                 <p className="text-2xl font-bold text-gray-900 mt-2">
-                                    {courses.filter(c => c.enrollment_status === 'APPROVED').length}
+                                    {approvedCourses.length}
                                     <span className="text-sm font-normal text-gray-400 ml-1">
                                         / {courses.length} courses
                                     </span>
@@ -99,12 +109,12 @@ const DashboardPage = () => {
                             <div className="w-full bg-gray-100 rounded-full h-2">
                                 <div
                                     className="bg-indigo-500 h-2 rounded-full transition-all duration-500"
-                                    style={{ width: `${courses.length > 0 ? (courses.filter(c => c.enrollment_status === 'APPROVED').length / courses.length) * 100 : 0}%` }}
+                                    style={{ width: `${courses.length > 0 ? (approvedCourses.length / courses.length) * 100 : 0}%` }}
                                 ></div>
                             </div>
                             <p className="text-xs text-gray-500 mt-2">
-                                {courses.filter(c => c.enrollment_status === 'PENDING').length > 0
-                                    ? `${courses.filter(c => c.enrollment_status === 'PENDING').length} pending approval`
+                                {pendingCourses.length > 0
+                                    ? `${pendingCourses.length} pending approval`
                                     : 'Explore courses in the Learning Hub'}
                             </p>
                         </div>
@@ -156,64 +166,58 @@ const DashboardPage = () => {
                 </div>
 
                 {/* My Courses Section */}
-                {(() => {
-                    const approvedCourses = courses.filter(c => c.enrollment_status === 'APPROVED');
-                    const pendingCourses = courses.filter(c => c.enrollment_status === 'PENDING');
-                    return (
-                        <>
-                            {approvedCourses.length > 0 && (
-                                <section className="mb-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                                    <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                                        <h2 className="font-bold text-gray-800 flex items-center gap-2">
-                                            <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
-                                            My Courses — Continue Learning
-                                        </h2>
-                                        <button onClick={() => navigate('/courses')} className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">View All →</button>
-                                    </div>
-                                    <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                                        {approvedCourses.slice(0, 3).map(course => {
-                                            const cid = course._id || course.id;
-                                            const totalLessons = course.modules?.reduce((a, m) => a + (m.lessons?.length || 0), 0) || 0;
-                                            return (
-                                                <div key={cid} className="border border-gray-100 rounded-xl p-4 hover:shadow-md transition cursor-pointer group"
-                                                    onClick={() => navigate(`/courses/${cid}`)}>
-                                                    <div className="h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg mb-3 flex items-end p-3">
-                                                        <h3 className="text-white font-bold text-sm line-clamp-2">{course.title}</h3>
-                                                    </div>
-                                                    <p className="text-xs text-gray-500 mb-2 line-clamp-2">{course.description}</p>
-                                                    <div className="flex items-center gap-2 text-xs text-gray-400">
-                                                        <span>{totalLessons} lessons</span>
-                                                        <span>•</span>
-                                                        <span>{course.modules?.length || 0} modules</span>
-                                                    </div>
-                                                    <button className="mt-3 w-full py-2 bg-indigo-50 text-indigo-700 text-sm font-semibold rounded-lg group-hover:bg-indigo-100 transition">
-                                                        Continue Learning →
-                                                    </button>
-                                                </div>
-                                            );
-                                        })}
-                                    </div>
-                                </section>
-                            )}
-                            {pendingCourses.length > 0 && (
-                                <section className="mb-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                                    <div className="px-6 py-4 border-b border-gray-100 bg-amber-50/50 flex items-center gap-2">
-                                        <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                        <h2 className="font-bold text-gray-800">Pending Enrollment Requests</h2>
-                                    </div>
-                                    <div className="p-4 space-y-2">
-                                        {pendingCourses.map(course => (
-                                            <div key={course._id || course.id} className="flex items-center justify-between px-4 py-3 border border-amber-100 rounded-lg bg-amber-50/30">
-                                                <span className="font-medium text-gray-800 text-sm">{course.title}</span>
-                                                <span className="text-xs font-semibold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full">⏳ Pending Approval</span>
+                <>
+                    {approvedCourses.length > 0 && (
+                        <section className="mb-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
+                                <h2 className="font-bold text-gray-800 flex items-center gap-2">
+                                    <svg className="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                                    My Courses — Continue Learning
+                                </h2>
+                                <button onClick={() => navigate('/courses')} className="text-sm text-indigo-600 hover:text-indigo-800 font-medium">View All →</button>
+                            </div>
+                            <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {approvedCourses.slice(0, 3).map(course => {
+                                    const cid = course._id || course.id;
+                                    const totalLessons = course.modules?.reduce((a, m) => a + (m.lessons?.length || 0), 0) || 0;
+                                    return (
+                                        <div key={cid} className="border border-gray-100 rounded-xl p-4 hover:shadow-md transition cursor-pointer group"
+                                            onClick={() => navigate(`/courses/${cid}`)}>
+                                            <div className="h-24 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg mb-3 flex items-end p-3">
+                                                <h3 className="text-white font-bold text-sm line-clamp-2">{course.title}</h3>
                                             </div>
-                                        ))}
+                                            <p className="text-xs text-gray-500 mb-2 line-clamp-2">{course.description}</p>
+                                            <div className="flex items-center gap-2 text-xs text-gray-400">
+                                                <span>{totalLessons} lessons</span>
+                                                <span>•</span>
+                                                <span>{course.modules?.length || 0} modules</span>
+                                            </div>
+                                            <button className="mt-3 w-full py-2 bg-indigo-50 text-indigo-700 text-sm font-semibold rounded-lg group-hover:bg-indigo-100 transition">
+                                                Continue Learning →
+                                            </button>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        </section>
+                    )}
+                    {pendingCourses.length > 0 && (
+                        <section className="mb-8 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                            <div className="px-6 py-4 border-b border-gray-100 bg-amber-50/50 flex items-center gap-2">
+                                <svg className="w-5 h-5 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <h2 className="font-bold text-gray-800">Pending Enrollment Requests</h2>
+                            </div>
+                            <div className="p-4 space-y-2">
+                                {pendingCourses.map(course => (
+                                    <div key={course._id || course.id} className="flex items-center justify-between px-4 py-3 border border-amber-100 rounded-lg bg-amber-50/30">
+                                        <span className="font-medium text-gray-800 text-sm">{course.title}</span>
+                                        <span className="text-xs font-semibold text-amber-700 bg-amber-100 px-2.5 py-1 rounded-full">⏳ Pending Approval</span>
                                     </div>
-                                </section>
-                            )}
-                        </>
-                    );
-                })()}
+                                ))}
+                            </div>
+                        </section>
+                    )}
+                </>
 
                 {/* Action Area / Empty State */}
                 <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
