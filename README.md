@@ -24,7 +24,7 @@ ExamGuard AI is a full-stack examination management system with two portals:
 ```
 ┌─────────────────┐         ┌──────────────────┐         ┌─────────────┐
 │  React Frontend │ ──API──▶│  FastAPI Backend  │ ──ODM──▶│  MongoDB    │
-│  (Vite, :5173)  │         │  (Uvicorn, :9000) │         │  (Atlas)    │
+│  (Vite, :5173)  │         │  (Uvicorn, :8000) │         │  (Atlas)    │
 └─────────────────┘         └────────┬─────────┘         └─────────────┘
                                      │
                                      ▼
