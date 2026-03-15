@@ -2,7 +2,7 @@ import requests
 import json
 
 # Admin Backend
-ADMIN_BASE = "http://localhost:9000/admin/api"
+ADMIN_BASE = "http://localhost:8000/admin/api"
 # User Backend
 USER_BASE = "http://localhost:8002"
 

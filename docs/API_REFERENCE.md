@@ -1,6 +1,6 @@
 # ExamGuard AI — API Reference
 
-Base URL: `http://localhost:9000`
+Base URL: `http://localhost:8000`
 
 All endpoints requiring authentication expect a `Bearer` token in the `Authorization` header.
 

@@ -4,7 +4,7 @@ import time
 import uuid
 
 USER_API = "http://localhost:8002"
-ADMIN_API = "http://localhost:9000/admin/api"
+ADMIN_API = "http://localhost:8000/admin/api"
 print("--- 🚀 EXAMGUARD E2E FEATURE VERIFICATION ---")
 
 # 1. Admin Login
