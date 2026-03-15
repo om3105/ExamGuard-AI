@@ -24,7 +24,7 @@ ExamGuard AI is a full-stack examination management system with two portals:
 ```
 ┌─────────────────┐         ┌──────────────────┐         ┌─────────────┐
 │  React Frontend │ ──API──▶│  FastAPI Backend  │ ──ODM──▶│  MongoDB    │
-│  (Vite, :5173)  │         │  (Uvicorn, :9000) │         │  (Atlas)    │
+│  (Vite, :5173)  │         │  (Uvicorn, :8000) │         │  (Atlas)    │
 └─────────────────┘         └────────┬─────────┘         └─────────────┘
                                      │
                                      ▼
@@ -126,9 +126,9 @@ npm install
 ### 3. Run Development Servers
 
 ```bash
-# Terminal 1 — Backend (port 9000)
+# Terminal 1 — Backend (port 8000)
 cd backend
-uvicorn app.main:app --reload --port 9000
+uvicorn app.main:app --reload --port 8000
 
 # Terminal 2 — Frontend (port 5173)
 cd frontend
@@ -141,7 +141,7 @@ npm run dev
 |--------|-----|
 | Student Portal | http://localhost:5173 |
 | Admin Portal | http://localhost:5173/admin |
-| API Docs (Swagger) | http://localhost:9000/docs |
+| API Docs (Swagger) | http://localhost:8000/docs |
 
 ### 5. Create First Admin
 
