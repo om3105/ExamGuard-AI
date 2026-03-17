@@ -69,10 +69,6 @@ const TestCompletedPage = () => {
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-50 p-4">
             <div className="max-w-md w-full bg-white rounded-xl shadow-sm border border-gray-200 p-8">
-                {/* Logo */}
-                <div className="flex justify-center mb-4">
-                    <img src="/logo.png" alt="ExamGuard Logo" className="w-16 h-16 object-contain" />
-                </div>
                 {/* Success Icon */}
                 <div className="flex justify-center mb-6">
                     <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
