@@ -18,7 +18,7 @@ def ensure_utc_isoformat(data: dict, fields: list[str] = None) -> dict:
         val = data.get(field)
         if val and isinstance(val, datetime):
             if val.tzinfo is None:
-                val = val.replace(tzinfo=IST)
+                val = val.replace(tzinfo=timezone.utc)
             data[field] = val.isoformat()
     
     return data

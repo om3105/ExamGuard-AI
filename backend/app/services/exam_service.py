@@ -297,9 +297,10 @@ class ExamService:
                 detail="Not authorized to view this submission"
             )
         
-        return {
+        result = {
             "submission_id": str(submission.id),
             "exam_title": submission.exam_title,
-            "submitted_at": submission.submitted_at.isoformat(),
+            "submitted_at": submission.submitted_at,
             "status": submission.status
         }
+        return ensure_utc_isoformat(result, ["submitted_at"])

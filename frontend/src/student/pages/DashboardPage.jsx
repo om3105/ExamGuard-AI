@@ -48,7 +48,7 @@ const DashboardPage = () => {
                     <div className="flex justify-between h-16">
                         <div className="flex items-center gap-6">
                             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/dashboard')}>
-                                <img src="/logo.png" alt="ExamGuard Logo" className="w-12 h-12 object-contain hidden md:block" />
+                                <img src="/logo.png" alt="ExamGuard Logo" className="w-12 h-12 object-contain" />
                                 <span className="font-bold text-xl tracking-tight text-gray-800">ExamGuard <span className="text-blue-600">Global</span></span>
                             </div>
                             <div className="hidden md:flex gap-6 border-l pl-6 border-gray-200 h-8 items-center">
