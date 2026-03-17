@@ -134,5 +134,6 @@ Full API reference: [docs/API_REFERENCE.md](docs/API_REFERENCE.md)
 
 ## Documentation
 
+- [Deployment Guide](docs/DEPLOYMENT_GUIDE.md)
 - [Developer Guide](docs/DEVELOPER_GUIDE.md)
 - [API Reference](docs/API_REFERENCE.md)
