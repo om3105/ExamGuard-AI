@@ -48,7 +48,7 @@ const DashboardPage = () => {
                     <div className="flex justify-between h-16">
                         <div className="flex items-center gap-6">
                             <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/dashboard')}>
-                                <img src="/src/assets/logo.png" alt="ExamGuard Logo" className="w-12 h-12 object-contain hidden md:block" />
+                                <img src="/logo.png" alt="ExamGuard Logo" className="w-12 h-12 object-contain hidden md:block" />
                                 <span className="font-bold text-xl tracking-tight text-gray-800">ExamGuard <span className="text-blue-600">Global</span></span>
                             </div>
                             <div className="hidden md:flex gap-6 border-l pl-6 border-gray-200 h-8 items-center">
@@ -288,7 +288,7 @@ const DashboardPage = () => {
                                                     <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
                                                         <span className="flex items-center gap-1">
                                                             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                                                            {new Date(exam.start_time).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
+                                                            {new Date(activeTab === 'completed' && exam.submitted_at ? exam.submitted_at : exam.start_time).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
                                                         </span>
                                                         <span className="flex items-center gap-1">
                                                             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>

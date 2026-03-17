@@ -46,7 +46,7 @@ const LoginPage = () => {
                 />
                 <div className="relative z-20 flex flex-col justify-center px-12 text-white">
                     <div className="flex flex-col items-center mb-10 text-center">
-                        <img src="/src/assets/logo.png" alt="ExamGuard Logo" className="w-48 h-48 object-contain mb-6 drop-shadow-2xl" />
+                        <img src="/logo.png" alt="ExamGuard Logo" className="w-48 h-48 object-contain mb-6 drop-shadow-2xl" />
                         <h1 className="text-6xl font-extrabold tracking-tight">ExamGuard</h1>
                     </div>
                     <p className="text-xl text-blue-100 max-w-lg leading-relaxed text-center mx-auto">

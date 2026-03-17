@@ -2,7 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { LayoutDashboard, FileText, Users, BarChart3, LogOut, Menu, X, UserPlus, BookOpen, Activity, ClipboardCheck, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
-import logo from '../assets/logo.png'; // Import the logo
+const logo = '/logo.png'; // Import the logo
 
 const Sidebar = () => {
     const { admin, logout } = useAdminAuth();

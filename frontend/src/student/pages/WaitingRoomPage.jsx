@@ -84,7 +84,7 @@ const WaitingRoomPage = () => {
             {/* Header */}
             <header className="bg-white shadow-sm border-b border-gray-200 h-16 flex items-center px-8 justify-between">
                 <div className="flex items-center gap-3">
-                    <img src="/src/assets/logo.png" alt="ExamGuard Logo" className="w-10 h-10 object-contain" />
+                    <img src="/logo.png" alt="ExamGuard Logo" className="w-10 h-10 object-contain" />
                     <span className="font-bold text-lg text-gray-800">ExamGuard</span>
                 </div>
                 <div className="text-sm text-gray-500">

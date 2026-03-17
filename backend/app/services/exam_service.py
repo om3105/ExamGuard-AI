@@ -96,15 +96,18 @@ class ExamService:
             assignment = next((a for a in assignments if a.exam_id == str(exam.id)), None)
             max_attempts = assignment.max_attempts if assignment else 1
             
-            attempt_count = await ExamSubmission.find(
+            dataset = ExamSubmission.find(
                 {"user_id": user_id, "exam_id": str(exam.id), "status": {"$in": ["COMPLETED", "GRADED"]}}
-            ).count()
+            )
+            attempt_count = await dataset.count()
+            last_submission = await dataset.sort("-submitted_at").first_or_none()
             
             exam_dict = exam.dict()
             exam_dict["_id"] = str(exam.id)
             exam_dict["max_attempts"] = max_attempts
             exam_dict["attempt_count"] = attempt_count
             exam_dict["is_blocked"] = attempt_count >= max_attempts and max_attempts != 0
+            exam_dict["submitted_at"] = last_submission.submitted_at if last_submission else None
             ensure_utc_isoformat(exam_dict)
             
             results.append(exam_dict)

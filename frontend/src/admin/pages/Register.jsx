@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { adminAuth } from '../services/adminApi';
 import { Lock, User, Shield, Mail, ArrowRight } from 'lucide-react';
-import logo from '../assets/logo.png';
+const logo = '/logo.png';
 
 const Register = () => {
     const [formData, setFormData] = useState({

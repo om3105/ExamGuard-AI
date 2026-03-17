@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { Lock, User, Shield } from 'lucide-react';
-import logo from '../assets/logo.png';
+const logo = '/logo.png';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ username: '', password: '' });
