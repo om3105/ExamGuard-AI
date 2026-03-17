@@ -117,7 +117,7 @@ class Exam(Document):
     
     class Config:
         json_encoders = {
-            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=IST).isoformat()
+            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()
         }
 
 
@@ -153,7 +153,7 @@ class ExamSubmission(Document):
     
     class Config:
         json_encoders = {
-            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=IST).isoformat()
+            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()
         }
 
 
@@ -182,7 +182,7 @@ class BehaviorLog(Document):
 
     class Config:
         json_encoders = {
-            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=IST).isoformat()
+            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()
         }
 
 class ExamAssignment(Document):
@@ -204,5 +204,5 @@ class ExamAssignment(Document):
     
     class Config:
         json_encoders = {
-            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=IST).isoformat()
+            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()
         }
