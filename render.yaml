@@ -1,0 +1,31 @@
+databases:
+  - name: examguard-mongodb
+    plan: starter
+    databaseName: examguard
+
+services:
+  - type: web
+    name: examguard-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: MONGODB_URL
+        fromDatabase:
+          name: examguard-mongodb
+          property: connectionString
+      - key: MONGODB_DB
+        value: examguard
+      - key: SECRET_KEY
+        generateValue: true
+      - key: ADMIN_SECRET_KEY
+        generateValue: true
+      - key: ENVIRONMENT
+        value: production
+      - key: CORS_ORIGINS
+        value: https://examguard.vercel.app
+      - key: ACCESS_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+      - key: ADMIN_TOKEN_EXPIRE_MINUTES
+        value: "1440"
+    healthCheckPath: /health
