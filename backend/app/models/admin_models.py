@@ -20,7 +20,7 @@ class AdminUser(Document):
     
     class Config:
         json_encoders = {
-            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=IST).isoformat()
+            datetime: lambda v: v.isoformat() if v.tzinfo else v.replace(tzinfo=timezone.utc).isoformat()
         }
 
 class AdminCreate(BaseModel):

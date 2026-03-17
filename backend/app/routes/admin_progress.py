@@ -128,9 +128,10 @@ async def progress_students(current_admin: AdminUser = Depends(get_current_admin
             "quiz_avg": quiz_avg,
             "coding_avg": coding_avg,
             "exams_attempted": len(completed_exams),
-            "last_activity": last_activity.isoformat() if last_activity and hasattr(last_activity, 'isoformat') else None,
+            "last_activity": last_activity,
             "alerts": alerts,
         }
+        ensure_utc_isoformat(row, ["last_activity"])
         rows.append(row)
 
     return rows
@@ -162,8 +163,9 @@ async def progress_student_detail(student_id: str, current_admin: AdminUser = De
             "progress_percentage": p.progress_percentage,
             "quiz_scores": p.quiz_scores,
             "coding_scores": p.coding_scores,
-            "last_activity": p.updated_at.isoformat() if p.updated_at else None,
+            "last_activity": p.updated_at,
         })
+        ensure_utc_isoformat(course_details[-1], ["last_activity"])
 
     # --- Quiz detail (resolve quiz names from courses) ---
     quiz_map = {}
@@ -235,7 +237,7 @@ async def progress_student_detail(student_id: str, current_admin: AdminUser = De
                 "pasted_chars": log.pasted_chars,
             })
 
-    return {
+    resp = {
         "student": {
             "_id": uid,
             "username": student.username,
@@ -244,7 +246,7 @@ async def progress_student_detail(student_id: str, current_admin: AdminUser = De
             "college": student.college,
             "course": student.course,
             "phone_number": student.phone_number,
-            "created_at": student.created_at.isoformat() if student.created_at else None,
+            "created_at": student.created_at,
         },
         "course_progress": course_details,
         "quiz_results": quiz_results,
@@ -253,3 +255,5 @@ async def progress_student_detail(student_id: str, current_admin: AdminUser = De
         "integrity_warnings": integrity_warnings,
         "high_risk_count": len(high_risk),
     }
+    ensure_utc_isoformat(resp["student"], ["created_at"])
+    return resp

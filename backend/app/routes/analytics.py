@@ -13,6 +13,7 @@ from app.models.all_models import Exam, ExamSubmission, User
 from app.routes.admin_auth import get_current_admin
 from app.models.admin_models import AdminUser
 from app.models.all_models import BehaviorLog
+from app.utils.datetime_utils import ensure_utc_isoformat
 
 router = APIRouter()
 
@@ -44,26 +45,29 @@ async def get_dashboard_overview(current_admin: AdminUser = Depends(get_current_
     users = await User.find({"_id": {"$in": [ObjectId(uid) for uid in user_ids if len(uid) == 24]}}).to_list()
     user_map = {str(u.id): u.username for u in users}
 
+    submissions_data = []
+    for sub in recent_submissions:
+        d = {
+            "id": str(sub.id),
+            "exam_title": sub.exam_title,
+            "user_id": sub.user_id,
+            "student_name": user_map.get(sub.user_id, "Unknown"),
+            "submitted_at": sub.submitted_at,
+            "status": sub.status,
+            "score": sub.score,
+            "anomaly_score": sub.anomaly_score,
+            "risk_level": sub.risk_level
+        }
+        ensure_utc_isoformat(d, ["submitted_at"])
+        submissions_data.append(d)
+
     return {
         "total_exams": total_exams,
         "total_students": total_students,
         "total_submissions": total_submissions,
         "high_risk_submissions": high_risk_submissions,
         "avg_anomaly_score": avg_anomaly_score,
-        "recent_submissions": [
-            {
-                "id": str(sub.id),
-                "exam_title": sub.exam_title,
-                "user_id": sub.user_id,
-                "student_name": user_map.get(sub.user_id, "Unknown"),
-                "submitted_at": sub.submitted_at,
-                "status": sub.status,
-                "score": sub.score,
-                "anomaly_score": sub.anomaly_score,
-                "risk_level": sub.risk_level
-            }
-            for sub in recent_submissions
-        ]
+        "recent_submissions": submissions_data
     }
 
 
@@ -84,7 +88,7 @@ async def get_exam_results(exam_id: str, current_admin: AdminUser = Depends(get_
     for sub in submissions:
         sub_id = str(sub.id)
         behavior = behavior_map.get(sub_id)
-        result_list.append({
+        d = {
             "id": sub_id,
             "user_id": sub.user_id,
             "submitted_at": sub.submitted_at,
@@ -104,7 +108,9 @@ async def get_exam_results(exam_id: str, current_admin: AdminUser = Depends(get_
                 "tab_switch_count": behavior.tab_switch_count,
                 "mouse_click_count": behavior.mouse_click_count,
             } if behavior else None
-        })
+        }
+        ensure_utc_isoformat(d, ["submitted_at"])
+        result_list.append(d)
     
     return {
         "exam_id": exam_id,
@@ -125,17 +131,20 @@ async def get_student_performance(student_id: str, current_admin: AdminUser = De
     
     submissions = await ExamSubmission.find({"user_id": student_id}).to_list()
     
+    history = []
+    for sub in submissions:
+        d = {
+            "exam_title": sub.exam_title,
+            "submitted_at": sub.submitted_at,
+            "score": sub.score,
+            "status": sub.status
+        }
+        ensure_utc_isoformat(d, ["submitted_at"])
+        history.append(d)
+
     return {
         "student_id": student_id,
         "username": student.username,
         "total_exams_attempted": len(submissions),
-        "submissions": [
-            {
-                "exam_title": sub.exam_title,
-                "submitted_at": sub.submitted_at,
-                "score": sub.score,
-                "status": sub.status
-            }
-            for sub in submissions
-        ]
+        "submissions": history
     }

@@ -275,11 +275,12 @@ class ExamService:
         except Exception as e:
             print(f"[AnomalyService] Scoring failed for {submission.id}: {e}")
         
-        return {
+        result = {
             "submission_id": str(submission.id),
             "exam_title": submission.exam_title,
-            "submitted_at": submission.submitted_at.isoformat()
+            "submitted_at": submission.submitted_at
         }
+        return ensure_utc_isoformat(result, ["submitted_at"])
 
     @staticmethod
     async def get_submission(submission_id: str, user_id: Optional[str] = None) -> dict:
