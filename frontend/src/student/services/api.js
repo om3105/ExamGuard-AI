@@ -1,20 +1,11 @@
-import axios from 'axios';
+import { createApiClient } from '../../lib/apiClient';
 
 const API_URL = import.meta.env.VITE_USER_API_URL || 'http://localhost:9000';
 
-const api = axios.create({
+// Shared axios instance with retry + cold-start detection
+const api = createApiClient({
     baseURL: API_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('token');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+    tokenKey: 'token', // student auth token key
 });
 
 export const getExams = async () => {

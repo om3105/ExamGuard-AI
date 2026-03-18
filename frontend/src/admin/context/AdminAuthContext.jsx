@@ -26,8 +26,17 @@ export const AdminAuthProvider = ({ children }) => {
                 const response = await adminAuth.getMe();
                 setAdmin(response.data);
             } catch (error) {
-                localStorage.removeItem('adminToken');
-                setAdmin(null);
+                // Only clear token on genuine auth failures (401/403),
+                // NOT on network errors (server might be cold-starting)
+                if (error.response?.status === 401 || error.response?.status === 403) {
+                    localStorage.removeItem('adminToken');
+                    setAdmin(null);
+                } else {
+                    // Network error or 5xx — server might be waking up.
+                    // Keep the token, let the retry system handle it.
+                    // The user will see the ServerWakingOverlay.
+                    console.warn('[AdminAuth] Token check failed (possible cold start), preserving session:', error.message);
+                }
             }
         }
         setLoading(false);

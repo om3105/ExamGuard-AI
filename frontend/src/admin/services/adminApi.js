@@ -1,22 +1,11 @@
-import axios from 'axios';
+import { createApiClient } from '../../lib/apiClient';
 
 const API_BASE_URL = import.meta.env.VITE_ADMIN_API_URL || 'http://localhost:9000/admin/api';
 
-// Create axios instance with default config
-const api = axios.create({
+// Shared axios instance with retry + cold-start detection
+const api = createApiClient({
     baseURL: API_BASE_URL,
-    headers: {
-        'Content-Type': 'application/json',
-    },
-});
-
-// Add token to requests
-api.interceptors.request.use((config) => {
-    const token = localStorage.getItem('adminToken');
-    if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
+    tokenKey: 'adminToken', // admin auth token key
 });
 
 // Auth endpoints

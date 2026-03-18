@@ -36,6 +36,9 @@ const StudentProgress = React.lazy(() => import('./admin/pages/StudentProgress')
 // --- Shared Styles ---
 import './App.css';
 
+// --- Server Waking Overlay (Render cold start) ---
+import ServerWakingOverlay from './components/ServerWakingOverlay';
+
 // --- Protected Route Wrappers ---
 const UserProtectedRoute = ({ children }) => {
     const { isAuthenticated } = useAuth();
@@ -77,6 +80,8 @@ function App() {
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
                         </div>
                     }>
+                        {/* Global cold-start overlay */}
+                        <ServerWakingOverlay />
                         <Routes>
                         {/* =========================================
                             USER / EXAM ROUTES
