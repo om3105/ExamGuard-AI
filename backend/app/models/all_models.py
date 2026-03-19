@@ -21,7 +21,7 @@ from pymongo import IndexModel, ASCENDING
 class User(Document):
     username: str = Field(..., unique=True)
     email: EmailStr = Field(..., unique=True)
-    password_hash: str
+    password_hash: str = ""
     full_name: Optional[str] = None
     phone_number: Optional[str] = None
     course: Optional[str] = None
@@ -29,6 +29,16 @@ class User(Document):
     is_active: bool = True
     created_at: datetime = Field(default_factory=lambda: datetime.now(IST))
     deleted_at: Optional[datetime] = None
+    # Email verification
+    is_verified: bool = False
+    verification_token: Optional[str] = None
+    verification_token_expiry: Optional[datetime] = None
+    # Password reset
+    reset_token: Optional[str] = None
+    reset_token_expiry: Optional[datetime] = None
+    # OAuth provider
+    auth_provider: str = "local"       # "local" or "google"
+    google_id: Optional[str] = None
     
     class Settings:
         name = "users"
