@@ -82,12 +82,15 @@ async def get_exam_results(exam_id: str, current_admin: AdminUser = Depends(get_
     
     # Fetch all behavior logs for this exam in one query
     behavior_logs = await BehaviorLog.find({"exam_id": exam_id}).to_list()
-    behavior_map = {log.submission_id: log for log in behavior_logs}
+    # Build lookup maps: by submission_id AND by user_id (fallback)
+    behavior_by_submission = {log.submission_id: log for log in behavior_logs if log.submission_id}
+    behavior_by_user = {log.user_id: log for log in behavior_logs}
     
     result_list = []
     for sub in submissions:
         sub_id = str(sub.id)
-        behavior = behavior_map.get(sub_id)
+        # Try submission_id first, then fall back to user_id
+        behavior = behavior_by_submission.get(sub_id) or behavior_by_user.get(sub.user_id)
         d = {
             "id": sub_id,
             "user_id": sub.user_id,
@@ -99,6 +102,8 @@ async def get_exam_results(exam_id: str, current_admin: AdminUser = Depends(get_
             "answers": sub.answers,
             "anomaly_score": sub.anomaly_score,
             "risk_level": sub.risk_level,
+            "risk_factors": sub.risk_factors if hasattr(sub, 'risk_factors') else [],
+            "risk_explanation": sub.risk_explanation if hasattr(sub, 'risk_explanation') else None,
             "behavior": {
                 "keystroke_count": behavior.keystroke_count,
                 "avg_typing_speed": behavior.avg_typing_speed,

@@ -142,6 +142,8 @@ class ExamSubmission(Document):
     coding_score: Optional[float] = 0.0
     anomaly_score: Optional[int] = None    # 0-100 integrity risk score
     risk_level: Optional[str] = None       # LOW, MEDIUM, HIGH
+    risk_factors: List[str] = []            # human-readable score breakdown
+    risk_explanation: Optional[str] = None  # summary explanation for admin
     
     class Settings:
         name = "exam_submissions"
@@ -170,6 +172,7 @@ class BehaviorLog(Document):
     tab_switch_count: int = 0
     mouse_click_count: int = 0
     time_per_question: dict = {}     # {"sIdx-qIdx": milliseconds}
+    events: List[dict] = []          # raw event timeline [{type, timestamp}]
     recorded_at: datetime = Field(default_factory=lambda: datetime.now(IST))
 
     class Settings:

@@ -8,7 +8,7 @@ import { useQuestionStatus } from '../hooks/useQuestionStatus';
 import { useExamNavigation } from '../hooks/useExamNavigation';
 import { useExamSubmission } from '../hooks/useExamSubmission';
 import { useCodeExecution } from '../hooks/useCodeExecution';
-import { useBehaviorLogger } from '../hooks/useBehaviorLogger';
+import { useBehaviorLogger } from '../hooks/useProctoringLogger';
 
 // Components
 import QuestionPalette from '../components/exam/QuestionPalette';
@@ -48,7 +48,7 @@ const ExamPage = () => {
     const { isSubmitting, submitExam, showSubmitModal, setShowSubmitModal } = useExamSubmission(examId, submissionId);
 
     // Behavior Logger (runs silently, captures biometric signals)
-    const { setCurrentQuestion: logQuestionChange, flushFinal } = useBehaviorLogger(examId, null);
+    const { setCurrentQuestion: logQuestionChange, flushFinal } = useBehaviorLogger(examId, submissionId);
 
     // Timer Hook with enhanced warning states
     const {
