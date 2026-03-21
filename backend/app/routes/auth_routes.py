@@ -129,8 +129,15 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             detail="This account has been deactivated. Please contact your administrator.",
         )
 
+    # Block Google-only users from manual login (prevents bcrypt crash on empty hash)
+    if user and user.auth_provider == "google" and not user.password_hash:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="This account uses Google login. Please sign in with Google.",
+        )
+
     # Validate credentials
-    if not user or not verify_password(form_data.password, user.password_hash):
+    if not user or not user.password_hash or not verify_password(form_data.password, user.password_hash):
         logger.warning("Failed login attempt for username: %s", form_data.username)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -138,12 +145,20 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Block unverified users (only for local accounts)
+    # Auto-verify existing users who pre-date the email verification feature
+    # (they have no verification_token → they were created before this feature)
     if user.auth_provider == "local" and not user.is_verified:
-        raise HTTPException(
-            status_code=status.HTTP_403_FORBIDDEN,
-            detail="EMAIL_NOT_VERIFIED",
-        )
+        if user.verification_token is None:
+            # Old user — auto-verify
+            user.is_verified = True
+            await user.save()
+            logger.info("Auto-verified pre-existing user: %s", user.username)
+        else:
+            # New user who hasn't clicked the verification link yet
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="EMAIL_NOT_VERIFIED",
+            )
 
     logger.info("Successful login: %s", user.username)
     access_token = create_access_token(data={"sub": user.username})
