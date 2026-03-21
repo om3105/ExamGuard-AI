@@ -23,9 +23,8 @@ const VerifyEmailPage = () => {
             setStatus('success');
             setMessage(response.data.message);
         } catch (err) {
-            const errorMsg = err.response?.data?.message || err.response?.data?.detail;
-            setMessage(errorMsg || 'Verification failed. The link may be invalid or expired.');
             setStatus('error');
+            setMessage(err.response?.data?.detail || 'Verification failed. The link may be invalid or expired.');
         }
     };
 

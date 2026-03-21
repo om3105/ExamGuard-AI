@@ -47,8 +47,7 @@ const ResetPasswordPage = () => {
             await api.post('/auth/reset-password', { token, new_password: password });
             setSuccess(true);
         } catch (err) {
-            const errorMsg = err.response?.data?.message || err.response?.data?.detail;
-            setError(errorMsg || 'Failed to reset password. The link may be expired.');
+            setError(err.response?.data?.detail || 'Failed to reset password. The link may be expired.');
         } finally {
             setLoading(false);
         }

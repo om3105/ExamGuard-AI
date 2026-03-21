@@ -75,19 +75,17 @@ const LoginPage = () => {
             login(response.data.access_token, username);
             navigate('/dashboard');
         } catch (err) {
-            const errorMsg = err.response?.data?.message || err.response?.data?.detail;
-            
-            if (errorMsg === 'EMAIL_NOT_VERIFIED') {
+            if (err.response?.data?.detail === 'EMAIL_NOT_VERIFIED') {
                 setNotVerified(true);
                 setError('Your email is not verified. Please check your inbox.');
             } else if (err.response?.status === 401 || err.response?.status === 400) {
                 setError('Invalid credentials. Please try again.');
             } else if (err.response?.status === 403) {
-                setError(errorMsg || 'Account access restricted.');
+                setError(err.response?.data?.detail || 'Account access restricted.');
             } else if (!err.response) {
                 setError('Unable to reach the server. Please try again in a moment.');
             } else {
-                setError(errorMsg || 'Something went wrong. Please try again.');
+                setError(err.response?.data?.detail || 'Something went wrong. Please try again.');
             }
         } finally {
             setLoading(false);
