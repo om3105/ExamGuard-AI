@@ -124,10 +124,11 @@ const DashboardPage = () => {
                             <div>
                                 <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Exam Performance</h3>
                                 <p className="text-2xl font-bold text-gray-900 mt-2">
-                                    {exams.filter(e => e.status === 'completed' || e.attempted).length}
+                                    {completedExams.length}
                                     <span className="text-sm font-normal text-gray-400 ml-1">completed</span>
                                 </p>
                             </div>
+
                             <span className="bg-green-100 text-green-700 text-xs font-semibold px-2.5 py-0.5 rounded-full flex items-center gap-1">
                                 <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                                 Score
@@ -143,7 +144,7 @@ const DashboardPage = () => {
                                 <span className="text-xs font-medium text-gray-500">{exams.length} assigned</span>
                             </div>
                             <p className="text-xs text-gray-500 mt-2">
-                                {exams.length > 0 ? `${exams.length} exam${exams.length > 1 ? 's' : ''} available to attempt` : 'No exams assigned yet'}
+                                {assignedExams.length > 0 ? `${assignedExams.length} exam${assignedExams.length > 1 ? 's' : ''} available to attempt` : completedExams.length > 0 ? 'All exams completed!' : 'No exams assigned yet'}
                             </p>
                         </div>
                     </div>
@@ -153,7 +154,7 @@ const DashboardPage = () => {
                         <div className="flex items-start justify-between">
                             <div>
                                 <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Exams</h3>
-                                <p className="text-2xl font-bold text-gray-900 mt-2">{exams.length}</p>
+                                <p className="text-2xl font-bold text-gray-900 mt-2">{assignedExams.length + upcomingExams.length}</p>
                             </div>
                             <span className="bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">View All</span>
                         </div>
