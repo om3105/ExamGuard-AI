@@ -37,10 +37,6 @@ const LoginPage = () => {
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
     const [statusMessage, setStatusMessage] = useState('');
-    const [notVerified, setNotVerified] = useState(false);
-    const [resendEmail, setResendEmail] = useState('');
-    const [resendLoading, setResendLoading] = useState(false);
-    const [resendSent, setResendSent] = useState(false);
     const { login } = useAuth();
     const navigate = useNavigate();
 
@@ -60,7 +56,6 @@ const LoginPage = () => {
         if (loading) return;
         setError('');
         setStatusMessage('');
-        setNotVerified(false);
         setLoading(true);
 
         try {
@@ -75,10 +70,7 @@ const LoginPage = () => {
             login(response.data.access_token, username);
             navigate('/dashboard');
         } catch (err) {
-            if (err.response?.data?.detail === 'EMAIL_NOT_VERIFIED') {
-                setNotVerified(true);
-                setError('Your email is not verified. Please check your inbox.');
-            } else if (err.response?.status === 401 || err.response?.status === 400) {
+            if (err.response?.status === 401 || err.response?.status === 400) {
                 setError('Invalid credentials. Please try again.');
             } else if (err.response?.status === 403) {
                 setError(err.response?.data?.detail || 'Account access restricted.');
@@ -93,19 +85,6 @@ const LoginPage = () => {
         }
     };
 
-    const handleResendVerification = async () => {
-        if (!resendEmail || resendLoading) return;
-        setResendLoading(true);
-        try {
-            await api.post('/auth/resend-verification', { email: resendEmail });
-            setResendSent(true);
-        } catch (err) {
-            // Silent — we show the same message regardless
-            setResendSent(true);
-        } finally {
-            setResendLoading(false);
-        }
-    };
 
     const handleGoogleLogin = async () => {
         try {
@@ -167,37 +146,15 @@ const LoginPage = () => {
 
                     <form onSubmit={handleSubmit} className="mt-8 space-y-6">
                         {error && (
-                            <div className={`border-l-4 p-4 rounded-md ${notVerified ? 'bg-amber-50 border-amber-500' : 'bg-red-50 border-red-500'}`}>
+                            <div className="border-l-4 p-4 rounded-md bg-red-50 border-red-500">
                                 <div className="flex">
                                     <div className="flex-shrink-0">
-                                        <svg className={`h-5 w-5 ${notVerified ? 'text-amber-400' : 'text-red-400'}`} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                        <svg className="h-5 w-5 text-red-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                             <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
                                         </svg>
                                     </div>
                                     <div className="ml-3">
-                                        <p className={`text-sm ${notVerified ? 'text-amber-700' : 'text-red-700'}`}>{error}</p>
-                                        {notVerified && !resendSent && (
-                                            <div className="mt-3 space-y-2">
-                                                <input
-                                                    type="email"
-                                                    value={resendEmail}
-                                                    onChange={(e) => setResendEmail(e.target.value)}
-                                                    placeholder="Enter your email to resend"
-                                                    className="block w-full px-3 py-2 border border-amber-300 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-amber-500 bg-white"
-                                                />
-                                                <button
-                                                    type="button"
-                                                    onClick={handleResendVerification}
-                                                    disabled={resendLoading || !resendEmail}
-                                                    className="text-sm font-medium text-amber-700 hover:text-amber-800 disabled:opacity-50"
-                                                >
-                                                    {resendLoading ? 'Sending…' : 'Resend verification email'}
-                                                </button>
-                                            </div>
-                                        )}
-                                        {resendSent && (
-                                            <p className="mt-2 text-sm text-green-600">Verification email sent! Check your inbox.</p>
-                                        )}
+                                        <p className="text-sm text-red-700">{error}</p>
                                     </div>
                                 </div>
                             </div>

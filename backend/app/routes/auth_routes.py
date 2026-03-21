@@ -24,7 +24,7 @@ from app.core.security import (
     get_password_hash, verify_password, create_access_token, is_strong_password
 )
 from app.core.logging_config import get_logger
-from app.services.email_service import send_verification_email, send_reset_password_email
+from app.services.email_service import send_reset_password_email
 from pymongo.errors import DuplicateKeyError
 
 import httpx
@@ -79,17 +79,12 @@ async def register(user: UserCreate):
             detail="Password must be at least 8 characters long"
         )
 
-    # Generate verification token (URL-safe, 64 chars)
-    verification_token = secrets.token_urlsafe(48)
-
     hashed_password = get_password_hash(user.password)
     new_user = User(
         username=user.username,
         email=user.email,
         password_hash=hashed_password,
-        is_verified=False,
-        verification_token=verification_token,
-        verification_token_expiry=datetime.now(timezone.utc) + timedelta(hours=24),
+        is_verified=True,  # Default to True as per new requirements
     )
 
     try:
@@ -102,14 +97,8 @@ async def register(user: UserCreate):
 
     logger.info("New user registered: %s (%s)", new_user.username, new_user.email)
 
-    # Send verification email (non-blocking — errors logged silently)
-    try:
-        await send_verification_email(new_user.email, verification_token)
-    except Exception as e:
-        logger.error("Failed to send verification email to %s: %s", new_user.email, str(e))
-
     return {
-        "message": "Registration successful! Please check your email to verify your account.",
+        "message": "Registration successful! You can now log in.",
         "email": new_user.email,
     }
 
@@ -145,88 +134,11 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Auto-verify existing users who pre-date the email verification feature
-    # (they have no verification_token → they were created before this feature)
-    if user.auth_provider == "local" and not user.is_verified:
-        if user.verification_token is None:
-            # Old user — auto-verify
-            user.is_verified = True
-            await user.save()
-            logger.info("Auto-verified pre-existing user: %s", user.username)
-        else:
-            # New user who hasn't clicked the verification link yet
-            raise HTTPException(
-                status_code=status.HTTP_403_FORBIDDEN,
-                detail="EMAIL_NOT_VERIFIED",
-            )
 
     logger.info("Successful login: %s", user.username)
     access_token = create_access_token(data={"sub": user.username})
     return {"access_token": access_token, "token_type": "bearer"}
 
-
-# ──────────────────────────────────────────────
-# VERIFY EMAIL
-# ──────────────────────────────────────────────
-
-@router.get("/verify-email")
-async def verify_email(token: str = Query(...)):
-    user = await User.find_one(User.verification_token == token)
-
-    if not user:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Invalid or expired verification link."
-        )
-
-    # Check expiry
-    if user.verification_token_expiry and user.verification_token_expiry < datetime.now(timezone.utc):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Verification link has expired. Please register again."
-        )
-
-    # Already verified
-    if user.is_verified:
-        return {"message": "Email already verified. You can log in."}
-
-    # Verify the user
-    user.is_verified = True
-    user.verification_token = None
-    user.verification_token_expiry = None
-    await user.save()
-
-    logger.info("Email verified for user: %s", user.username)
-    return {"message": "Email verified successfully! You can now log in."}
-
-
-# ──────────────────────────────────────────────
-# RESEND VERIFICATION EMAIL
-# ──────────────────────────────────────────────
-
-@router.post("/resend-verification")
-async def resend_verification(body: ForgotPasswordRequest):
-    user = await User.find_one(User.email == body.email)
-
-    if not user:
-        # Don't reveal whether email exists
-        return {"message": "If an account exists with this email, a verification link has been sent."}
-
-    if user.is_verified:
-        return {"message": "This email is already verified. You can log in."}
-
-    # Generate new token
-    token = secrets.token_urlsafe(48)
-    user.verification_token = token
-    user.verification_token_expiry = datetime.now(timezone.utc) + timedelta(hours=24)
-    await user.save()
-
-    try:
-        await send_verification_email(user.email, token)
-    except Exception as e:
-        logger.error("Failed to resend verification email: %s", str(e))
-
-    return {"message": "If an account exists with this email, a verification link has been sent."}
 
 
 # ──────────────────────────────────────────────

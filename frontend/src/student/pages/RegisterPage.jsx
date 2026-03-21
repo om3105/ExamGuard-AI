@@ -46,11 +46,10 @@ const RegisterPage = () => {
         setLoading(true);
 
         try {
-            const response = await api.post('/auth/register', { username, email, password });
-            setRegisteredEmail(email);
-            setRegistered(true);
+            await api.post('/auth/register', { username, email, password });
+            navigate('/login');
         } catch (err) {
-            setError(err.response?.data?.detail || 'Registration failed. Please check your input.');
+            setError((err.response?.data?.message || err.response?.data?.detail) || 'Registration failed. Please check your input.');
         } finally {
             setLoading(false);
         }
@@ -64,38 +63,6 @@ const RegisterPage = () => {
             setError('Google sign-up is not available at the moment.');
         }
     };
-
-    // Show "Check your email" screen after successful registration
-    if (registered) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-                <div className="max-w-md w-full">
-                    <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-8 text-center">
-                        <div className="w-20 h-20 mx-auto mb-6 rounded-full bg-blue-50 flex items-center justify-center">
-                            <svg className="w-10 h-10 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                            </svg>
-                        </div>
-                        <h2 className="text-2xl font-bold text-gray-900 mb-2">Check Your Email</h2>
-                        <p className="text-gray-500 mb-1">We've sent a verification link to:</p>
-                        <p className="text-blue-600 font-semibold mb-6">{registeredEmail}</p>
-                        <p className="text-sm text-gray-400 mb-6">
-                            Click the link in the email to verify your account. The link expires in 24 hours.
-                        </p>
-                        <Link
-                            to="/login"
-                            className="inline-flex items-center justify-center w-full py-3 px-4 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 transition-colors text-sm"
-                        >
-                            Continue to Sign In
-                        </Link>
-                        <p className="text-xs text-gray-400 mt-4">
-                            Didn't receive the email? Check your spam folder or try registering again.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen flex bg-gray-50">

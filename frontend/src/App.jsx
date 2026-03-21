@@ -12,7 +12,6 @@ const TestCompletedPage = React.lazy(() => import('./student/pages/TestCompleted
 const CourseList = React.lazy(() => import('./student/pages/CourseList'));
 const CourseView = React.lazy(() => import('./student/pages/CourseView'));
 const StudentProfile = React.lazy(() => import('./student/pages/StudentProfile'));
-const VerifyEmailPage = React.lazy(() => import('./student/pages/VerifyEmailPage'));
 const ForgotPasswordPage = React.lazy(() => import('./student/pages/ForgotPasswordPage'));
 const ResetPasswordPage = React.lazy(() => import('./student/pages/ResetPasswordPage'));
 const GoogleCallbackPage = React.lazy(() => import('./student/pages/GoogleCallbackPage'));
@@ -92,7 +91,6 @@ function App() {
                             ========================================= */}
                         <Route path="/login" element={<UserLoginPage />} />
                         <Route path="/register" element={<UserRegisterPage />} />
-                        <Route path="/verify-email" element={<VerifyEmailPage />} />
                         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
                         <Route path="/reset-password" element={<ResetPasswordPage />} />
                         <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />

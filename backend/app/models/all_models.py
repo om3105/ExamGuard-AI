@@ -29,10 +29,8 @@ class User(Document):
     is_active: bool = True
     created_at: datetime = Field(default_factory=lambda: datetime.now(IST))
     deleted_at: Optional[datetime] = None
-    # Email verification
-    is_verified: bool = False
-    verification_token: Optional[str] = None
-    verification_token_expiry: Optional[datetime] = None
+    # Email verification (kept for backward compatibility, defaults to True)
+    is_verified: bool = True
     # Password reset
     reset_token: Optional[str] = None
     reset_token_expiry: Optional[datetime] = None
