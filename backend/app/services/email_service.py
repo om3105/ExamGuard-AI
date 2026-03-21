@@ -25,8 +25,13 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 async def _send_email(to: str, subject: str, html_body: str):
     """Send an email via Gmail SMTP (async, non-blocking)."""
     if not EMAIL_USER or not EMAIL_PASS:
-        logger.warning("Email credentials not configured — skipping email to %s", to)
-        return
+        logger.error(
+            "EMAIL NOT SENT — EMAIL_USER or EMAIL_PASS is empty in .env! "
+            "Cannot send email to %s. Please configure Gmail credentials.", to
+        )
+        raise RuntimeError(
+            "Email credentials not configured. Set EMAIL_USER and EMAIL_PASS in .env"
+        )
 
     message = MIMEMultipart("alternative")
     message["From"] = f"ExamGuard AI <{EMAIL_USER}>"
@@ -35,6 +40,7 @@ async def _send_email(to: str, subject: str, html_body: str):
     message.attach(MIMEText(html_body, "html"))
 
     try:
+        logger.info("Sending email to %s via %s:%s (user=%s)...", to, EMAIL_HOST, EMAIL_PORT, EMAIL_USER)
         await aiosmtplib.send(
             message,
             hostname=EMAIL_HOST,
@@ -43,9 +49,18 @@ async def _send_email(to: str, subject: str, html_body: str):
             username=EMAIL_USER,
             password=EMAIL_PASS,
         )
-        logger.info("Email sent to %s: %s", to, subject)
+        logger.info("✓ Email sent successfully to %s: %s", to, subject)
+    except aiosmtplib.SMTPAuthenticationError as e:
+        logger.error(
+            "SMTP AUTH FAILED — Gmail rejected credentials. "
+            "Make sure EMAIL_PASS is a Gmail App Password (not your real password). Error: %s", str(e)
+        )
+        raise
+    except aiosmtplib.SMTPException as e:
+        logger.error("SMTP error sending to %s: %s", to, str(e))
+        raise
     except Exception as e:
-        logger.error("Failed to send email to %s: %s", to, str(e))
+        logger.error("Unexpected error sending email to %s: %s", to, str(e))
         raise
 
 
