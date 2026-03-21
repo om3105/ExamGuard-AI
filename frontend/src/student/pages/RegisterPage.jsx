@@ -50,7 +50,8 @@ const RegisterPage = () => {
             setRegisteredEmail(email);
             setRegistered(true);
         } catch (err) {
-            setError(err.response?.data?.detail || 'Registration failed. Please check your input.');
+            const errorMsg = err.response?.data?.message || err.response?.data?.detail;
+            setError(errorMsg || 'Registration failed. Please check your input.');
         } finally {
             setLoading(false);
         }

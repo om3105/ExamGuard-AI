@@ -18,7 +18,8 @@ const ForgotPasswordPage = () => {
             const response = await api.post('/auth/forgot-password', { email });
             setSent(true);
         } catch (err) {
-            setError(err.response?.data?.detail || 'Something went wrong. Please try again.');
+            const errorMsg = err.response?.data?.message || err.response?.data?.detail;
+            setError(errorMsg || 'Something went wrong. Please try again.');
         } finally {
             setLoading(false);
         }
