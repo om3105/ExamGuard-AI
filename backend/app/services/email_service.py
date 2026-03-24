@@ -8,63 +8,57 @@ Requires environment variables:
   FRONTEND_URL — Frontend URL for verification/reset links
 """
 import os
-import aiosmtplib
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
+import httpx
 from app.core.logging_config import get_logger
 
 logger = get_logger("email")
 
-EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
-EMAIL_USER = os.getenv("EMAIL_USER", "")
-EMAIL_PASS = os.getenv("EMAIL_PASS", "")
+RESEND_API_KEY = os.getenv("RESEND_API_KEY", "")
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "onboarding@resend.dev")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
 
 
 async def _send_email(to: str, subject: str, html_body: str):
-    """Send an email via Gmail SMTP (async, non-blocking)."""
-    if not EMAIL_USER or not EMAIL_PASS:
+    """Send an email via Resend API (async, non-blocking HTTP)."""
+    if not RESEND_API_KEY:
         logger.error(
-            "EMAIL NOT SENT — EMAIL_USER or EMAIL_PASS is empty in .env! "
-            "Cannot send email to %s. Please configure Gmail credentials.", to
+            "EMAIL NOT SENT — RESEND_API_KEY is empty in .env! "
+            "Cannot send email to %s. Please configure Resend credentials.", to
         )
         raise RuntimeError(
-            "Email credentials not configured. Set EMAIL_USER and EMAIL_PASS in .env"
+            "Email credentials not configured. Set RESEND_API_KEY in .env"
         )
 
-    message = MIMEMultipart("alternative")
-    message["From"] = f"ExamGuard AI <{EMAIL_USER}>"
-    message["To"] = to
-    message["Subject"] = subject
-    message.attach(MIMEText(html_body, "html"))
+    headers = {
+        "Authorization": f"Bearer {RESEND_API_KEY}",
+        "Content-Type": "application/json"
+    }
+
+    payload = {
+        "from": f"ExamGuard AI <{RESEND_FROM_EMAIL}>",
+        "to": [to],
+        "subject": subject,
+        "html": html_body
+    }
 
     try:
-        use_tls_flag = (EMAIL_PORT == 465)
-        start_tls_flag = (EMAIL_PORT == 587)
-        
-        logger.info("Sending email to %s via %s:%s (user=%s, tls=%s, starttls=%s)...", to, EMAIL_HOST, EMAIL_PORT, EMAIL_USER, use_tls_flag, start_tls_flag)
-        await aiosmtplib.send(
-            message,
-            hostname=EMAIL_HOST,
-            port=EMAIL_PORT,
-            use_tls=use_tls_flag,
-            start_tls=start_tls_flag,
-            username=EMAIL_USER,
-            password=EMAIL_PASS,
-        )
-        logger.info("✓ Email sent successfully to %s: %s", to, subject)
-    except aiosmtplib.SMTPAuthenticationError as e:
-        logger.error(
-            "SMTP AUTH FAILED — Gmail rejected credentials. "
-            "Make sure EMAIL_PASS is a Gmail App Password (not your real password). Error: %s", str(e)
-        )
-        raise
-    except aiosmtplib.SMTPException as e:
-        logger.error("SMTP error sending to %s: %s", to, str(e))
-        raise
+        logger.info("Sending email to %s via Resend API...", to)
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                "https://api.resend.com/emails",
+                json=payload,
+                headers=headers,
+                timeout=15.0
+            )
+
+        if response.status_code in (200, 201):
+            logger.info("✓ Email sent successfully to %s: %s", to, subject)
+        else:
+            logger.error("Resend API rejected the email request: %s", response.text)
+            raise Exception(f"Failed to send email via Resend: {response.text}")
+            
     except Exception as e:
-        logger.error("Unexpected error sending email to %s: %s", to, str(e))
+        logger.error("Unexpected error sending email via Resend to %s: %s", to, str(e))
         raise
 
 
