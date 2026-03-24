@@ -40,12 +40,16 @@ async def _send_email(to: str, subject: str, html_body: str):
     message.attach(MIMEText(html_body, "html"))
 
     try:
-        logger.info("Sending email to %s via %s:%s (user=%s)...", to, EMAIL_HOST, EMAIL_PORT, EMAIL_USER)
+        use_tls_flag = (EMAIL_PORT == 465)
+        start_tls_flag = (EMAIL_PORT == 587)
+        
+        logger.info("Sending email to %s via %s:%s (user=%s, tls=%s, starttls=%s)...", to, EMAIL_HOST, EMAIL_PORT, EMAIL_USER, use_tls_flag, start_tls_flag)
         await aiosmtplib.send(
             message,
             hostname=EMAIL_HOST,
             port=EMAIL_PORT,
-            start_tls=True,
+            use_tls=use_tls_flag,
+            start_tls=start_tls_flag,
             username=EMAIL_USER,
             password=EMAIL_PASS,
         )
