@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { enrollmentAPI, studentAPI, courseAPI } from '../services/adminApi';
+import { enrollmentAPI, studentAPI, courseAPI } from '../../services/adminApi';
 import { CheckCircle, XCircle, Clock, Search, UserPlus, BookOpen } from 'lucide-react';
 
 const CourseRequests = () => {

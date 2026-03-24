@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import adminApi from '../services/adminApi';
+import adminApi from '../../services/adminApi';
 import {
     Activity, ShieldAlert, AlertTriangle, XCircle, Search, RefreshCw,
     Eye, Keyboard, MousePointerClick, Clock, UserCheck, Users, Copy,
     ArrowDownRight, Monitor, ChevronDown, ChevronUp, Info
 } from 'lucide-react';
-import Modal from '../components/Modal';
+import Modal from '../../components/Modal';
 
 const monitoringAPI = {
     getLiveSessions: () => adminApi.get('/monitoring/live'),

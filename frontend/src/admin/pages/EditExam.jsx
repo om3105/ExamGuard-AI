@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { examAPI } from '../services/adminApi';
+import { examAPI } from '../../services/adminApi';
 import { ArrowLeft, Plus, Trash2, AlertTriangle, Save, Eye } from 'lucide-react';
 
 const EditExam = () => {

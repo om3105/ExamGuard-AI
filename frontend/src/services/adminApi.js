@@ -1,6 +1,6 @@
-import { createApiClient } from '../../lib/apiClient';
+import { createApiClient } from './apiClient';
 
-const API_BASE_URL = import.meta.env.VITE_ADMIN_API_URL || 'http://localhost:9000/admin/api';
+const API_BASE_URL = import.meta.env.VITE_ADMIN_API_URL || 'http://localhost:8000/admin/api';
 
 // Shared axios instance with retry + cold-start detection
 const api = createApiClient({

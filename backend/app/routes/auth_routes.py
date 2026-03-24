@@ -134,26 +134,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 
 
 
-# ──────────────────────────────────────────────
-# DIAGNOSTIC TEST ENDPOINT
-# ──────────────────────────────────────────────
-
-@router.get("/test-email")
-async def test_email_endpoint():
-    """Temporary endpoint to forcefully expose exact SMTP errors from Render's environment."""
-    user_email = "omdeo3105@gmail.com"
-    try:
-        await send_reset_password_email(user_email, "diagnostic-test-token")
-        return {"status": "SUCCESS", "message": f"Render successfully sent an email to {user_email}!"}
-    except Exception as e:
-        logger.error(f"Render SMTP Diagnostic Failed: {str(e)}")
-        import traceback
-        return {
-            "status": "FAILED", 
-            "error_message": str(e),
-            "traceback": traceback.format_exc(),
-            "hint": "Render is throwing this error when connecting to Gmail. Check your Render App Password!"
-        }
 
 # ──────────────────────────────────────────────
 # FORGOT PASSWORD

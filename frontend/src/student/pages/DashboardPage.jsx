@@ -14,7 +14,7 @@ const DashboardPage = () => {
     React.useEffect(() => {
         const fetchData = async () => {
             try {
-                const { getExams, getCourses } = await import('../services/api');
+                const { getExams, getCourses } = await import('../../services/api');
                 const [examData, courseData] = await Promise.all([getExams(), getCourses()]);
                 setExams(examData);
                 setCourses(courseData);

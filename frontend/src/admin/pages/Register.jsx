@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
-import { adminAuth } from '../services/adminApi';
+import { adminAuth } from '../../services/adminApi';
 import { Lock, User, Shield, Mail, ArrowRight } from 'lucide-react';
 const logo = '/logo.png';
 

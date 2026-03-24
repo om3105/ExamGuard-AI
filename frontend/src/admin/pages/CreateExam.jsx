@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { examAPI } from '../services/adminApi';
+import { examAPI } from '../../services/adminApi';
 import { ArrowLeft, Plus, Trash2 } from 'lucide-react';
 
 const CreateExam = () => {

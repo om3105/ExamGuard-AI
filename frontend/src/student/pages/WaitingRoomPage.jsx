@@ -13,7 +13,7 @@ const WaitingRoomPage = () => {
     useEffect(() => {
         const fetchExamDetails = async () => {
             try {
-                const { getExamById } = await import('../services/api');
+                const { getExamById } = await import('../../services/api');
                 const data = await getExamById(examId);
                 setExam(data);
             } catch (error) {
@@ -57,7 +57,7 @@ const WaitingRoomPage = () => {
     const handleEnterExam = async () => {
         setStarting(true);
         try {
-            const { startExam } = await import('../services/api');
+            const { startExam } = await import('../../services/api');
             const data = await startExam(examId);
             navigate(`/exam/${examId}`, { state: { submissionId: data.submission_id } });
         } catch (error) {

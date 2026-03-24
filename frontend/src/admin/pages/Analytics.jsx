@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { analyticsAPI, examAPI } from '../services/adminApi';
+import { analyticsAPI, examAPI } from '../../services/adminApi';
 import { BarChart3, TrendingUp, Users, FileText, AlertTriangle, ShieldAlert, Activity } from 'lucide-react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from 'recharts';
 

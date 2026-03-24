@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { examAPI } from '../services/adminApi';
+import { examAPI } from '../../services/adminApi';
 import { ArrowLeft, Clock, Award, BookOpen, CheckCircle, Code } from 'lucide-react';
 
 const PreviewExam = () => {

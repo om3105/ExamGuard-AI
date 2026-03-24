@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { adminAuth } from '../services/adminApi';
+import { adminAuth } from '../../services/adminApi';
 import { UserPlus, Save, Shield, CheckCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

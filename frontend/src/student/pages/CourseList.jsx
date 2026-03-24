@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import { getCourses, requestEnrollment } from '../services/api';
+import { getCourses, requestEnrollment } from '../../services/api';
 import { BookOpen, Search, PlayCircle, LogOut, Clock, XCircle } from 'lucide-react';
 
 const CourseList = () => {

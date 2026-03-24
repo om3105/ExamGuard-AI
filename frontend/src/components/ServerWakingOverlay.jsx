@@ -7,7 +7,7 @@
  */
 
 import React, { useState, useEffect } from 'react';
-import serverStatus from '../lib/serverStatus';
+import serverStatus from '../services/serverStatus';
 
 const ServerWakingOverlay = () => {
   const [status, setStatus] = useState({

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import api from '../../services/api';
 import { useNavigate, Link } from 'react-router-dom';
-import serverStatus from '../../lib/serverStatus';
+import serverStatus from '../../services/serverStatus';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000';
 
 const EyeIcon = ({ visible, onClick }) => (
     <button type="button" onClick={onClick} tabIndex={-1} className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors">

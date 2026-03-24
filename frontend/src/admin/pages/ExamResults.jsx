@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { analyticsAPI } from '../services/adminApi';
+import { analyticsAPI } from '../../services/adminApi';
 import { ArrowLeft, Search, FileText, Users, ChevronDown, ChevronUp, ShieldCheck, ShieldAlert, ShieldOff, Info, AlertTriangle, Eye, Clipboard } from 'lucide-react';
 
 const RiskBadge = ({ level }) => {

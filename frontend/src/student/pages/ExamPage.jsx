@@ -1,20 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useLocation } from 'react-router-dom';
-import { getExamById } from '../services/api';
+import { getExamById } from '../../services/api';
 
 // Hooks
-import { useExamTimer } from '../hooks/useExamTimer';
-import { useQuestionStatus } from '../hooks/useQuestionStatus';
-import { useExamNavigation } from '../hooks/useExamNavigation';
-import { useExamSubmission } from '../hooks/useExamSubmission';
-import { useCodeExecution } from '../hooks/useCodeExecution';
-import { useBehaviorLogger } from '../hooks/useProctoringLogger';
+import { useExamTimer } from '../../hooks/useExamTimer';
+import { useQuestionStatus } from '../../hooks/useQuestionStatus';
+import { useExamNavigation } from '../../hooks/useExamNavigation';
+import { useExamSubmission } from '../../hooks/useExamSubmission';
+import { useCodeExecution } from '../../hooks/useCodeExecution';
+import { useBehaviorLogger } from '../../hooks/useProctoringLogger';
 
 // Components
-import QuestionPalette from '../components/exam/QuestionPalette';
-import StatusLegend from '../components/exam/StatusLegend';
-import ActionButtons from '../components/exam/ActionButtons';
-import CodeEditor from '../components/exam/CodeEditor';
+import QuestionPalette from '../../components/student/exam/QuestionPalette';
+import StatusLegend from '../../components/student/exam/StatusLegend';
+import ActionButtons from '../../components/student/exam/ActionButtons';
+import CodeEditor from '../../components/student/exam/CodeEditor';
 
 const ExamPage = () => {
     const { examId } = useParams();
@@ -152,7 +152,7 @@ const ExamPage = () => {
             // We attempt to reconnect to an active session.
             if (!submissionId) {
                 try {
-                    const { startExam } = await import('../services/api');
+                    const { startExam } = await import('../../services/api');
                     const data = await startExam(examId);
                     setSubmissionId(data.submission_id);
                     fetchExam(); // Fetch the exam content once we hold a valid session
@@ -175,7 +175,7 @@ const ExamPage = () => {
 
         const checkStatus = setInterval(async () => {
             try {
-                const { getSubmissionDetails } = await import('../services/api');
+                const { getSubmissionDetails } = await import('../../services/api');
                 const current = await getSubmissionDetails(submissionId);
                 if (current.status === 'TERMINATED') {
                     clearInterval(checkStatus);

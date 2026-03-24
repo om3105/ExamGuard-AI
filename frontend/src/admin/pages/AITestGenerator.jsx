@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { aiTestAPI } from '../services/adminApi';
+import { aiTestAPI } from '../../services/adminApi';
 import {
     Send, Loader2, ChevronDown, ChevronUp, Trash2,
     Save, Edit3, Check, X, Clock, BookOpen, Code,

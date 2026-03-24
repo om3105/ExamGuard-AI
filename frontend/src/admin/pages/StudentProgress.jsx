@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { progressAPI } from '../services/adminApi';
+import { progressAPI } from '../../services/adminApi';
 import {
     Users, BookOpen, Award, TrendingUp, Code, Search, ChevronDown, ChevronUp,
     AlertTriangle, Clock, ArrowLeft, BarChart3, X

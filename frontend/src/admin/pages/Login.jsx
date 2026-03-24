@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAdminAuth } from '../context/AdminAuthContext';
 import { Lock, User, Shield } from 'lucide-react';
-import serverStatus from '../../lib/serverStatus';
+import serverStatus from '../../services/serverStatus';
 
 const logo = '/logo.png';
 

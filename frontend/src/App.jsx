@@ -18,7 +18,7 @@ const GoogleCallbackPage = React.lazy(() => import('./student/pages/GoogleCallba
 
 // --- Admin Imports ---
 import { AdminAuthProvider, useAdminAuth } from './admin/context/AdminAuthContext';
-import AdminSidebar from './admin/components/Sidebar';
+import AdminSidebar from './components/admin/Sidebar';
 const AdminLogin = React.lazy(() => import('./admin/pages/Login'));
 const AdminRegister = React.lazy(() => import('./admin/pages/Register'));
 const AdminDashboard = React.lazy(() => import('./admin/pages/Dashboard'));

@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAdminAuth } from '../context/AdminAuthContext';
+import { useAdminAuth } from '../../admin/context/AdminAuthContext';
 import { LayoutDashboard, FileText, Users, BarChart3, LogOut, Menu, X, UserPlus, BookOpen, Activity, ClipboardCheck, TrendingUp } from 'lucide-react';
 import { useState } from 'react';
 const logo = '/logo.png'; // Import the logo

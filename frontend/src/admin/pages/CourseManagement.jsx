@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { courseAPI } from '../services/adminApi';
+import { courseAPI } from '../../services/adminApi';
 import { BookOpen, Plus, FileVideo, FileText, LayoutList, Trash2, Zap, X, Edit } from 'lucide-react';
 
 const CourseManagement = () => {

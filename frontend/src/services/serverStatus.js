@@ -5,7 +5,7 @@
  * cold-start detection without React dependency.
  *
  * Usage:
- *   import serverStatus from '@/lib/serverStatus';
+ *   import serverStatus from '@/services/serverStatus';
  *   serverStatus.subscribe((waking) => console.log('waking:', waking));
  *   serverStatus.setWaking(true);
  */

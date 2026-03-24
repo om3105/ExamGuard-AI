@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { analyticsAPI, examAPI } from '../services/adminApi';
+import { analyticsAPI, examAPI } from '../../services/adminApi';
 import { FileText, Users, ClipboardCheck, TrendingUp, Calendar, Clock, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

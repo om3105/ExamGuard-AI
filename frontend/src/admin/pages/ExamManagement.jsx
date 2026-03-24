@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { examAPI, studentAPI } from '../services/adminApi';
+import { examAPI, studentAPI } from '../../services/adminApi';
 import { Plus, Edit, Trash2, Eye, Calendar, Clock, FileText, BookOpen, Users, Award, Zap, UserPlus, X, Sparkles } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 

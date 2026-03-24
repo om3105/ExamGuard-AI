@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getCourseById, getCourseProgress, markLessonComplete, submitCourseQuiz, executeCode } from '../services/api';
+import { getCourseById, getCourseProgress, markLessonComplete, submitCourseQuiz, executeCode } from '../../services/api';
 
 // ── Helper: Extract YouTube embed URL ──
 const getYouTubeEmbedUrl = (url) => {

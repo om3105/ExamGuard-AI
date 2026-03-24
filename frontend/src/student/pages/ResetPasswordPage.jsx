@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import api from '../services/api';
+import api from '../../services/api';
 
 const EyeIcon = ({ visible, onClick }) => (
     <button type="button" onClick={onClick} className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 transition-colors">

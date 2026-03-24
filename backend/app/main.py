@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
-from app.db.session import init_db
+from app.core.database import init_db
 from app.core.logging_config import setup_logging, get_logger
 from app.core.error_handlers import register_error_handlers
 import time

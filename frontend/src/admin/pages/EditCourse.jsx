@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { courseAPI } from '../services/adminApi';
+import { courseAPI } from '../../services/adminApi';
 import { ArrowLeft, Plus, Trash2, Save, FileVideo, BookOpen, GripVertical } from 'lucide-react';
 
 const EditCourse = () => {

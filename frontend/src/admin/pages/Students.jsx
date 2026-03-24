@@ -1,8 +1,8 @@
 
 import { useEffect, useState } from 'react';
-import { studentAPI } from '../services/adminApi';
+import { studentAPI } from '../../services/adminApi';
 import { Users, Mail, Calendar, Trash2, UserCheck, Search, Filter, ShieldAlert, CheckCircle, XCircle, FileText, ArrowLeft, RefreshCw, BarChart2, Shield, UserPlus } from 'lucide-react';
-import Modal from '../components/Modal';
+import Modal from '../../components/Modal';
 
 const Students = () => {
     const [students, setStudents] = useState([]);
