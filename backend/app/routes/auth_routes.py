@@ -198,12 +198,17 @@ async def reset_password(body: ResetPasswordRequest):
             detail="Invalid or expired reset link."
         )
 
-    # Check expiry
-    if user.reset_token_expiry and user.reset_token_expiry < datetime.now(timezone.utc):
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="Reset link has expired. Please request a new one."
-        )
+    # Check expiry (safely handle MongoDB naive datetimes)
+    if user.reset_token_expiry:
+        expiry = user.reset_token_expiry
+        if expiry.tzinfo is None:
+            expiry = expiry.replace(tzinfo=timezone.utc)
+            
+        if expiry < datetime.now(timezone.utc):
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Reset link has expired. Please request a new one."
+            )
 
     # Validate new password
     if not is_strong_password(body.new_password):
