@@ -118,13 +118,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
             detail="This account has been deactivated. Please contact your administrator.",
         )
 
-    # Block Google-only users from manual login (prevents bcrypt crash on empty hash)
-    if user and user.auth_provider == "google" and not user.password_hash:
-        raise HTTPException(
-            status_code=status.HTTP_400_BAD_REQUEST,
-            detail="This account uses Google login. Please sign in with Google.",
-        )
-
     # Validate credentials
     if not user or not user.password_hash or not verify_password(form_data.password, user.password_hash):
         logger.warning("Failed login attempt for username: %s", form_data.username)
@@ -154,9 +147,6 @@ async def forgot_password(body: ForgotPasswordRequest):
 
     if not user:
         return {"message": safe_message}
-
-    if user.auth_provider == "google":
-        return {"message": "This account uses Google login. Please sign in with Google."}
 
     # Generate reset token
     token = secrets.token_urlsafe(48)
@@ -304,7 +294,7 @@ async def google_callback(code: str = Query(...)):
         user = User(
             username=username,
             email=google_email,
-            password_hash="",  # No password for Google users
+            password_hash=get_password_hash(secrets.token_urlsafe(32)),  # Assign a secure random password to allow future resets
             full_name=google_name,
             is_verified=True,
             auth_provider="google",
