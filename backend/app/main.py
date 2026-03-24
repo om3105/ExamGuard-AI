@@ -6,6 +6,10 @@ from app.core.logging_config import setup_logging, get_logger
 from app.core.error_handlers import register_error_handlers
 import time
 
+from fastapi.encoders import ENCODERS_BY_TYPE
+from bson import ObjectId
+ENCODERS_BY_TYPE[ObjectId] = str
+
 # Initialize logging first
 setup_logging()
 logger = get_logger("main")
