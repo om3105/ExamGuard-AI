@@ -15,8 +15,8 @@ from app.core.logging_config import get_logger
 
 logger = get_logger("email")
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_PORT = 587
+EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
+EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
 EMAIL_USER = os.getenv("EMAIL_USER", "")
 EMAIL_PASS = os.getenv("EMAIL_PASS", "")
 FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5173")
