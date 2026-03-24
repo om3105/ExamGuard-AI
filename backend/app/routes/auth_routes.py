@@ -14,7 +14,7 @@ import os
 import secrets
 from datetime import datetime, timedelta, timezone
 
-from fastapi import APIRouter, HTTPException, Depends, status, Query
+from fastapi import APIRouter, HTTPException, Depends, status, Query, BackgroundTasks
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, EmailStr
@@ -139,7 +139,7 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends()):
 # ──────────────────────────────────────────────
 
 @router.post("/forgot-password")
-async def forgot_password(body: ForgotPasswordRequest):
+async def forgot_password(body: ForgotPasswordRequest, background_tasks: BackgroundTasks):
     user = await User.find_one(User.email == body.email)
 
     # Always return the same message (prevent user enumeration)
@@ -155,9 +155,9 @@ async def forgot_password(body: ForgotPasswordRequest):
     await user.save()
 
     try:
-        await send_reset_password_email(user.email, token)
+        background_tasks.add_task(send_reset_password_email, user.email, token)
     except Exception as e:
-        logger.error("Failed to send reset email to %s: %s", user.email, str(e))
+        logger.error("Failed to enqueue reset email to %s: %s", user.email, str(e))
 
     logger.info("Password reset requested for: %s", user.email)
     return {"message": safe_message}
