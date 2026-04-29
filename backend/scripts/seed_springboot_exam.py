@@ -2,12 +2,17 @@ import asyncio
 from motor.motor_asyncio import AsyncIOMotorClient
 from bson import ObjectId
 from datetime import datetime, timezone, timedelta
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def oid():
     return str(ObjectId())
 
 async def seed():
-    client = AsyncIOMotorClient("mongodb://localhost:27017")
+    mongo_url = os.getenv("MONGODB_URL", "mongodb://localhost:27017")
+    client = AsyncIOMotorClient(mongo_url)
     db = client["examguard"]
 
     await db.exams.delete_many({"title": "Java Spring Boot"})
