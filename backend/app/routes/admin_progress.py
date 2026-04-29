@@ -17,7 +17,8 @@ router = APIRouter()
 @router.get("/overview")
 async def progress_overview(current_admin: AdminUser = Depends(get_current_admin)) -> Dict:
     """Summary metrics for the progress dashboard."""
-    total_students = await User.find({"deleted_at": None}).count()
+    all_users = await User.find_all().to_list()
+    total_students = len([u for u in all_users if u.deleted_at is None])
     total_courses = await Course.count()
 
     # Course progress aggregation
@@ -56,7 +57,8 @@ async def progress_overview(current_admin: AdminUser = Depends(get_current_admin
 @router.get("/students")
 async def progress_students(current_admin: AdminUser = Depends(get_current_admin)):
     """Student progress table — one row per student with aggregated metrics."""
-    students = await User.find({"deleted_at": None}).to_list()
+    all_users = await User.find_all().to_list()
+    students = [u for u in all_users if u.deleted_at is None]
     all_progress = await CourseProgress.find_all().to_list()
     all_submissions = await ExamSubmission.find_all().to_list()
     all_enrollments = await CourseEnrollment.find({"status": "APPROVED"}).to_list()

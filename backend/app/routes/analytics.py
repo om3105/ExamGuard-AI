@@ -21,7 +21,8 @@ router = APIRouter()
 async def get_dashboard_overview(current_admin: AdminUser = Depends(get_current_admin)) -> Dict:
     """Get dashboard overview statistics"""
     total_exams = await Exam.count()
-    total_students = await User.find({"deleted_at": None}).count()
+    all_users = await User.find_all().to_list()
+    total_students = len([u for u in all_users if u.deleted_at is None])
     total_submissions = await ExamSubmission.count()
     
     # Use targeted queries instead of loading all submissions into memory

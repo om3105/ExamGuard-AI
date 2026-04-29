@@ -315,26 +315,30 @@ async def seed():
                 "questions": [
                     {
                         "id": oid(),
-                        "text": "Write Java code to reverse a string.",
-                        "problem_statement": "Given a string, return the reversed string.",
+                        "text": "Write logic to reverse a string.",
+                        "problem_statement": "Read a string from standard input (stdin) and print the reversed string to standard output (stdout).",
                         "points": 5,
                         "type": "coding",
-                        "constraints": "Length of string between 1 and 100",
+                        "constraints": "String length between 1 and 100.",
                         "test_cases": [
                             {"input": "backend", "output": "dnekcab", "is_hidden": False},
-                            {"input": "SpringBoot", "output": "toobgnirpS", "is_hidden": False}
+                            {"input": "SpringBoot", "output": "toobgnirpS", "is_hidden": False},
+                            {"input": "a", "output": "a", "is_hidden": False}
                         ]
                     },
                     {
                         "id": oid(),
                         "text": "Write SQL query to fetch all employees with salary > 50000.",
-                        "problem_statement": "Write a query to fetch all rows from employees where salary is strictly greater than 50000.",
+                        "problem_statement": "Since the coding runner prioritizes general programming, select the correct query below.",
                         "points": 5,
-                        "type": "coding",
-                        "constraints": "Table name: employees",
-                        "test_cases": [
-                            {"input": "SELECT * FROM employees WHERE salary > 50000", "output": "Expected SQL query matched", "is_hidden": False}
-                        ]
+                        "type": "mcq",
+                        "options": [
+                            {"text": "SELECT * FROM employees WHERE salary > 50000;", "is_correct": True},
+                            {"text": "FETCH ALL FROM employees WHERE salary > 50000;", "is_correct": False},
+                            {"text": "SELECT salary > 50000 FROM employees;", "is_correct": False},
+                            {"text": "GET * FROM employees HAVING salary > 50000;", "is_correct": False}
+                        ],
+                        "correct_option_index": 0
                     }
                 ]
             }
@@ -570,46 +574,55 @@ async def seed():
                     {
                         "id": oid(),
                         "text": "Reverse a String",
-                        "problem_statement": "Write logic to reverse a given string.",
+                        "problem_statement": "Read a string from standard input (stdin) and print the reversed string to standard output (stdout).",
                         "points": 10,
                         "type": "coding",
-                        "constraints": "Input: backend, Output: dnekcab",
+                        "constraints": "Input is a single word.",
                         "test_cases": [
-                            {"input": "backend", "output": "dnekcab", "is_hidden": False}
+                            {"input": "backend", "output": "dnekcab", "is_hidden": False},
+                            {"input": "SpringBoot", "output": "toobgnirpS", "is_hidden": False},
+                            {"input": "code", "output": "edoc", "is_hidden": False}
                         ]
                     },
                     {
                         "id": oid(),
                         "text": "Find Largest of 3 Numbers",
-                        "problem_statement": "Return the largest value among three space-separated numbers.",
+                        "problem_statement": "Read three space-separated integers from stdin, and print the single largest integer.",
                         "points": 10,
                         "type": "coding",
-                        "constraints": "Input: 10, 50, 30, Output: 50",
+                        "constraints": "Example: 10 50 30 -> 50.",
                         "test_cases": [
-                            {"input": "10 50 30", "output": "50", "is_hidden": False}
+                            {"input": "10 50 30", "output": "50", "is_hidden": False},
+                            {"input": "5 9 2", "output": "9", "is_hidden": False},
+                            {"input": "-1 -5 -3", "output": "-1", "is_hidden": False}
                         ]
                     },
                     {
                         "id": oid(),
                         "text": "Count Vowels in String",
-                        "problem_statement": "Count only the vowels in the given string.",
+                        "problem_statement": "Read a string from stdin. Count only the vowels (A, E, I, O, U - case insensitive) and print the final tally.",
                         "points": 10,
                         "type": "coding",
-                        "constraints": "Input: SpringBoot, Output: 3",
+                        "constraints": "Example: SpringBoot -> 3",
                         "test_cases": [
-                            {"input": "SpringBoot", "output": "3", "is_hidden": False}
+                            {"input": "SpringBoot", "output": "3", "is_hidden": False},
+                            {"input": "AEIOU", "output": "5", "is_hidden": False},
+                            {"input": "bcd", "output": "0", "is_hidden": False}
                         ]
                     },
                     {
                         "id": oid(),
-                        "text": "SQL Query",
-                        "problem_statement": "Write query to fetch employees whose salary > 50000.",
+                        "text": "SQL Query to Fetch Employees",
+                        "problem_statement": "Write a query to fetch employees whose salary is greater than 50000.",
                         "points": 10,
-                        "type": "coding",
-                        "constraints": "Output: SELECT * FROM employees WHERE salary > 50000;",
-                        "test_cases": [
-                            {"input": "SELECT * FROM employees WHERE salary > 50000", "output": "Expected SQL query matched", "is_hidden": False}
-                        ]
+                        "type": "mcq",
+                        "options": [
+                            {"text": "SELECT * FROM employees WHERE salary > 50000;", "is_correct": True},
+                            {"text": "FETCH ALL FROM employees WHERE salary > 50000;", "is_correct": False},
+                            {"text": "SELECT salary > 50000 FROM employees;", "is_correct": False},
+                            {"text": "GET * FROM employees HAVING salary > 50000;", "is_correct": False}
+                        ],
+                        "correct_option_index": 0
                     }
                 ]
             }
@@ -618,7 +631,7 @@ async def seed():
 
     await db.exams.insert_one(exam_original)
     await db.exams.insert_one(exam_new)
-    print("✅ Both Java Spring Boot variants seeded successfully!")
+    print("✅ Refactored variants successfully loaded!")
 
 if __name__ == '__main__':
     asyncio.run(seed())

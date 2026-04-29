@@ -62,7 +62,8 @@ async def create_student(payload: CreateStudentPayload, current_admin: AdminUser
 @router.get("/")
 async def list_all_students(current_admin: AdminUser = Depends(get_current_admin)):
     """Get all registered students"""
-    students = await User.find({"deleted_at": None}).to_list()
+    all_users = await User.find_all().to_list()
+    students = [u for u in all_users if u.deleted_at is None]
     return [
         {
             "id": str(student.id),
