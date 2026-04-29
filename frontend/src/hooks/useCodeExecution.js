@@ -37,10 +37,10 @@ export const useCodeExecution = (initialLanguageId = 71) => {
 
         const results = [];
 
-        // If no test cases provided, run the code once with empty input
+        // If no test cases provided, run the code once with empty input, but label it clearly
         const casesToRun = testCases && testCases.length > 0
             ? testCases
-            : [{ input: "", output: "" }];
+            : [{ input: "No test cases configured for this question", output: "Please contact your instructor" }];
 
         for (const testCase of casesToRun) {
             const result = await runTestCase(testCase);
