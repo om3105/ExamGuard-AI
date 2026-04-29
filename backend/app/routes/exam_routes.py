@@ -138,10 +138,13 @@ async def execute_code(
 
                     expected_output = payload.expected_output.strip()
 
-                    # Only mark as passed if strictly matched and no errors (status == 3 Accepted)
+                    # Compare outputs ourselves — Judge0 status 3 = Accepted, 4 = Wrong Answer
+                    # Both mean the code compiled and ran. We do our own comparison.
                     is_passed = False
-                    if status_id == 3 and actual_output == expected_output:
-                        is_passed = True
+                    if status_id in (3, 4):
+                        # Normalize: strip whitespace, compare case-sensitively
+                        if actual_output == expected_output:
+                            is_passed = True
                     # Fallback for empty expected output (e.g. run without tests)
                     elif status_id == 3 and expected_output == "":
                         is_passed = True

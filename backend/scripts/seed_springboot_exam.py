@@ -322,7 +322,7 @@ async def seed():
                         "constraints": "String length between 1 and 100.",
                         "test_cases": [
                             {"input": "backend", "output": "dnekcab", "is_hidden": False},
-                            {"input": "SpringBoot", "output": "toobgnirpS", "is_hidden": False},
+                            {"input": "SpringBoot", "output": "tooBgnirpS", "is_hidden": False},
                             {"input": "a", "output": "a", "is_hidden": False}
                         ]
                     },
@@ -580,7 +580,7 @@ async def seed():
                         "constraints": "Input is a single word.",
                         "test_cases": [
                             {"input": "backend", "output": "dnekcab", "is_hidden": False},
-                            {"input": "SpringBoot", "output": "toobgnirpS", "is_hidden": False},
+                            {"input": "SpringBoot", "output": "tooBgnirpS", "is_hidden": False},
                             {"input": "code", "output": "edoc", "is_hidden": False}
                         ]
                     },
