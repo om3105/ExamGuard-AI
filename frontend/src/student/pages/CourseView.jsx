@@ -148,7 +148,7 @@ const CourseView = () => {
     const [activeModuleIdx, setActiveModuleIdx] = useState(0);
     const [activeLessonIdx, setActiveLessonIdx] = useState(0);
     const [loading, setLoading] = useState(true);
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    const [sidebarOpen, setSidebarOpen] = useState(false);
 
     const fetchData = useCallback(async () => {
         try {
@@ -265,9 +265,17 @@ const CourseView = () => {
                 </div>
             </header>
 
-            <div className="flex flex-1 overflow-hidden">
+            <div className="flex flex-1 overflow-hidden relative">
+                {/* Mobile Backdrop */}
+                {sidebarOpen && (
+                    <div 
+                        className="lg:hidden fixed inset-0 top-14 bg-black/40 z-20" 
+                        onClick={() => setSidebarOpen(false)}
+                    />
+                )}
+                
                 {/* ── Sidebar ── */}
-                <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed lg:static inset-y-14 left-0 z-10 w-80 bg-white border-r border-gray-200 overflow-y-auto transition-transform lg:translate-x-0 shrink-0`}>
+                <aside className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} fixed lg:static inset-y-14 left-0 z-30 w-80 bg-white border-r border-gray-200 overflow-y-auto transition-transform lg:translate-x-0 shrink-0`}>
                     <div className="p-4">
                         <h2 className="text-xs font-bold text-gray-400 uppercase tracking-wider mb-3">Course Content</h2>
                         {course.modules.map((mod, mIdx) => (
@@ -284,7 +292,7 @@ const CourseView = () => {
                                         {mod.lessons.map((lesson, lIdx) => (
                                             <button
                                                 key={lesson.id}
-                                                onClick={() => setActiveLessonIdx(lIdx)}
+                                                onClick={() => { setActiveLessonIdx(lIdx); setSidebarOpen(false); }}
                                                 className={`w-full text-left px-3 py-2 rounded-md text-xs flex items-center gap-2 transition ${lIdx === activeLessonIdx ? 'bg-blue-100 text-blue-800 font-medium' : 'text-gray-600 hover:bg-gray-50'}`}
                                             >
                                                 {isLessonComplete(lesson.id) ? (
