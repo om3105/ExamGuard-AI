@@ -65,7 +65,7 @@ const AdminDashboardLayout = ({ children }) => {
     return (
         <div className="flex min-h-screen bg-gray-50">
             <AdminSidebar />
-            <div className="flex-1 lg:ml-64">
+            <div className="flex-1 lg:ml-64 w-full pt-20 lg:pt-0 min-w-0">
                 {children}
             </div>
         </div>
