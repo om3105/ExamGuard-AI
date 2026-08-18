@@ -103,7 +103,7 @@ const ExamResults = () => {
             </div>
 
             {/* Summary Cards */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-8">
                 <div className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm flex items-center gap-3">
                     <Users className="w-8 h-8 text-blue-500 bg-blue-50 p-1.5 rounded-lg" />
                     <div><p className="text-xs text-gray-500">Submissions</p><p className="text-xl font-bold">{results.total_submissions}</p></div>
@@ -123,7 +123,7 @@ const ExamResults = () => {
             </div>
 
             {/* Filters */}
-            <div className="flex flex-wrap gap-3 mb-6">
+            <div className="flex flex-col sm:flex-row flex-wrap gap-3 mb-6">
                 <div className="relative flex-1 min-w-[200px] max-w-md">
                     <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
                     <input

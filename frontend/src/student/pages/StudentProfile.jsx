@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { getStudentProfile, updateStudentProfile } from '../../services/api';
+import StudentNavbar from '../../components/student/StudentNavbar';
 
 const StudentProfile = () => {
     const { username, logout } = useAuth();
@@ -99,39 +100,12 @@ const StudentProfile = () => {
         <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
             
             {/* ─── Premium Navbar ─── */}
-            <nav className="bg-white/80 backdrop-blur-xl border-b border-gray-200/60 shadow-sm sticky top-0 z-50">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/dashboard')}>
-                                <img src="/logo.png" alt="ExamGuard Logo" className="w-12 h-12 object-contain hidden md:block" />
-                                <span className="font-bold text-xl tracking-tight text-gray-800">ExamGuard <span className="text-blue-600">Global</span></span>
-                            </div>
-                            <div className="hidden md:flex gap-1 border-l pl-6 border-gray-200/60 h-8 items-center">
-                                <button onClick={() => navigate('/dashboard')} className="px-3 py-1.5 text-sm text-gray-500 hover:text-blue-600 hover:bg-blue-50 font-medium transition-all rounded-lg">Dashboard</button>
-                                <button onClick={() => navigate('/courses')} className="px-3 py-1.5 text-sm text-gray-500 hover:text-blue-600 hover:bg-blue-50 font-medium transition-all rounded-lg">Learning Hub</button>
-                                <button onClick={() => navigate('/profile')} className="px-3 py-1.5 text-sm text-blue-600 bg-blue-50 font-semibold rounded-lg">Profile</button>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-3">
-                            <div className="hidden md:flex flex-col items-end mr-1">
-                                <span className="text-sm font-semibold text-gray-700">{displayName}</span>
-                                <span className="text-[11px] text-gray-400 font-medium">Student</span>
-                            </div>
-                            <div
-                                onClick={() => navigate('/profile')}
-                                className="h-10 w-10 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold text-sm border-2 border-white shadow-sm cursor-pointer hover:shadow-md hover:scale-105 transition-all"
-                                title="View Profile"
-                            >
-                                {initials}
-                            </div>
-                            <button onClick={handleLogout} className="ml-1 px-3 py-1.5 text-xs text-gray-400 hover:text-red-500 font-medium transition-colors rounded-lg hover:bg-red-50">
-                                Sign Out
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <StudentNavbar
+                username={displayName}
+                onLogout={handleLogout}
+                avatarLabel={initials}
+                avatarStyle="bg-blue-600 text-white"
+            />
 
             {/* ─── Hero Banner ─── */}
             <div className="relative overflow-hidden">
@@ -173,7 +147,7 @@ const StudentProfile = () => {
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
 
                     {/* ─── Profile Header ─── */}
-                    <div className="relative bg-gray-50 px-8 py-8 border-b border-gray-100">
+                    <div className="relative bg-gray-50 px-4 py-6 sm:px-8 sm:py-8 border-b border-gray-100">
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
                             {/* Avatar */}
                             <div className="relative group">
@@ -215,7 +189,7 @@ const StudentProfile = () => {
 
                     {/* ─── Content Body ─── */}
                     {!isEditing ? (
-                        <div className="p-8">
+                        <div className="p-4 sm:p-8">
                             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                                 {/* Personal Information */}
                                 <div>
@@ -271,7 +245,7 @@ const StudentProfile = () => {
                         </div>
                     ) : (
                         /* ─── Edit Mode ─── */
-                        <form onSubmit={handleSave} className="p-8">
+                        <form onSubmit={handleSave} className="p-4 sm:p-8">
                             <div className="flex items-center justify-between mb-8">
                                 <div>
                                     <h3 className="text-lg font-bold text-gray-900">Edit Profile</h3>

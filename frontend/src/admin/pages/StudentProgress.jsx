@@ -323,7 +323,7 @@ const StudentProgress = () => {
                                 <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2"><AlertTriangle className="w-5 h-5" /> Integrity Warnings</h3>
                                 <div className="space-y-2">
                                     {studentDetail.integrity_warnings.map((w, i) => (
-                                        <div key={i} className="flex items-center gap-4 bg-white rounded-lg px-4 py-3 border border-red-100">
+                                        <div key={i} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 bg-white rounded-lg px-4 py-3 border border-red-100">
                                             <span className="text-sm text-gray-700">Exam: <span className="font-mono font-medium">{w.exam_id.slice(-6)}</span></span>
                                             <span className="text-sm text-red-600 font-medium">{w.tab_switches} tab switches</span>
                                             <span className="text-sm text-red-600 font-medium">{w.paste_count} pastes ({w.pasted_chars} chars)</span>
@@ -351,7 +351,7 @@ const StudentProgress = () => {
 
             {/* Metrics Strip */}
             {overview && (
-                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 sm:gap-4 mb-8">
                     {[
                         { label: 'Total Students', value: overview.total_students, icon: Users, color: 'text-blue-600 bg-blue-50' },
                         { label: 'Active Courses', value: overview.total_courses, icon: BookOpen, color: 'text-blue-600 bg-blue-50' },
@@ -410,7 +410,7 @@ const StudentProgress = () => {
                                 ].map(col => (
                                     <th key={col.key}
                                         onClick={() => toggleSort(col.key)}
-                                        className="text-left py-3.5 px-4 font-semibold text-gray-600 cursor-pointer select-none hover:bg-gray-100 transition-colors">
+                                        className="text-left py-3.5 px-4 font-semibold text-gray-600 whitespace-nowrap cursor-pointer select-none hover:bg-gray-100 transition-colors">
                                         <div className="flex items-center gap-1">
                                             {col.label} <SortIcon field={col.key} />
                                         </div>
@@ -426,13 +426,13 @@ const StudentProgress = () => {
                                     <tr key={s._id}
                                         onClick={() => openDetail(s)}
                                         className="border-b border-gray-50 hover:bg-blue-50/50 cursor-pointer transition-colors">
-                                        <td className="py-3.5 px-4">
+                                        <td className="py-3.5 px-4 whitespace-nowrap">
                                             <div>
                                                 <p className="font-medium text-gray-900">{s.full_name}</p>
                                                 <p className="text-xs text-gray-400">{s.email}</p>
                                             </div>
                                         </td>
-                                        <td className="py-3.5 px-4">
+                                        <td className="py-3.5 px-4 whitespace-nowrap">
                                             <div className="flex items-center gap-2">
                                                 <div className="w-16 bg-gray-100 rounded-full h-1.5">
                                                     <div className={`h-1.5 rounded-full ${s.course_progress_pct >= 70 ? 'bg-green-500' : s.course_progress_pct >= 40 ? 'bg-amber-500' : 'bg-red-500'}`}
@@ -441,23 +441,23 @@ const StudentProgress = () => {
                                                 <span className="text-xs font-bold text-gray-600">{s.course_progress_pct}%</span>
                                             </div>
                                         </td>
-                                        <td className="py-3.5 px-4">
+                                        <td className="py-3.5 px-4 whitespace-nowrap">
                                             <span className={`font-bold ${s.quiz_avg >= 70 ? 'text-green-600' : s.quiz_avg >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
                                                 {s.quiz_avg > 0 ? `${s.quiz_avg}%` : '-'}
                                             </span>
                                         </td>
-                                        <td className="py-3.5 px-4">
+                                        <td className="py-3.5 px-4 whitespace-nowrap">
                                             <span className={`font-bold ${s.coding_avg >= 70 ? 'text-green-600' : s.coding_avg >= 50 ? 'text-amber-600' : 'text-red-600'}`}>
                                                 {s.coding_avg > 0 ? `${s.coding_avg}%` : '-'}
                                             </span>
                                         </td>
-                                        <td className="py-3.5 px-4 text-gray-700 font-medium">{s.exams_attempted}</td>
-                                        <td className="py-3.5 px-4 text-gray-500 text-xs">
+                                        <td className="py-3.5 px-4 text-gray-700 font-medium whitespace-nowrap">{s.exams_attempted}</td>
+                                        <td className="py-3.5 px-4 text-gray-500 text-xs whitespace-nowrap">
                                             {s.last_activity
                                                 ? new Date(s.last_activity).toLocaleString('en-IN', { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit', hour12: true })
                                                 : '-'}
                                         </td>
-                                        <td className="py-3.5 px-4">{getAlertBadge(s.alerts)}</td>
+                                        <td className="py-3.5 px-4 whitespace-nowrap">{getAlertBadge(s.alerts)}</td>
                                     </tr>
                                 ))
                             )}

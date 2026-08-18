@@ -230,7 +230,7 @@ const AITestGenerator = () => {
 
             {/* Prompt Tab (or no exam generated yet) */}
             {(activeTab === 'prompt' || !generatedExam) && (
-                <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 sm:gap-6">
                     {/* Left Column: Input + Templates */}
                     <div className="lg:col-span-3 space-y-6">
                         {/* Prompt Input Card */}
@@ -306,7 +306,7 @@ const AITestGenerator = () => {
                                                 className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none" />
                                         </div>
                                     </div>
-                                    <div className="grid grid-cols-3 gap-4 mt-4">
+                                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mt-4">
                                         {[
                                             { label: 'Aptitude MCQs', key: 'aptitude_count', max: 30 },
                                             { label: 'Technical MCQs', key: 'technical_count', max: 30 },
@@ -378,7 +378,7 @@ const AITestGenerator = () => {
                                     <h2 className="font-semibold text-gray-800 text-sm">Detected Parameters</h2>
                                 </div>
                                 <div className="p-4">
-                                    <div className="grid grid-cols-2 gap-3">
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                         {[
                                             { label: 'Topic', value: parsedPrompt.topic },
                                             { label: 'Difficulty', value: parsedPrompt.difficulty },
@@ -413,7 +413,7 @@ const AITestGenerator = () => {
             {activeTab === 'preview' && generatedExam && (
                 <div className="space-y-6">
                     {/* Exam Stats Bar */}
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
                         {[
                             { label: 'Total Questions', value: totalQuestions, icon: FileText, color: 'text-blue-600 bg-blue-50' },
                             { label: 'Total Marks', value: generatedExam.total_marks, icon: Award, color: 'text-purple-600 bg-purple-50' },

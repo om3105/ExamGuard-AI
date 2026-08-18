@@ -75,7 +75,7 @@ const Dashboard = () => {
             </div>
 
             {/* Status Cards Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
                 <StatCard
                     title="Total Exams"
                     value={stats?.total_exams || 0}
@@ -112,7 +112,7 @@ const Dashboard = () => {
                 />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
                 {/* Recent Exams Section */}
                 <div className="lg:col-span-2 space-y-6">
                     <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
@@ -131,10 +131,10 @@ const Dashboard = () => {
                                 {recentExams.map((exam) => {
                                     const status = getExamStatus(exam);
                                     return (
-                                        <div key={exam._id} className="p-6 hover:bg-gray-50 transition-colors group">
-                                            <div className="flex justify-between items-start">
-                                                <div>
-                                                    <div className="flex items-center gap-2 mb-1">
+                                        <div key={exam._id} className="p-4 sm:p-6 hover:bg-gray-50 transition-colors group">
+                                            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start gap-3">
+                                                <div className="min-w-0">
+                                                    <div className="flex flex-wrap items-center gap-2 mb-1">
                                                         <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 transition-colors">
                                                             {exam.title}
                                                         </h3>
@@ -145,7 +145,7 @@ const Dashboard = () => {
                                                     <p className="text-sm text-gray-500 mt-1 line-clamp-1">
                                                         {exam.description || 'No description provided'}
                                                     </p>
-                                                    <div className="flex items-center gap-4 mt-3 text-xs text-gray-500">
+                                                    <div className="flex flex-wrap items-center gap-3 sm:gap-4 mt-3 text-xs text-gray-500">
                                                         <div className="flex items-center gap-1">
                                                             <Calendar className="w-3 h-3" />
                                                             <span>
@@ -160,7 +160,7 @@ const Dashboard = () => {
                                                 </div>
                                                 <button
                                                     onClick={() => navigate(`/admin/exams?id=${exam._id}`)}
-                                                    className="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors"
+                                                    className="px-3 py-1.5 text-xs font-medium text-blue-600 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors flex-shrink-0 self-start"
                                                 >
                                                     Details
                                                 </button>

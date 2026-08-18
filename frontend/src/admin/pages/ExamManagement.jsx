@@ -123,7 +123,7 @@ const ExamManagement = () => {
                     <h1 className="text-2xl font-bold text-gray-800">Exam Management</h1>
                     <p className="text-gray-500 mt-1">Create and manage your examination system</p>
                 </div>
-                <div className="flex items-center gap-3">
+                <div className="flex flex-wrap items-center gap-3">
                     <button
                         onClick={() => navigate('/admin/ai-test')}
                         className="flex items-center gap-2 px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 transition-colors shadow-sm font-medium"
@@ -142,7 +142,7 @@ const ExamManagement = () => {
             </div>
 
             {/* Stats Overview */}
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 mb-8">
                 <StatCard
                     title="Total Exams"
                     value={exams.length}
@@ -219,7 +219,7 @@ const ExamManagement = () => {
                                     </div>
                                 </div>
 
-                                <div className="flex items-center gap-2">
+                                <div className="flex flex-wrap items-center gap-2">
                                     <button
                                         onClick={() => handleAssignClick(exam)}
                                         className="p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition-colors border border-gray-200"
@@ -281,7 +281,7 @@ const ExamManagement = () => {
 
             {/* Assignment Modal */}
             {isAssignModalOpen && selectedExam && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+                <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
                         <div className="p-6 border-b border-gray-200 flex justify-between items-center">
                             <h2 className="text-xl font-bold text-gray-900">Assign Exam: {selectedExam.title}</h2>

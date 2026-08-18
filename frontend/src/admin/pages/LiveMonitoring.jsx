@@ -148,7 +148,7 @@ const LiveMonitoring = () => {
             </div>
 
             {/* Stats Row */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 mb-6">
                 {[
                     { label: 'Active Sessions', value: sessions.length, icon: Monitor, color: 'text-blue-600 bg-blue-50' },
                     { label: 'Clean Sessions', value: cleanCount, icon: UserCheck, color: 'text-green-600 bg-green-50' },
@@ -209,7 +209,7 @@ const LiveMonitoring = () => {
             {filteredSessions.length > 0 ? (
                 viewMode === 'cards' ? (
                     /* ── Card View ── */
-                    <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4">
                         {filteredSessions.map((session) => {
                             const isExpanded = expandedSession === session.submission_id;
                             const riskStyle = riskStyles[session.risk_level] || riskStyles.LOW;

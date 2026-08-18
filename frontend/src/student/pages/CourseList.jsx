@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getCourses, requestEnrollment } from '../../services/api';
-import { BookOpen, Search, PlayCircle, LogOut, Clock, XCircle } from 'lucide-react';
+import { BookOpen, Search, PlayCircle, Clock, XCircle } from 'lucide-react';
+import StudentNavbar from '../../components/student/StudentNavbar';
 
 const CourseList = () => {
     const { username, logout } = useAuth();
@@ -100,42 +101,20 @@ const CourseList = () => {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
             {/* Navigation Bar */}
-            <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-30">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/dashboard')}>
-                                <img src="/logo.png" alt="ExamGuard Logo" className="w-12 h-12 object-contain hidden md:block" />
-                                <span className="font-bold text-xl tracking-tight text-gray-800">ExamGuard <span className="text-blue-600">Global</span></span>
-                            </div>
-                            <div className="hidden md:flex gap-6 border-l pl-6 border-gray-200 h-8 items-center">
-                                <button onClick={() => navigate('/dashboard')} className="text-gray-500 hover:text-blue-600 font-medium transition-colors">Dashboard</button>
-                                <button onClick={() => navigate('/courses')} className="text-blue-600 font-bold transition-colors">Learning Hub</button>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <div className="hidden md:flex flex-col items-end mr-2">
-                                <span className="text-sm font-semibold text-gray-700">{username}</span>
-                                <span className="text-xs text-gray-500">Student Profile</span>
-                            </div>
-                            <div onClick={() => navigate('/profile')} className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200 cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all" title="View Profile">
-                                {username?.charAt(0).toUpperCase()}
-                            </div>
-                            <button onClick={handleLogout} className="ml-2 text-sm text-gray-500 hover:text-red-600 transition-colors">
-                                <LogOut className="w-5 h-5" />
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <StudentNavbar
+                username={username}
+                onLogout={handleLogout}
+                avatarLabel={username?.charAt(0).toUpperCase()}
+                avatarStyle="bg-blue-100 text-blue-700 border-blue-200"
+            />
 
             {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
                 {/* Hero Section */}
-                <div className="mb-8 bg-blue-600 rounded-2xl p-8 text-white shadow-sm flex flex-col md:flex-row items-center justify-between">
+                <div className="mb-8 bg-blue-600 rounded-2xl p-5 sm:p-8 text-white shadow-sm flex flex-col md:flex-row items-center justify-between gap-4">
                     <div>
-                        <h1 className="text-3xl font-bold mb-2">Explore the Learning Hub</h1>
-                        <p className="text-blue-100 max-w-lg mb-6">Enhance your skills with our expert-led modules before taking your final certification exams.</p>
+                        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Explore the Learning Hub</h1>
+                        <p className="text-blue-100 max-w-lg mb-4 sm:mb-6 text-sm sm:text-base">Enhance your skills with our expert-led modules before taking your final certification exams.</p>
                         <div className="relative max-w-md">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
                             <input
@@ -161,7 +140,7 @@ const CourseList = () => {
                         <p className="text-gray-500 mt-1">Try adjusting your search query.</p>
                     </div>
                 ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 lg:gap-8">
                         {filteredCourses.map(course => {
                             const cid = course._id || course.id;
                             return (
@@ -202,7 +181,7 @@ const CourseList = () => {
             </main>
 
             <footer className="border-t border-gray-200 bg-white/60 backdrop-blur-sm mt-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-1">
                     <p className="text-[11px] text-gray-400 tracking-wide">© 2026 ExamGuard Global. All rights reserved.</p>
                     <p className="text-[11px] text-gray-400 tracking-wide">Crafted by <span className="font-medium text-gray-500">Om Chandrakant Deo</span></p>
                 </div>

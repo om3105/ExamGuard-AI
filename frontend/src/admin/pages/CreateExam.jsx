@@ -331,7 +331,7 @@ const CreateExam = () => {
                                                                 rows="2"
                                                             />
 
-                                                            <div className="grid grid-cols-2 gap-4 mb-2">
+                                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-2">
                                                                 <select
                                                                     value={question.type}
                                                                     onChange={(e) => updateQuestion(sectionIndex, questionIndex, 'type', e.target.value)}

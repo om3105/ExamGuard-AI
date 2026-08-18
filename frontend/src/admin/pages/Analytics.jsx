@@ -68,7 +68,7 @@ const Analytics = () => {
             </div>
 
             {/* Stat Cards */}
-            <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-4 mb-8">
                 {[
                     { label: 'Total Exams', value: overview?.total_exams || 0, icon: FileText, color: 'text-blue-600 bg-blue-50' },
                     { label: 'Total Students', value: overview?.total_students || 0, icon: Users, color: 'text-emerald-600 bg-emerald-50' },
@@ -89,7 +89,7 @@ const Analytics = () => {
             </div>
 
             {/* Charts */}
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                 {/* Submissions & Avg Score Bar Chart */}
                 <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
                     <h3 className="text-base font-semibold text-gray-800 mb-4">Exam Performance Overview</h3>

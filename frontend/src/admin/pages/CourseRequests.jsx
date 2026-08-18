@@ -81,7 +81,7 @@ const CourseRequests = () => {
 
     return (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">Course Enrollment Requests</h1>
                     <p className="text-sm text-gray-500 mt-1">Manage student enrollment approvals</p>
@@ -156,7 +156,7 @@ const CourseRequests = () => {
             )}
 
             {/* Filter Tabs */}
-            <div className="flex gap-2 mb-4">
+            <div className="flex gap-2 mb-4 overflow-x-auto">
                 {['PENDING', 'APPROVED', 'REJECTED'].map(s => (
                     <button
                         key={s}
@@ -180,7 +180,8 @@ const CourseRequests = () => {
                         No {statusFilter.toLowerCase()} enrollment requests
                     </div>
                 ) : (
-                    <table className="w-full">
+                    <div className="overflow-x-auto">
+                    <table className="w-full min-w-[600px]">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
                                 <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Student</th>
@@ -234,6 +235,7 @@ const CourseRequests = () => {
                             ))}
                         </tbody>
                     </table>
+                    </div>
                 )}
             </div>
         </div>

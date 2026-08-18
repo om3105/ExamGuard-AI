@@ -1,6 +1,7 @@
 import React, { useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import StudentNavbar from '../../components/student/StudentNavbar';
 
 const DashboardPage = () => {
     const { username, logout } = useAuth();
@@ -43,37 +44,12 @@ const DashboardPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 text-gray-900 font-sans">
             {/* Navigation Bar */}
-            <nav className="bg-white border-b border-gray-200 shadow-sm sticky top-0 z-30">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex items-center gap-6">
-                            <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/dashboard')}>
-                                <img src="/logo.png" alt="ExamGuard Logo" className="w-12 h-12 object-contain" />
-                                <span className="font-bold text-xl tracking-tight text-gray-800">ExamGuard <span className="text-blue-600">Global</span></span>
-                            </div>
-                            <div className="hidden md:flex gap-6 border-l pl-6 border-gray-200 h-8 items-center">
-                                <button onClick={() => navigate('/dashboard')} className="text-blue-600 font-bold transition-colors">Dashboard</button>
-                                <button onClick={() => navigate('/courses')} className="text-gray-500 hover:text-blue-600 font-medium transition-colors">Learning Hub</button>
-                            </div>
-                        </div>
-                        <div className="flex items-center gap-4">
-                            <div className="hidden md:flex flex-col items-end mr-2">
-                                <span className="text-sm font-semibold text-gray-700">{username}</span>
-                                <span className="text-xs text-gray-500">Student Account</span>
-                            </div>
-                            <div onClick={() => navigate('/profile')} className="h-10 w-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold border border-blue-200 cursor-pointer hover:ring-2 hover:ring-blue-400 transition-all" title="View Profile">
-                                {username?.charAt(0).toUpperCase()}
-                            </div>
-                            <button
-                                onClick={handleLogout}
-                                className="ml-2 text-sm text-gray-500 hover:text-red-600 transition-colors"
-                            >
-                                Sign Out
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </nav>
+            <StudentNavbar
+                username={username}
+                onLogout={handleLogout}
+                avatarLabel={username?.charAt(0).toUpperCase()}
+                avatarStyle="bg-blue-100 text-blue-700 border-blue-200"
+            />
 
             {/* Main Content */}
             <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -85,7 +61,7 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Status Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
                     {/* Card 1: Learning Progress */}
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between">
                         <div className="flex items-start justify-between">
@@ -174,7 +150,7 @@ const DashboardPage = () => {
                             </h2>
                             <button onClick={() => navigate('/courses')} className="text-sm text-blue-600 hover:text-blue-800 font-medium">View All →</button>
                         </div>
-                        <div className="p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <div className="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                             {approvedCourses.slice(0, 3).map(course => {
                                 const cid = course._id || course.id;
                                 const totalLessons = course.modules?.reduce((a, m) => a + (m.lessons?.length || 0), 0) || 0;
@@ -218,28 +194,28 @@ const DashboardPage = () => {
 
                 {/* Action Area / Empty State */}
                 <section className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                    <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center">
-                        <div className="flex gap-6">
+                    <div className="px-4 sm:px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3">
+                        <div className="flex gap-2 sm:gap-6 overflow-x-auto">
                             <button
                                 onClick={() => setActiveTab('assigned')}
-                                className={`font-semibold pb-4 -mb-4 border-b-2 transition-colors ${activeTab === 'assigned' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                                className={`font-semibold pb-4 -mb-4 border-b-2 transition-colors whitespace-nowrap text-sm sm:text-base ${activeTab === 'assigned' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                             >
                                 Available Now
                             </button>
                             <button
                                 onClick={() => setActiveTab('upcoming')}
-                                className={`font-semibold pb-4 -mb-4 border-b-2 transition-colors ${activeTab === 'upcoming' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                                className={`font-semibold pb-4 -mb-4 border-b-2 transition-colors whitespace-nowrap text-sm sm:text-base ${activeTab === 'upcoming' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                             >
                                 Upcoming
                             </button>
                             <button
                                 onClick={() => setActiveTab('completed')}
-                                className={`font-semibold pb-4 -mb-4 border-b-2 transition-colors ${activeTab === 'completed' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
+                                className={`font-semibold pb-4 -mb-4 border-b-2 transition-colors whitespace-nowrap text-sm sm:text-base ${activeTab === 'completed' ? 'border-blue-600 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'}`}
                             >
                                 Completed
                             </button>
                         </div>
-                        <button onClick={() => window.location.reload()} className="text-sm text-blue-600 hover:text-blue-800 font-medium">Refresh List</button>
+                        <button onClick={() => window.location.reload()} className="text-sm text-blue-600 hover:text-blue-800 font-medium self-end sm:self-auto">Refresh List</button>
                     </div>
 
                     {loading ? (
@@ -275,18 +251,18 @@ const DashboardPage = () => {
                             return (
                                 <div className="divide-y divide-gray-100">
                                     {displayExams.map((exam) => (
-                                        <div key={exam._id} className="p-6 flex items-center justify-between hover:bg-gray-50 transition-colors">
-                                            <div className="flex items-start gap-4">
-                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold ${activeTab === 'completed' ? 'bg-green-100 text-green-600' :
+                                        <div key={exam._id} className="p-4 sm:p-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 hover:bg-gray-50 transition-colors">
+                                            <div className="flex items-start gap-3 sm:gap-4 min-w-0">
+                                                <div className={`w-10 h-10 rounded-lg flex items-center justify-center font-bold flex-shrink-0 ${activeTab === 'completed' ? 'bg-green-100 text-green-600' :
                                                     activeTab === 'upcoming' ? 'bg-amber-100 text-amber-600' :
                                                         'bg-blue-100 text-blue-600'
                                                     }`}>
                                                     {exam.title.charAt(0)}
                                                 </div>
-                                                <div>
-                                                    <h3 className="font-semibold text-gray-900">{exam.title}</h3>
+                                                <div className="min-w-0">
+                                                    <h3 className="font-semibold text-gray-900 truncate">{exam.title}</h3>
                                                     <p className="text-sm text-gray-500 mt-1 line-clamp-1">{exam.description}</p>
-                                                    <div className="flex items-center gap-4 mt-2 text-xs text-gray-400">
+                                                    <div className="flex flex-wrap items-center gap-2 sm:gap-4 mt-2 text-xs text-gray-400">
                                                         <span className="flex items-center gap-1">
                                                             <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                                                             {new Date(activeTab === 'completed' && exam.submitted_at ? exam.submitted_at : exam.start_time).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true })}
@@ -302,21 +278,21 @@ const DashboardPage = () => {
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div className="flex flex-col items-end gap-1.5 flex-shrink-0">
+                                            <div className="flex flex-col items-stretch sm:items-end gap-1.5 flex-shrink-0 sm:ml-4">
                                                 <button
                                                     onClick={() => navigate(`/exam/${exam._id}/waiting-room`)}
                                                     disabled={exam.is_blocked}
-                                                    className={`px-5 py-2 text-white text-sm font-medium rounded-lg shadow-sm transition-colors w-full ${exam.is_blocked
+                                                    className={`px-5 py-2.5 sm:py-2 text-white text-sm font-medium rounded-lg shadow-sm transition-colors w-full sm:w-auto ${exam.is_blocked
                                                         ? 'bg-gray-400 cursor-not-allowed'
                                                         : activeTab === 'upcoming'
-                                                            ? 'bg-blue-600 hover:bg-blue-700' // Still goes to waiting room
+                                                            ? 'bg-blue-600 hover:bg-blue-700'
                                                             : 'bg-green-600 hover:bg-green-700'
                                                         }`}
                                                 >
                                                     {exam.is_blocked ? 'Completed' : activeTab === 'upcoming' ? 'Waiting Room' : 'Start Exam'}
                                                 </button>
                                                 {exam.max_attempts > 0 && (
-                                                    <span className="text-xs text-gray-500 font-medium whitespace-nowrap">
+                                                    <span className="text-xs text-gray-500 font-medium whitespace-nowrap text-center sm:text-right">
                                                         Attempts: {exam.attempt_count || 0} / {exam.max_attempts}
                                                     </span>
                                                 )}
@@ -333,7 +309,7 @@ const DashboardPage = () => {
 
             {/* Footer */}
             <footer className="border-t border-gray-200 bg-white/60 backdrop-blur-sm mt-12">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col sm:flex-row items-center justify-between gap-1">
                     <p className="text-[11px] text-gray-400 tracking-wide">© 2026 ExamGuard Global. All rights reserved.</p>
                     <p className="text-[11px] text-gray-400 tracking-wide">Crafted by <span className="font-medium text-gray-500">Om Chandrakant Deo</span></p>
                 </div>
