@@ -125,7 +125,7 @@ const Students = () => {
     if (viewMode === 'profile' && selectedStudent) {
         return (
             <>
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
                     {/* Profile Header */}
                     <div className="mb-6">
                         <button
@@ -136,7 +136,7 @@ const Students = () => {
                         </button>
 
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                            <div className="p-8 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+                            <div className="p-4 sm:p-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                                 <div className="flex items-center gap-6">
                                     <div className="h-24 w-24 rounded-2xl bg-blue-50 flex items-center justify-center text-blue-700 font-bold text-4xl border border-blue-200">
                                         {(selectedStudent.full_name || selectedStudent.username).charAt(0).toUpperCase()}
@@ -185,7 +185,7 @@ const Students = () => {
                             </div>
 
                             {/* ── Student Profile Details ── */}
-                            <div className="px-8 sm:px-10 pb-6 border-t border-gray-100 pt-6">
+                            <div className="px-4 sm:px-8 sm:px-10 pb-6 border-t border-gray-100 pt-6">
                                 <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                                     <Users className="w-4 h-4 text-gray-300" /> Profile Details
                                 </h3>
@@ -249,11 +249,11 @@ const Students = () => {
                                     <table className="min-w-full divide-y divide-gray-200">
                                         <thead className="bg-gray-50">
                                             <tr>
-                                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Exam Title</th>
-                                                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Score</th>
-                                                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Breakdown</th>
-                                                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Integrity</th>
-                                                <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Completed</th>
+                                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Exam Title</th>
+                                                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Score</th>
+                                                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Breakdown</th>
+                                                <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Integrity</th>
+                                                <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Completed</th>
                                             </tr>
                                         </thead>
                                         <tbody className="bg-white divide-y divide-gray-200">
@@ -348,7 +348,7 @@ const Students = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>

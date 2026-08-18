@@ -41,7 +41,7 @@ const CreateAdmin = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-800">Create New Admin</h1>
                 <p className="text-gray-500 mt-1">Add a new administrator to the system.</p>
@@ -53,7 +53,7 @@ const CreateAdmin = () => {
                     <h2 className="font-semibold text-gray-800">Admin Details</h2>
                 </div>
 
-                <div className="p-8">
+                <div className="p-4 sm:p-8">
                     {success && (
                         <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg flex items-center gap-3">
                             <CheckCircle className="w-5 h-5 text-green-600" />

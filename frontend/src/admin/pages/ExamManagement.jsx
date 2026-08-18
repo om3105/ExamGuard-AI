@@ -104,7 +104,7 @@ const ExamManagement = () => {
     }
 
     const StatCard = ({ title, value, icon: Icon, colorClass }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex items-start justify-between">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 flex items-start justify-between">
             <div>
                 <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</p>
                 <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
@@ -116,7 +116,7 @@ const ExamManagement = () => {
     );
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header Section */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
@@ -173,7 +173,7 @@ const ExamManagement = () => {
             <div className="grid gap-6">
                 {exams.length > 0 ? (
                     exams.map((exam) => (
-                        <div key={exam._id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+                        <div key={exam._id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 hover:shadow-md transition-shadow">
                             <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-2">
@@ -283,14 +283,14 @@ const ExamManagement = () => {
             {isAssignModalOpen && selectedExam && (
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
-                        <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+                        <div className="p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center">
                             <h2 className="text-xl font-bold text-gray-900">Assign Exam: {selectedExam.title}</h2>
                             <button onClick={() => setIsAssignModalOpen(false)} className="text-gray-400 hover:text-gray-600">
                                 <X className="w-6 h-6" />
                             </button>
                         </div>
 
-                        <div className="p-6 overflow-y-auto flex-1">
+                        <div className="p-4 sm:p-6 overflow-y-auto flex-1">
                             {assignLoading ? (
                                 <div className="flex justify-center py-8">
                                     <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
@@ -353,7 +353,7 @@ const ExamManagement = () => {
                             )}
                         </div>
 
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3 bg-gray-50">
+                        <div className="p-4 sm:p-6 border-t border-gray-200 flex justify-end gap-3 bg-gray-50">
                             <button
                                 onClick={() => setIsAssignModalOpen(false)}
                                 className="px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 font-medium"

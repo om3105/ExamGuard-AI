@@ -80,7 +80,7 @@ const CourseRequests = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">Course Enrollment Requests</h1>
@@ -97,7 +97,7 @@ const CourseRequests = () => {
 
             {/* Manual Assignment Panel */}
             {showAssign && (
-                <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6 mb-6">
+                <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-4 sm:p-6 mb-6">
                     <h3 className="font-semibold text-gray-800 mb-4 flex items-center gap-2">
                         <BookOpen className="w-5 h-5 text-blue-600" />
                         Manual Student Assignment
@@ -184,19 +184,19 @@ const CourseRequests = () => {
                     <table className="w-full min-w-[600px]">
                         <thead className="bg-gray-50 border-b border-gray-200">
                             <tr>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Student</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Course</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Requested</th>
-                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase">Status</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Student</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Course</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Requested</th>
+                                <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Status</th>
                                 {statusFilter === 'PENDING' && (
-                                    <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase">Actions</th>
+                                    <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase whitespace-nowrap">Actions</th>
                                 )}
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-gray-100">
                             {enrollments.map(e => (
                                 <tr key={e.id} className="hover:bg-gray-50 transition">
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 whitespace-nowrap">
                                         <div className="flex items-center gap-3">
                                             <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-sm">
                                                 {e.student_name?.charAt(0).toUpperCase()}
@@ -204,15 +204,15 @@ const CourseRequests = () => {
                                             <span className="font-medium text-gray-900 text-sm">{e.student_name}</span>
                                         </div>
                                     </td>
-                                    <td className="px-6 py-4 text-sm text-gray-600">{e.course_title}</td>
-                                    <td className="px-6 py-4 text-sm text-gray-500">{new Date(e.requested_at).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</td>
-                                    <td className="px-6 py-4">
+                                    <td className="px-6 py-4 text-sm text-gray-600 whitespace-nowrap">{e.course_title}</td>
+                                    <td className="px-6 py-4 text-sm text-gray-500 whitespace-nowrap">{new Date(e.requested_at).toLocaleDateString('en-IN', { timeZone: 'Asia/Kolkata' })}</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
                                         <span className={`px-2.5 py-1 rounded-full text-xs font-semibold ${statusColors[e.status]}`}>
                                             {e.status}
                                         </span>
                                     </td>
                                     {statusFilter === 'PENDING' && (
-                                        <td className="px-6 py-4 text-right">
+                                        <td className="px-6 py-4 text-right whitespace-nowrap">
                                             <div className="flex gap-2 justify-end">
                                                 <button
                                                     onClick={() => handleApprove(e.id)}

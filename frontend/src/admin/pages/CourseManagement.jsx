@@ -64,10 +64,10 @@ const CourseManagement = () => {
         }
     };
 
-    if (loading) return <div className="p-8 text-center text-gray-500 font-medium animate-pulse">Loading Course Architecture...</div>;
+    if (loading) return <div className="p-4 sm:p-8 text-center text-gray-500 font-medium animate-pulse">Loading Course Architecture...</div>;
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             <div className="flex justify-between items-center mb-8">
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">Learning Platform</h1>
@@ -92,10 +92,10 @@ const CourseManagement = () => {
                 ) : (
                     courses.map(course => (
                         <div key={course._id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group">
-                            <div className="h-32 bg-blue-600 p-6 flex items-end">
+                            <div className="h-32 bg-blue-600 p-4 sm:p-6 flex items-end">
                                 <h3 className="text-xl font-bold text-white">{course.title}</h3>
                             </div>
-                            <div className="p-6">
+                            <div className="p-4 sm:p-6">
                                 <p className="text-sm text-gray-500 mb-4 line-clamp-2">{course.description}</p>
                                 <div className="space-y-2 mb-6">
                                     <div className="flex items-center gap-2 text-sm text-gray-600 font-medium">
@@ -137,12 +137,12 @@ const CourseManagement = () => {
             {isCreateModalOpen && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 w-full max-w-4xl max-h-[90vh] flex flex-col overflow-hidden">
-                        <div className="p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
+                        <div className="p-4 sm:p-6 border-b border-gray-200 flex justify-between items-center bg-gray-50">
                             <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2"><Zap className="text-yellow-500" /> Course Architect</h2>
                             <button onClick={() => setIsCreateModalOpen(false)} className="text-gray-400 hover:text-gray-600"><X className="w-6 h-6" /></button>
                         </div>
 
-                        <div className="flex-1 overflow-y-auto p-6 space-y-8">
+                        <div className="flex-1 overflow-y-auto p-4 sm:p-6 space-y-8">
                             {/* Course Metadata */}
                             <section className="bg-blue-50/50 p-4 rounded-lg border border-blue-100">
                                 <h3 className="text-lg font-bold text-blue-900 mb-4">Core Information</h3>
@@ -255,7 +255,7 @@ const CourseManagement = () => {
                             </section>
                         </div>
 
-                        <div className="p-6 border-t border-gray-200 flex justify-end gap-3 bg-white">
+                        <div className="p-4 sm:p-6 border-t border-gray-200 flex justify-end gap-3 bg-white">
                             <button onClick={() => setIsCreateModalOpen(false)} className="px-5 py-2.5 text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 font-medium">
                                 Cancel
                             </button>

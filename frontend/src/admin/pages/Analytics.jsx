@@ -60,7 +60,7 @@ const Analytics = () => {
     const COLORS = { 'Low Risk': '#10B981', 'Medium Risk': '#F59E0B', 'High Risk': '#EF4444' };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-800">Analytics Dashboard</h1>
@@ -91,7 +91,7 @@ const Analytics = () => {
             {/* Charts */}
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                 {/* Submissions & Avg Score Bar Chart */}
-                <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                     <h3 className="text-base font-semibold text-gray-800 mb-4">Exam Performance Overview</h3>
                     {examChartData.length > 0 ? (
                         <ResponsiveContainer width="100%" height={280}>
@@ -117,7 +117,7 @@ const Analytics = () => {
                 </div>
 
                 {/* Risk Distribution Donut */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                     <h3 className="text-base font-semibold text-gray-800 mb-4">Integrity Risk</h3>
                     {riskData.length > 0 ? (
                         <ResponsiveContainer width="100%" height={280}>
@@ -166,18 +166,18 @@ const Analytics = () => {
                         <table className="min-w-full">
                             <thead className="bg-gray-50/80">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Student</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Exam</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Risk Level</th>
-                                    <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Score</th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Status</th>
-                                    <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Date</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Student</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Exam</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Risk Level</th>
+                                    <th className="px-6 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Score</th>
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Status</th>
+                                    <th className="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider whitespace-nowrap">Date</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {overview.recent_submissions.map((sub) => (
                                     <tr key={sub.id} className="hover:bg-gray-50/50 transition">
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4 whitespace-nowrap">
                                             <div className="flex items-center gap-3">
                                                 <div className="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-700 font-bold text-xs">
                                                     {(sub.student_name || 'U').charAt(0).toUpperCase()}
@@ -185,8 +185,8 @@ const Analytics = () => {
                                                 <span className="text-sm font-medium text-gray-900">{sub.student_name || 'Unknown'}</span>
                                             </div>
                                         </td>
-                                        <td className="px-6 py-4 text-sm text-gray-600 max-w-[200px] truncate">{sub.exam_title}</td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4 text-sm text-gray-600 max-w-[200px] truncate whitespace-nowrap">{sub.exam_title}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold ${sub.risk_level === 'HIGH' ? 'bg-red-50 text-red-700 border border-red-200' :
                                                     sub.risk_level === 'MEDIUM' ? 'bg-amber-50 text-amber-700 border border-amber-200' :
                                                         'bg-emerald-50 text-emerald-700 border border-emerald-200'
@@ -198,15 +198,15 @@ const Analytics = () => {
                                                 <span className="text-[10px] opacity-70">({sub.anomaly_score || 0})</span>
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-center">
+                                        <td className="px-6 py-4 text-center whitespace-nowrap">
                                             <span className="text-sm font-bold text-gray-900">{sub.score !== null ? sub.score : '—'}</span>
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-6 py-4 whitespace-nowrap">
                                             <span className={`text-xs font-medium ${sub.status === 'GRADED' ? 'text-green-600' : sub.status === 'COMPLETED' ? 'text-blue-600' : 'text-gray-500'}`}>
                                                 {sub.status || 'N/A'}
                                             </span>
                                         </td>
-                                        <td className="px-6 py-4 text-right text-sm text-gray-500">
+                                        <td className="px-6 py-4 text-right text-sm text-gray-500 whitespace-nowrap">
                                             {new Date(sub.submitted_at).toLocaleDateString('en-IN', { day: '2-digit', month: 'short', year: 'numeric' })}
                                         </td>
                                     </tr>

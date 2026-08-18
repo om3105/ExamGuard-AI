@@ -124,7 +124,7 @@ const StudentProgress = () => {
     // ─── DETAIL VIEW ───
     if (selectedStudent) {
         return (
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
                 <button onClick={closeDetail} className="flex items-center gap-2 text-gray-600 hover:text-gray-800 font-medium mb-6">
                     <ArrowLeft className="w-5 h-5" /> Back to Progress Dashboard
                 </button>
@@ -136,7 +136,7 @@ const StudentProgress = () => {
                 ) : studentDetail ? (
                     <div className="space-y-6">
                         {/* Student Header */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                             <div className="flex items-center gap-4">
                                 <div className="w-16 h-16 rounded-xl bg-blue-50 flex items-center justify-center text-2xl font-bold text-blue-700 border border-blue-200">
                                     {studentDetail.student.full_name?.charAt(0)?.toUpperCase() || '?'}
@@ -155,7 +155,7 @@ const StudentProgress = () => {
                         </div>
 
                         {/* Course Progress */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><BookOpen className="w-5 h-5 text-blue-600" /> Course Progress</h3>
                             {studentDetail.course_progress.length === 0 ? (
                                 <p className="text-gray-500 text-sm">No course progress recorded.</p>
@@ -193,7 +193,7 @@ const StudentProgress = () => {
                         </div>
 
                         {/* Quiz Performance */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><Award className="w-5 h-5 text-green-600" /> Quiz Performance</h3>
                             {studentDetail.quiz_results.length === 0 ? (
                                 <p className="text-gray-500 text-sm">No quiz attempts recorded.</p>
@@ -201,16 +201,16 @@ const StudentProgress = () => {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead><tr className="border-b border-gray-200">
-                                            <th className="text-left py-3 px-4 font-semibold text-gray-600">Quiz</th>
-                                            <th className="text-left py-3 px-4 font-semibold text-gray-600">Course</th>
-                                            <th className="text-right py-3 px-4 font-semibold text-gray-600">Score</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Quiz</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Course</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Score</th>
                                         </tr></thead>
                                         <tbody>
                                             {studentDetail.quiz_results.map((q, i) => (
                                                 <tr key={i} className="border-b border-gray-50 hover:bg-gray-50">
-                                                    <td className="py-3 px-4 font-medium text-gray-800">{q.quiz_title}</td>
-                                                    <td className="py-3 px-4 text-gray-500">{q.course}</td>
-                                                    <td className="py-3 px-4 text-right">
+                                                    <td className="py-3 px-4 font-medium text-gray-800 whitespace-nowrap">{q.quiz_title}</td>
+                                                    <td className="py-3 px-4 text-gray-500 whitespace-nowrap">{q.course}</td>
+                                                    <td className="py-3 px-4 text-right whitespace-nowrap">
                                                         <span className={`font-bold ${q.score >= 70 ? 'text-green-600' : q.score >= 50 ? 'text-amber-600' : 'text-red-600'}`}>{q.score}%</span>
                                                     </td>
                                                 </tr>
@@ -222,7 +222,7 @@ const StudentProgress = () => {
                         </div>
 
                         {/* Coding Results */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><Code className="w-5 h-5 text-purple-600" /> Coding Challenge Results</h3>
                             {studentDetail.coding_results.length === 0 ? (
                                 <p className="text-gray-500 text-sm">No coding submissions recorded.</p>
@@ -231,20 +231,20 @@ const StudentProgress = () => {
                                     <div className="overflow-x-auto mb-4">
                                         <table className="w-full text-sm">
                                             <thead><tr className="border-b border-gray-200">
-                                                <th className="text-left py-3 px-4 font-semibold text-gray-600">Problem</th>
-                                                <th className="text-left py-3 px-4 font-semibold text-gray-600">Course</th>
-                                                <th className="text-left py-3 px-4 font-semibold text-gray-600">Status</th>
-                                                <th className="text-right py-3 px-4 font-semibold text-gray-600">Score</th>
+                                                <th className="text-left py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Problem</th>
+                                                <th className="text-left py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Course</th>
+                                                <th className="text-left py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Status</th>
+                                                <th className="text-right py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Score</th>
                                             </tr></thead>
                                             <tbody>
                                                 {studentDetail.coding_results.map((c, i) => (
                                                     <tr key={i} className="border-b border-gray-50 hover:bg-gray-50">
-                                                        <td className="py-3 px-4 font-medium text-gray-800">{c.problem_title}</td>
-                                                        <td className="py-3 px-4 text-gray-500">{c.course}</td>
-                                                        <td className="py-3 px-4">
+                                                        <td className="py-3 px-4 font-medium text-gray-800 whitespace-nowrap">{c.problem_title}</td>
+                                                        <td className="py-3 px-4 text-gray-500 whitespace-nowrap">{c.course}</td>
+                                                        <td className="py-3 px-4 whitespace-nowrap">
                                                             <span className={`px-2 py-1 rounded-full text-xs font-bold ${c.status === 'Passed' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>{c.status}</span>
                                                         </td>
-                                                        <td className="py-3 px-4 text-right font-bold text-gray-700">{c.score}%</td>
+                                                        <td className="py-3 px-4 text-right font-bold text-gray-700 whitespace-nowrap">{c.score}%</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -275,7 +275,7 @@ const StudentProgress = () => {
                         </div>
 
                         {/* Exam History */}
-                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                             <h3 className="text-lg font-bold text-gray-800 mb-4 flex items-center gap-2"><BarChart3 className="w-5 h-5 text-blue-600" /> Exam History</h3>
                             {studentDetail.exam_history.length === 0 ? (
                                 <p className="text-gray-500 text-sm">No exams attempted.</p>
@@ -283,30 +283,30 @@ const StudentProgress = () => {
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead><tr className="border-b border-gray-200">
-                                            <th className="text-left py-3 px-4 font-semibold text-gray-600">Exam</th>
-                                            <th className="text-center py-3 px-4 font-semibold text-gray-600">Attempt</th>
-                                            <th className="text-right py-3 px-4 font-semibold text-gray-600">MCQ</th>
-                                            <th className="text-right py-3 px-4 font-semibold text-gray-600">Coding</th>
-                                            <th className="text-right py-3 px-4 font-semibold text-gray-600">Total</th>
-                                            <th className="text-center py-3 px-4 font-semibold text-gray-600">Integrity</th>
-                                            <th className="text-right py-3 px-4 font-semibold text-gray-600">Date</th>
+                                            <th className="text-left py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Exam</th>
+                                            <th className="text-center py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Attempt</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">MCQ</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Coding</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Total</th>
+                                            <th className="text-center py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Integrity</th>
+                                            <th className="text-right py-3 px-4 font-semibold text-gray-600 whitespace-nowrap">Date</th>
                                         </tr></thead>
                                         <tbody>
                                             {studentDetail.exam_history.map((ex, i) => (
                                                 <tr key={i} className="border-b border-gray-50 hover:bg-gray-50">
-                                                    <td className="py-3 px-4 font-medium text-gray-800">{ex.exam_title}</td>
-                                                    <td className="py-3 px-4 text-center text-gray-500">#{ex.attempt_number}</td>
-                                                    <td className="py-3 px-4 text-right text-gray-700">{ex.mcq_score ?? '-'}</td>
-                                                    <td className="py-3 px-4 text-right text-gray-700">{ex.coding_score ?? '-'}</td>
-                                                    <td className="py-3 px-4 text-right font-bold text-gray-900">{ex.score ?? '-'}</td>
-                                                    <td className="py-3 px-4 text-center">
+                                                    <td className="py-3 px-4 font-medium text-gray-800 whitespace-nowrap">{ex.exam_title}</td>
+                                                    <td className="py-3 px-4 text-center text-gray-500 whitespace-nowrap">#{ex.attempt_number}</td>
+                                                    <td className="py-3 px-4 text-right text-gray-700 whitespace-nowrap">{ex.mcq_score ?? '-'}</td>
+                                                    <td className="py-3 px-4 text-right text-gray-700 whitespace-nowrap">{ex.coding_score ?? '-'}</td>
+                                                    <td className="py-3 px-4 text-right font-bold text-gray-900 whitespace-nowrap">{ex.score ?? '-'}</td>
+                                                    <td className="py-3 px-4 text-center whitespace-nowrap">
                                                         {ex.risk_level && (
                                                             <span className={`px-2 py-1 rounded-full text-xs font-bold ${ex.risk_level === 'HIGH' ? 'bg-red-100 text-red-700' : ex.risk_level === 'MEDIUM' ? 'bg-amber-100 text-amber-700' : 'bg-green-100 text-green-700'}`}>
                                                                 {ex.risk_level}
                                                             </span>
                                                         )}
                                                     </td>
-                                                    <td className="py-3 px-4 text-right text-gray-500 text-xs">
+                                                    <td className="py-3 px-4 text-right text-gray-500 text-xs whitespace-nowrap">
                                                         {ex.submitted_at ? new Date(ex.submitted_at).toLocaleString('en-IN', { day: '2-digit', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) : '-'}
                                                     </td>
                                                 </tr>
@@ -319,7 +319,7 @@ const StudentProgress = () => {
 
                         {/* Integrity Warnings */}
                         {studentDetail.integrity_warnings.length > 0 && (
-                            <div className="bg-red-50 rounded-xl border border-red-200 p-6">
+                            <div className="bg-red-50 rounded-xl border border-red-200 p-4 sm:p-6">
                                 <h3 className="text-lg font-bold text-red-800 mb-4 flex items-center gap-2"><AlertTriangle className="w-5 h-5" /> Integrity Warnings</h3>
                                 <div className="space-y-2">
                                     {studentDetail.integrity_warnings.map((w, i) => (
@@ -342,7 +342,7 @@ const StudentProgress = () => {
 
     // ─── MAIN DASHBOARD VIEW ───
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header */}
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-800">Student Progress</h1>

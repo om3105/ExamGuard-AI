@@ -152,7 +152,7 @@ const EditCourse = () => {
     }
 
     return (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header */}
             <div className="flex items-center gap-4 mb-6">
                 <button onClick={() => navigate('/admin/courses')}
@@ -175,7 +175,7 @@ const EditCourse = () => {
 
             <form onSubmit={handleSubmit}>
                 {/* Core Info */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-8 mb-6">
                     <h1 className="text-3xl font-bold text-gray-800 mb-6">Edit Course</h1>
 
                     <div className="space-y-4">
@@ -206,7 +206,7 @@ const EditCourse = () => {
                 </div>
 
                 {/* Modules Editor */}
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-8 mb-6">
                     <div className="flex justify-between items-center mb-6">
                         <h2 className="text-xl font-bold text-gray-800 flex items-center gap-2">
                             <BookOpen className="w-5 h-5 text-blue-600" /> Modules ({formData.modules.length})

@@ -50,7 +50,7 @@ const Dashboard = () => {
     };
 
     const StatCard = ({ title, value, subtext, badgeColor, badgeText, icon: Icon }) => (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between h-full hover:shadow-md transition-shadow">
+        <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 flex flex-col justify-between h-full hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between">
                 <div>
                     <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h3>
@@ -67,7 +67,7 @@ const Dashboard = () => {
     );
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Welcome Section */}
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-800">Admin Dashboard</h1>
@@ -214,7 +214,7 @@ const Dashboard = () => {
                                 ))}
                             </div>
                         ) : (
-                            <div className="p-8 text-center text-gray-500 text-sm">
+                            <div className="p-4 sm:p-8 text-center text-gray-500 text-sm">
                                 No recent activity
                             </div>
                         )}

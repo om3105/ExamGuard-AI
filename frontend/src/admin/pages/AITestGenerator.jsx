@@ -182,7 +182,7 @@ const AITestGenerator = () => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div className="flex items-center gap-4">
@@ -239,7 +239,7 @@ const AITestGenerator = () => {
                                 <h2 className="font-semibold text-gray-800">Describe your exam</h2>
                                 <p className="text-sm text-gray-400 mt-0.5">Enter a detailed description and the system will generate a structured exam paper</p>
                             </div>
-                            <div className="p-6">
+                            <div className="p-4 sm:p-6">
                                 <textarea
                                     value={prompt}
                                     onChange={(e) => setPrompt(e.target.value)}
@@ -397,7 +397,7 @@ const AITestGenerator = () => {
 
                         {/* Status indicator when no exam */}
                         {!generatedExam && !loading && (
-                            <div className="bg-gray-50 rounded-xl border border-dashed border-gray-300 p-8 text-center">
+                            <div className="bg-gray-50 rounded-xl border border-dashed border-gray-300 p-4 sm:p-8 text-center">
                                 <div className="w-12 h-12 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-3">
                                     <FileText className="w-6 h-6 text-gray-400" />
                                 </div>
@@ -433,7 +433,7 @@ const AITestGenerator = () => {
                     </div>
 
                     {/* Exam Title & Description (editable) */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                         <input type="text" value={generatedExam.title}
                             onChange={e => updateExamField('title', e.target.value)}
                             className="w-full text-xl font-bold text-gray-900 border-b-2 border-transparent hover:border-gray-200 focus:border-blue-500 focus:outline-none pb-2 transition bg-transparent" />
@@ -573,7 +573,7 @@ const AITestGenerator = () => {
                     ))}
 
                     {/* Schedule & Save */}
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                         <h3 className="font-semibold text-gray-800 mb-4">Schedule & Save</h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
                             <div>

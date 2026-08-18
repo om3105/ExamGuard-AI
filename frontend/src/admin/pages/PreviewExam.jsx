@@ -50,7 +50,7 @@ const PreviewExam = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header */}
             <div className="mb-8">
                 <button
@@ -60,7 +60,7 @@ const PreviewExam = () => {
                     <ArrowLeft className="w-4 h-4 mr-2" />
                     Back to Exams
                 </button>
-                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+                <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
                     <div className="flex flex-col md:flex-row justify-between gap-6">
                         <div>
                             <div className="flex items-center gap-3 mb-2">
@@ -115,7 +115,7 @@ const PreviewExam = () => {
                     ))}
                 </div>
 
-                <div className="p-6 md:p-8 bg-gray-50/50 h-full">
+                <div className="p-4 sm:p-6 md:p-4 sm:p-8 bg-gray-50/50 h-full">
                     {exam.sections?.[activeSection] && (
                         <div className="max-w-4xl mx-auto space-y-8">
                             <div className="mb-6">
@@ -131,7 +131,7 @@ const PreviewExam = () => {
                             </div>
 
                             {exam.sections[activeSection].questions?.map((question, qIdx) => (
-                                <div key={qIdx} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 relative">
+                                <div key={qIdx} className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 relative">
                                     <div className="absolute top-6 right-6">
                                         <span className="inline-flex items-center px-2.5 py-0.5 rounded text-xs font-medium bg-gray-100 text-gray-800">
                                             {question.points} {question.points === 1 ? 'Mark' : 'Marks'}

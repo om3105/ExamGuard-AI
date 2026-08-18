@@ -212,7 +212,7 @@ const EditExam = () => {
     }
 
     return (
-        <div className="p-8 max-w-4xl mx-auto">
+        <div className="p-4 sm:p-8 max-w-4xl mx-auto">
             <div className="flex items-center gap-4 mb-6">
                 <button
                     onClick={() => navigate('/admin/exams')}
@@ -249,7 +249,7 @@ const EditExam = () => {
                 </div>
             )}
 
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-8">
                 <div className="flex items-center justify-between mb-8">
                     <h1 className="text-3xl font-bold text-gray-800">Edit Exam</h1>
                     <button
@@ -309,7 +309,7 @@ const EditExam = () => {
                         ) : (
                             <div className="space-y-4">
                                 {formData.sections.map((section, sectionIndex) => (
-                                    <div key={sectionIndex} className="border border-gray-200 rounded-lg p-6">
+                                    <div key={sectionIndex} className="border border-gray-200 rounded-lg p-4 sm:p-6">
                                         <div className="flex justify-between items-start mb-4">
                                             <div className="flex-1 mr-4">
                                                 <input type="text" value={section.title}

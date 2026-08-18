@@ -122,7 +122,7 @@ const LiveMonitoring = () => {
     }
 
     return (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 sm:px-8 py-8">
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
                 <div>
@@ -321,24 +321,24 @@ const LiveMonitoring = () => {
                             <table className="w-full text-sm">
                                 <thead>
                                     <tr className="bg-gray-50 border-b border-gray-200">
-                                        <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Student</th>
-                                        <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Exam</th>
-                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Duration</th>
-                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Keys</th>
-                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Tabs</th>
-                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Pastes</th>
-                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Risk</th>
-                                        <th className="text-right px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Action</th>
+                                        <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Student</th>
+                                        <th className="text-left px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Exam</th>
+                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Duration</th>
+                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Keys</th>
+                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Tabs</th>
+                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Pastes</th>
+                                        <th className="text-center px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Risk</th>
+                                        <th className="text-right px-5 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-gray-100">
                                     {filteredSessions.map((session) => (
                                         <tr key={session.submission_id} className="hover:bg-gray-50 transition-colors">
-                                            <td className="px-5 py-3.5 font-medium text-gray-900">{session.student_name}</td>
-                                            <td className="px-5 py-3.5 text-gray-500 max-w-[200px] truncate">{session.exam_title}</td>
-                                            <td className="px-5 py-3.5 text-center text-gray-600">{getDuration(session.started_at)}</td>
-                                            <td className="px-5 py-3.5 text-center font-medium text-gray-800">{session.keystroke_count.toLocaleString()}</td>
-                                            <td className="px-5 py-3.5 text-center">
+                                            <td className="px-5 py-3.5 font-medium text-gray-900 whitespace-nowrap">{session.student_name}</td>
+                                            <td className="px-5 py-3.5 text-gray-500 max-w-[200px] truncate whitespace-nowrap">{session.exam_title}</td>
+                                            <td className="px-5 py-3.5 text-center text-gray-600 whitespace-nowrap">{getDuration(session.started_at)}</td>
+                                            <td className="px-5 py-3.5 text-center font-medium text-gray-800 whitespace-nowrap">{session.keystroke_count.toLocaleString()}</td>
+                                            <td className="px-5 py-3.5 text-center whitespace-nowrap">
                                                 {session.tab_switch_count > 0 ? (
                                                     <span className={`inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium ${session.tab_switch_count > 3 ? 'bg-red-50 text-red-700' : 'bg-amber-50 text-amber-700'}`}>
                                                         {session.tab_switch_count}
@@ -347,17 +347,17 @@ const LiveMonitoring = () => {
                                                     <span className="text-gray-300">0</span>
                                                 )}
                                             </td>
-                                            <td className="px-5 py-3.5 text-center">
+                                            <td className="px-5 py-3.5 text-center whitespace-nowrap">
                                                 {session.paste_count > 0 ? (
                                                     <span className="inline-flex items-center px-2 py-0.5 rounded-md text-xs font-medium bg-orange-50 text-orange-700">{session.paste_count}</span>
                                                 ) : (
                                                     <span className="text-gray-300">0</span>
                                                 )}
                                             </td>
-                                            <td className="px-5 py-3.5 text-center">
+                                            <td className="px-5 py-3.5 text-center whitespace-nowrap">
                                                 <RiskBadge level={session.risk_level} score={session.risk_score} />
                                             </td>
-                                            <td className="px-5 py-3.5 text-right">
+                                            <td className="px-5 py-3.5 text-right whitespace-nowrap">
                                                 <button
                                                     onClick={() => handleTerminateClick(session)}
                                                     className="text-xs font-medium text-red-600 hover:text-red-700 hover:underline transition-colors"

@@ -88,7 +88,7 @@ const Login = () => {
             </div>
 
             {/* Right Side - Login Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-16">
+            <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 lg:p-16">
                 <div className="w-full max-w-md space-y-8">
                     <div className="text-center lg:text-left">
                         <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Admin Portal</h2>
