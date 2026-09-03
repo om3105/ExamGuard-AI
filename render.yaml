@@ -1,8 +1,3 @@
-databases:
-  - name: examguard-mongodb
-    plan: starter
-    databaseName: examguard
-
 services:
   - type: web
     name: examguard-api
@@ -11,10 +6,8 @@ services:
     dockerContext: ./backend
     envVars:
       - key: MONGODB_URL
-        fromDatabase:
-          name: examguard-mongodb
-          property: connectionString
-      - key: MONGODB_DB
+        sync: false
+      - key: DB_NAME
         value: examguard
       - key: SECRET_KEY
         generateValue: true
@@ -23,9 +16,22 @@ services:
       - key: ENVIRONMENT
         value: production
       - key: CORS_ORIGINS
-        value: https://examguard.vercel.app
+        value: https://examguardlive.vercel.app
+      - key: FRONTEND_URL
+        value: https://examguardlive.vercel.app
+      - key: GOOGLE_CLIENT_ID
+        sync: false
+      - key: GOOGLE_CLIENT_SECRET
+        sync: false
+      - key: GOOGLE_REDIRECT_URI
+        value: https://examguard-ai-i4o8.onrender.com/auth/google/callback
+      - key: TRUSTED_HOSTS
+        value: examguard-ai-i4o8.onrender.com
+      - key: MAX_REQUEST_BODY_BYTES
+        value: "2097152"
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
         value: "1440"
       - key: ADMIN_TOKEN_EXPIRE_MINUTES
         value: "1440"
     healthCheckPath: /health
+
