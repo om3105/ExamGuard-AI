@@ -1,13 +1,4 @@
 User-agent: *
-Allow: /login
-Allow: /register
-Disallow: /admin
-Disallow: /dashboard
-Disallow: /courses
-Disallow: /exam
-Disallow: /test-completed
-Disallow: /profile
-Disallow: /reset-password
-Disallow: /auth/
+Allow: /
 
 Sitemap: https://examguardlive.vercel.app/sitemap.xml
