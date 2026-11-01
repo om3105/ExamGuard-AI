@@ -62,7 +62,7 @@ const ResetPasswordPage = () => {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-2">Invalid Link</h2>
+                    <h1 className="text-xl font-bold text-gray-900 mb-2">Invalid Link</h1>
                     <p className="text-gray-500 mb-6">No reset token found. Please request a new password reset.</p>
                     <Link to="/forgot-password" className="inline-flex items-center justify-center w-full py-3 px-4 bg-blue-700 text-white rounded-lg font-medium hover:bg-blue-800 transition-colors">
                         Request New Link
@@ -84,7 +84,7 @@ const ResetPasswordPage = () => {
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                                     </svg>
                                 </div>
-                                <h2 className="text-2xl font-bold text-gray-900">Set New Password</h2>
+                                <h1 className="text-2xl font-bold text-gray-900">Set New Password</h1>
                                 <p className="text-gray-500 mt-2 text-sm">Choose a strong password for your account.</p>
                             </div>
 
@@ -144,7 +144,7 @@ const ResetPasswordPage = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <h2 className="text-xl font-bold text-gray-900 mb-2">Password Reset Successful!</h2>
+                            <h1 className="text-xl font-bold text-gray-900 mb-2">Password Reset Successful!</h1>
                             <p className="text-gray-500 mb-6 text-sm">Your password has been updated. You can now sign in with your new password.</p>
                             <Link
                                 to="/login"

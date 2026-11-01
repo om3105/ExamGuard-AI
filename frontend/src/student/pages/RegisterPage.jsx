@@ -76,7 +76,7 @@ const RegisterPage = () => {
                 <div className="relative z-20 flex flex-col justify-center px-12 text-white">
                     <div className="flex flex-col items-center mb-10 text-center">
                         <img src="/logo.png" alt="ExamGuard Logo" className="w-48 h-48 object-contain mb-6 drop-shadow-2xl" />
-                        <h1 className="text-6xl font-extrabold tracking-tight">ExamGuard</h1>
+                        <p className="text-6xl font-extrabold tracking-tight">ExamGuard</p>
                     </div>
                     <p className="text-xl text-blue-100 max-w-lg leading-relaxed text-center mx-auto">
                         Join thousands of professionals who have validated their skills through our secure, unbiased assessment platform.
@@ -87,7 +87,7 @@ const RegisterPage = () => {
                                 <span className="font-bold text-lg">1</span>
                             </div>
                             <div>
-                                <h3 className="font-semibold text-lg">Create Profile</h3>
+                                <p className="font-semibold text-lg">Create Profile</p>
                                 <p className="text-blue-200 text-sm">Set up your secure candidate identity.</p>
                             </div>
                         </div>
@@ -96,7 +96,7 @@ const RegisterPage = () => {
                                 <span className="font-bold text-lg">2</span>
                             </div>
                             <div>
-                                <h3 className="font-semibold text-lg">Verify Email</h3>
+                                <p className="font-semibold text-lg">Verify Email</p>
                                 <p className="text-blue-200 text-sm">Confirm your identity securely.</p>
                             </div>
                         </div>
@@ -105,7 +105,7 @@ const RegisterPage = () => {
                                 <span className="font-bold text-lg">3</span>
                             </div>
                             <div>
-                                <h3 className="font-semibold text-lg">Take Assessment</h3>
+                                <p className="font-semibold text-lg">Take Assessment</p>
                                 <p className="text-blue-200 text-sm">Prove your skills securely.</p>
                             </div>
                         </div>
@@ -117,7 +117,7 @@ const RegisterPage = () => {
             <div className="w-full lg:w-1/2 flex items-center justify-center p-8 lg:p-16">
                 <div className="w-full max-w-md space-y-8">
                     <div className="text-center lg:text-left">
-                        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Candidate Registration</h2>
+                        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Candidate Registration</h1>
                         <p className="mt-2 text-gray-500">Create your account to begin the assessment process.</p>
                     </div>
 

@@ -42,11 +42,14 @@ import './App.css';
 // --- Server Waking Overlay (Render cold start) ---
 import ServerWakingOverlay from './components/ServerWakingOverlay';
 
+// --- SEO Tags ---
+import { PublicSeo, PrivateSeo } from './components/Seo';
+
 // --- Protected Route Wrappers ---
 const UserProtectedRoute = ({ children }) => {
     const { isAuthenticated } = useAuth();
     if (!isAuthenticated) return <Navigate to="/login" />;
-    return <>{children}</>;
+    return <><PrivateSeo />{children}</>;
 };
 
 const AdminProtectedRoute = ({ children }) => {
@@ -54,11 +57,12 @@ const AdminProtectedRoute = ({ children }) => {
     if (loading) {
         return (
             <div className="flex items-center justify-center min-h-screen">
+                <PrivateSeo />
                 <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
             </div>
         );
     }
-    return admin ? children : <Navigate to="/admin/login" />;
+    return admin ? <><PrivateSeo />{children}</> : <Navigate to="/admin/login" />;
 };
 
 const AdminDashboardLayout = ({ children }) => {
@@ -80,6 +84,7 @@ function App() {
                 <AdminAuthProvider>
                     <Suspense fallback={
                         <div className="flex items-center justify-center min-h-screen">
+                            <title>ExamGuard AI</title>
                             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
                         </div>
                     }>
@@ -89,11 +94,11 @@ function App() {
                         {/* =========================================
                             USER / EXAM ROUTES
                             ========================================= */}
-                        <Route path="/login" element={<UserLoginPage />} />
-                        <Route path="/register" element={<UserRegisterPage />} />
-                        <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-                        <Route path="/reset-password" element={<ResetPasswordPage />} />
-                        <Route path="/auth/google/callback" element={<GoogleCallbackPage />} />
+                        <Route path="/login" element={<><PublicSeo path="/login" /><UserLoginPage /></>} />
+                        <Route path="/register" element={<><PublicSeo path="/register" /><UserRegisterPage /></>} />
+                        <Route path="/forgot-password" element={<><PublicSeo path="/forgot-password" /><ForgotPasswordPage /></>} />
+                        <Route path="/reset-password" element={<><PublicSeo path="/reset-password" /><ResetPasswordPage /></>} />
+                        <Route path="/auth/google/callback" element={<><PublicSeo path="/auth/google/callback" /><GoogleCallbackPage /></>} />
                         <Route path="/dashboard" element={<UserProtectedRoute><UserDashboardPage /></UserProtectedRoute>} />
                         <Route path="/courses" element={<UserProtectedRoute><CourseList /></UserProtectedRoute>} />
                         <Route path="/courses/:courseId" element={<UserProtectedRoute><CourseView /></UserProtectedRoute>} />
@@ -112,7 +117,7 @@ function App() {
                         {/* =========================================
                             ADMIN ROUTES
                             ========================================= */}
-                        <Route path="/admin/login" element={<AdminLogin />} />
+                        <Route path="/admin/login" element={<><PublicSeo path="/admin/login" /><AdminLogin /></>} />
                         <Route path="/admin/register" element={<AdminProtectedRoute><AdminDashboardLayout><AdminRegister /></AdminDashboardLayout></AdminProtectedRoute>} />
                         <Route path="/admin/dashboard" element={<AdminProtectedRoute><AdminDashboardLayout><AdminDashboard /></AdminDashboardLayout></AdminProtectedRoute>} />
                         <Route path="/admin/exams" element={<AdminProtectedRoute><AdminDashboardLayout><ExamManagement /></AdminDashboardLayout></AdminProtectedRoute>} />

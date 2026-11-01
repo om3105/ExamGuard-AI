@@ -177,9 +177,9 @@ const ExamManagement = () => {
                             <div className="flex flex-col md:flex-row justify-between items-start gap-6">
                                 <div className="flex-1">
                                     <div className="flex items-center gap-3 mb-2">
-                                        <h3 className="text-xl font-semibold text-gray-900">
+                                        <h2 className="text-xl font-semibold text-gray-900">
                                             {exam.title}
-                                        </h3>
+                                        </h2>
                                         {new Date(exam.start_time) > new Date() ? (
                                             <span className="px-2.5 py-0.5 rounded-full text-xs font-semibold bg-green-100 text-green-800 border border-green-200">
                                                 Upcoming
@@ -264,7 +264,7 @@ const ExamManagement = () => {
                         <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <FileText className="w-8 h-8 text-gray-400" />
                         </div>
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No exams created yet</h3>
+                        <h2 className="text-lg font-medium text-gray-900 mb-2">No exams created yet</h2>
                         <p className="text-gray-500 mb-6 max-w-sm mx-auto">
                             Start building your examination system by creating your first exam.
                         </p>

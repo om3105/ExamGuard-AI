@@ -5,9 +5,9 @@ const QuestionPalette = ({ sections, currentSectionIndex, currentQuestionIndex, 
         <div className="p-4">
             {sections.map((section, sIdx) => (
                 <div key={sIdx} className="mb-6">
-                    <h3 className="text-xs font-bold text-gray-700 uppercase mb-3 tracking-wide">
+                    <p className="text-xs font-bold text-gray-700 uppercase mb-3 tracking-wide">
                         {section.title}
-                    </h3>
+                    </p>
                     <div className="grid grid-cols-5 gap-2">
                         {section.questions.map((q, qIdx) => (
                             <button

@@ -53,7 +53,7 @@ const Dashboard = () => {
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6 flex flex-col justify-between h-full hover:shadow-md transition-shadow">
             <div className="flex items-start justify-between">
                 <div>
-                    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h3>
+                    <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider">{title}</h2>
                     <p className="text-2xl font-bold text-gray-900 mt-2">{value}</p>
                 </div>
                 <div className={`p-2 rounded-lg ${badgeColor} bg-opacity-20`}>

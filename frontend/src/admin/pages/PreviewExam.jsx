@@ -119,12 +119,12 @@ const PreviewExam = () => {
                     {exam.sections?.[activeSection] && (
                         <div className="max-w-4xl mx-auto space-y-8">
                             <div className="mb-6">
-                                <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                                <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                                     <span className="bg-white px-3 py-1 rounded border border-gray-200 shadow-sm text-sm">
                                         Section {activeSection + 1}
                                     </span>
                                     <span>{exam.sections[activeSection].title}</span>
-                                </h3>
+                                </h2>
                                 <p className="text-gray-500 text-sm mt-1 ml-1">
                                     {exam.sections[activeSection].questions?.length || 0} Questions
                                 </p>
@@ -139,10 +139,10 @@ const PreviewExam = () => {
                                     </div>
 
                                     <div className="pr-12">
-                                        <h4 className="text-base font-semibold text-gray-900 mb-4 flex gap-3">
+                                        <h3 className="text-base font-semibold text-gray-900 mb-4 flex gap-3">
                                             <span className="text-gray-400 font-normal">Q{qIdx + 1}.</span>
                                             {question.text}
-                                        </h4>
+                                        </h3>
 
                                         {question.type === 'coding' ? (
                                             <div className="ml-8">

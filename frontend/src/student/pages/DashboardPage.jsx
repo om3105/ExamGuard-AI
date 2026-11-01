@@ -66,7 +66,7 @@ const DashboardPage = () => {
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between">
                         <div className="flex items-start justify-between">
                             <div>
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Learning Progress</h3>
+                                <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Learning Progress</h2>
                                 <p className="text-2xl font-bold text-gray-900 mt-2">
                                     {approvedCourses.length}
                                     <span className="text-sm font-normal text-gray-400 ml-1">
@@ -98,7 +98,7 @@ const DashboardPage = () => {
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between">
                         <div className="flex items-start justify-between">
                             <div>
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Exam Performance</h3>
+                                <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Exam Performance</h2>
                                 <p className="text-2xl font-bold text-gray-900 mt-2">
                                     {completedExams.length}
                                     <span className="text-sm font-normal text-gray-400 ml-1">completed</span>
@@ -129,7 +129,7 @@ const DashboardPage = () => {
                     <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 flex flex-col justify-between">
                         <div className="flex items-start justify-between">
                             <div>
-                                <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Exams</h3>
+                                <h2 className="text-sm font-medium text-gray-500 uppercase tracking-wider">Pending Exams</h2>
                                 <p className="text-2xl font-bold text-gray-900 mt-2">{assignedExams.length + upcomingExams.length}</p>
                             </div>
                             <span className="bg-gray-100 text-gray-800 text-xs font-semibold px-2.5 py-0.5 rounded-full">View All</span>

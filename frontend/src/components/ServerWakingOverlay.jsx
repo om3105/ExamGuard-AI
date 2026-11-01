@@ -47,9 +47,9 @@ const ServerWakingOverlay = () => {
         </div>
 
         {/* Status message */}
-        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+        <p className="text-lg font-semibold text-gray-900 mb-2">
           Connecting to Server
-        </h3>
+        </p>
         <p className="text-sm text-gray-500 mb-4">
           {message}
         </p>

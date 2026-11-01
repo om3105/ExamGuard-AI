@@ -86,14 +86,14 @@ const CourseManagement = () => {
                 {courses.length === 0 ? (
                     <div className="col-span-full bg-white p-12 text-center rounded-xl shadow-sm border border-gray-200">
                         <BookOpen className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-medium text-gray-900 mb-2">No Courses Found</h3>
+                        <h2 className="text-lg font-medium text-gray-900 mb-2">No Courses Found</h2>
                         <p className="text-gray-500 max-w-sm mx-auto">Create a comprehensive bootcamp or crash course by clicking the 'New Course' button.</p>
                     </div>
                 ) : (
                     courses.map(course => (
                         <div key={course._id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow group">
                             <div className="h-32 bg-blue-600 p-4 sm:p-6 flex items-end">
-                                <h3 className="text-xl font-bold text-white">{course.title}</h3>
+                                <h2 className="text-xl font-bold text-white">{course.title}</h2>
                             </div>
                             <div className="p-4 sm:p-6">
                                 <p className="text-sm text-gray-500 mb-4 line-clamp-2">{course.description}</p>

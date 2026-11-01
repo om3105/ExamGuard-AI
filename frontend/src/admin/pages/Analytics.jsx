@@ -92,7 +92,7 @@ const Analytics = () => {
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6 mb-8">
                 {/* Submissions & Avg Score Bar Chart */}
                 <div className="lg:col-span-2 bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
-                    <h3 className="text-base font-semibold text-gray-800 mb-4">Exam Performance Overview</h3>
+                    <h2 className="text-base font-semibold text-gray-800 mb-4">Exam Performance Overview</h2>
                     {examChartData.length > 0 ? (
                         <ResponsiveContainer width="100%" height={280}>
                             <BarChart data={examChartData} barGap={4}>
@@ -118,7 +118,7 @@ const Analytics = () => {
 
                 {/* Risk Distribution Donut */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 sm:p-6">
-                    <h3 className="text-base font-semibold text-gray-800 mb-4">Integrity Risk</h3>
+                    <h2 className="text-base font-semibold text-gray-800 mb-4">Integrity Risk</h2>
                     {riskData.length > 0 ? (
                         <ResponsiveContainer width="100%" height={280}>
                             <PieChart>
@@ -158,7 +158,7 @@ const Analytics = () => {
             {/* Recent Activity Table */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                 <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-                    <h3 className="text-base font-semibold text-gray-800">Recent Submissions</h3>
+                    <h2 className="text-base font-semibold text-gray-800">Recent Submissions</h2>
                     <span className="text-xs text-gray-400">{overview?.recent_submissions?.length || 0} latest</span>
                 </div>
                 {overview?.recent_submissions && overview.recent_submissions.length > 0 ? (

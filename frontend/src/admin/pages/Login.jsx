@@ -68,7 +68,7 @@ const Login = () => {
                 <div className="relative z-20 flex flex-col justify-center px-12 text-white">
                     <div className="flex flex-col items-center mb-10 text-center">
                         <img src={logo} alt="ExamGuard Logo" className="w-48 h-48 object-contain mb-6 drop-shadow-2xl" />
-                        <h1 className="text-6xl font-extrabold tracking-tight">ExamGuard</h1>
+                        <p className="text-6xl font-extrabold tracking-tight">ExamGuard</p>
                     </div>
                     <p className="text-xl text-blue-100 max-w-lg leading-relaxed text-center mx-auto">
                         Secure Administration Portal. Manage assessments, monitor integrity, and oversee candidate performance with advanced analytics.
@@ -91,7 +91,7 @@ const Login = () => {
             <div className="w-full lg:w-1/2 flex items-center justify-center p-4 sm:p-8 lg:p-16">
                 <div className="w-full max-w-md space-y-8">
                     <div className="text-center lg:text-left">
-                        <h2 className="text-3xl font-bold text-gray-900 tracking-tight">Admin Portal</h2>
+                        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Admin Portal</h1>
                         <p className="mt-2 text-gray-500">Sign in to access administrative controls.</p>
                     </div>
 

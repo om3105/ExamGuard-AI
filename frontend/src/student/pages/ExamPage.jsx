@@ -377,11 +377,11 @@ const ExamPage = () => {
                         {/* Question Header */}
                         <div className="mb-6 pb-4 border-b border-gray-200">
                             <div className="flex items-center justify-between mb-2">
-                                <h2 className="text-lg font-bold text-gray-700 uppercase tracking-wide flex items-center gap-2">
+                                <h1 className="text-lg font-bold text-gray-700 uppercase tracking-wide flex items-center gap-2">
                                     <span className="bg-blue-100 text-blue-700 px-2 py-0.5 rounded text-sm">{currentSection.title}</span>
                                     <span className="text-gray-400">/</span>
                                     <span>Question {currentQuestionIndex + 1}</span>
-                                </h2>
+                                </h1>
                                 <span className="px-3 py-1 bg-gray-100 rounded-full text-xs font-bold text-gray-600 border border-gray-200">
                                     {currentQuestion.points} {currentQuestion.points === 1 ? 'Mark' : 'Marks'}
                                 </span>
@@ -392,14 +392,14 @@ const ExamPage = () => {
                         {isCoding ? (
                             <div>
                                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
-                                    <h3 className="text-xl font-bold text-gray-900 mb-4 leading-snug">{currentQuestion.text}</h3>
+                                    <h2 className="text-xl font-bold text-gray-900 mb-4 leading-snug">{currentQuestion.text}</h2>
                                     <div className="prose prose-sm max-w-none text-gray-600">
                                         <p className="whitespace-pre-wrap mb-6 leading-relaxed">
                                             {currentQuestion.problem_statement}
                                         </p>
                                         {currentQuestion.constraints && (
                                             <div className="mt-6 bg-gray-50 p-4 rounded-lg border border-gray-100">
-                                                <h4 className="font-bold text-gray-800 mb-2 text-xs uppercase tracking-wide">Constraints:</h4>
+                                                <h3 className="font-bold text-gray-800 mb-2 text-xs uppercase tracking-wide">Constraints:</h3>
                                                 <p className="text-gray-600 text-sm whitespace-pre-wrap font-mono">
                                                     {currentQuestion.constraints}
                                                 </p>
@@ -420,7 +420,7 @@ const ExamPage = () => {
                             </div>
                         ) : (
                             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 mb-6">
-                                <h3 className="text-xl font-bold text-gray-900 mb-8 leading-snug">{currentQuestion.text}</h3>
+                                <h2 className="text-xl font-bold text-gray-900 mb-8 leading-snug">{currentQuestion.text}</h2>
                                 <div className="space-y-4">
                                     {currentQuestion.options?.map((option, idx) => (
                                         <label
@@ -473,7 +473,7 @@ const ExamPage = () => {
                                 </svg>
                             </div>
                             <div className="ml-3 flex-1">
-                                <h3 className="text-sm font-bold text-yellow-800">Low Time Warning!</h3>
+                                <h2 className="text-sm font-bold text-yellow-800">Low Time Warning!</h2>
                                 <p className="mt-1 text-sm text-yellow-700">Only 5 minutes remaining. Please manage your time wisely.</p>
                             </div>
                             <button
@@ -499,7 +499,7 @@ const ExamPage = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </div>
-                            <h3 className="text-2xl font-bold text-red-600 mb-2">Time's Up!</h3>
+                            <h2 className="text-2xl font-bold text-red-600 mb-2">Time's Up!</h2>
                             <p className="text-gray-600 text-lg">Your exam is being submitted automatically...</p>
                         </div>
                     </div>
@@ -516,7 +516,7 @@ const ExamPage = () => {
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
                                 </svg>
                             </div>
-                            <h3 className="text-xl font-bold text-gray-900 mb-2">Finish Exam?</h3>
+                            <h2 className="text-xl font-bold text-gray-900 mb-2">Finish Exam?</h2>
                             <p className="text-gray-500 mb-8 leading-relaxed">
                                 Are you sure you want to submit your exam? <br />
                                 <span className="text-sm font-medium text-red-500 bg-red-50 px-2 py-0.5 rounded mt-2 inline-block">You cannot change your answers after submission.</span>

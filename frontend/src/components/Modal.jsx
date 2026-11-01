@@ -28,7 +28,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-md overflow-hidden transform transition-all relative z-10 animate-in fade-in zoom-in-95 duration-200">
                 <div className="flex justify-between items-center px-6 py-4 border-b border-gray-100 bg-gray-50/50">
-                    <h3 className="text-lg font-semibold text-gray-900">{title}</h3>
+                    <h2 className="text-lg font-semibold text-gray-900">{title}</h2>
                     <button
                         onClick={onClose}
                         className="text-gray-400 hover:text-gray-500 hover:bg-gray-100 p-1 rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500"

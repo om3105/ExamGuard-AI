@@ -221,11 +221,11 @@ const CourseView = () => {
                             {course.enrollment_status === 'PENDING' ? '⏳' : course.enrollment_status === 'REJECTED' ? '✗' : '🔒'}
                         </span>
                     </div>
-                    <h2 className="text-xl font-bold text-gray-900 mb-2">
+                    <h1 className="text-xl font-bold text-gray-900 mb-2">
                         {course.enrollment_status === 'PENDING' ? 'Enrollment Pending Approval' :
                             course.enrollment_status === 'REJECTED' ? 'Enrollment Request Rejected' :
                                 'Enrollment Required'}
-                    </h2>
+                    </h1>
                     <p className="text-gray-500 text-sm mb-6">
                         {course.enrollment_status === 'PENDING'
                             ? 'Your enrollment request is being reviewed by an administrator. You will get access once approved.'

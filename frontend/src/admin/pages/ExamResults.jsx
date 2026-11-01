@@ -231,9 +231,9 @@ const ExamResults = () => {
                                             <tr key={`${sub.id}-detail`} className="bg-blue-50/20">
                                                 <td colSpan={8} className="px-6 py-4">
                                                     <div className="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
-                                                        <h4 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
+                                                        <h2 className="text-sm font-bold text-gray-700 mb-3 flex items-center gap-2">
                                                             <ShieldAlert className="w-4 h-4 text-blue-500" /> Behavioral Telemetry
-                                                        </h4>
+                                                        </h2>
                                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                                                             <div>
                                                                 <p className="text-xs font-semibold text-gray-400 uppercase mb-1">Keystroke Activity</p>
@@ -279,7 +279,7 @@ const ExamResults = () => {
                 ) : (
                     <div className="p-12 text-center">
                         <FileText className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-                        <h3 className="text-lg font-medium text-gray-900">No submissions found</h3>
+                        <h2 className="text-lg font-medium text-gray-900">No submissions found</h2>
                         <p className="mt-1 text-sm text-gray-500">{searchTerm ? 'Try adjusting your search.' : 'No students have submitted this exam yet.'}</p>
                     </div>
                 )}

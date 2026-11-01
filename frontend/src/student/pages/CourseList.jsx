@@ -136,7 +136,7 @@ const CourseList = () => {
                 ) : filteredCourses.length === 0 ? (
                     <div className="text-center py-20 bg-white rounded-2xl shadow-sm border border-gray-100">
                         <Search className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-                        <h3 className="text-lg font-bold text-gray-900">No courses found</h3>
+                        <h2 className="text-lg font-bold text-gray-900">No courses found</h2>
                         <p className="text-gray-500 mt-1">Try adjusting your search query.</p>
                     </div>
                 ) : (
@@ -150,7 +150,7 @@ const CourseList = () => {
                                             <img src={course.thumbnail_url} alt={course.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                                         ) : (
                                             <div className="w-full h-full bg-blue-600 p-6 flex items-end">
-                                                <h3 className="text-xl font-bold text-white">{course.title}</h3>
+                                                <h2 className="text-xl font-bold text-white">{course.title}</h2>
                                             </div>
                                         )}
                                         <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-blue-700 shadow-sm flex items-center gap-1">
@@ -169,7 +169,7 @@ const CourseList = () => {
                                         )}
                                     </div>
                                     <div className="p-6 flex flex-col flex-1">
-                                        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{course.title}</h3>
+                                        <h2 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">{course.title}</h2>
                                         <p className="text-sm text-gray-500 mb-6 line-clamp-3 flex-1">{course.description}</p>
                                         {renderCourseButton(course)}
                                     </div>

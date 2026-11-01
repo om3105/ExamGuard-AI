@@ -11,7 +11,7 @@ const StatusLegend = () => {
 
     return (
         <div className="p-4 border-b bg-gray-50">
-            <h3 className="text-xs font-bold text-gray-500 uppercase mb-3 tracking-wider">Legend</h3>
+            <p className="text-xs font-bold text-gray-500 uppercase mb-3 tracking-wider">Legend</p>
             <div className="space-y-2">
                 {legends.map((item, idx) => (
                     <div key={idx} className="flex items-center gap-3">

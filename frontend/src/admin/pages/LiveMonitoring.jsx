@@ -220,7 +220,7 @@ const LiveMonitoring = () => {
                                     <div className="px-5 py-4 flex justify-between items-start">
                                         <div className="min-w-0 flex-1">
                                             <div className="flex items-center gap-2">
-                                                <h3 className="text-sm font-semibold text-gray-900 truncate">{session.student_name}</h3>
+                                                <h2 className="text-sm font-semibold text-gray-900 truncate">{session.student_name}</h2>
                                                 <span className={`flex-shrink-0 w-2 h-2 rounded-full ${riskStyle.dot}`}></span>
                                             </div>
                                             <p className="text-xs text-gray-400 mt-0.5 truncate">{session.exam_title}</p>
@@ -378,7 +378,7 @@ const LiveMonitoring = () => {
                     <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
                         <Activity className="w-8 h-8 text-gray-400" />
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-800 mb-1">No Active Sessions</h3>
+                    <h2 className="text-lg font-semibold text-gray-800 mb-1">No Active Sessions</h2>
                     <p className="text-sm text-gray-500 max-w-sm mx-auto">
                         There are currently no students taking an exam. This page will automatically update when a session begins.
                     </p>

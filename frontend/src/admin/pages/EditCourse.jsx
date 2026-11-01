@@ -245,9 +245,9 @@ const EditCourse = () => {
                                     {/* Lessons */}
                                     <div className="p-4">
                                         <div className="flex justify-between items-center mb-3">
-                                            <h4 className="text-sm font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-2">
+                                            <h3 className="text-sm font-semibold text-gray-600 uppercase tracking-wider flex items-center gap-2">
                                                 <FileVideo className="w-4 h-4 text-purple-500" /> Lessons ({module.lessons.length})
-                                            </h4>
+                                            </h3>
                                             <button type="button" onClick={() => addLesson(moduleIdx)}
                                                 className="text-sm text-blue-600 hover:text-blue-800 font-medium flex items-center gap-1">
                                                 <Plus className="w-3 h-3" /> Add Lesson
@@ -297,9 +297,9 @@ const EditCourse = () => {
 
                     {/* Add New Module */}
                     <div className="mt-6 bg-blue-50/50 rounded-xl p-5 border border-blue-100">
-                        <h4 className="text-sm font-bold text-blue-900 mb-3 flex items-center gap-2">
+                        <h3 className="text-sm font-bold text-blue-900 mb-3 flex items-center gap-2">
                             <Plus className="w-4 h-4" /> Add New Module
-                        </h4>
+                        </h3>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
                             <input type="text" value={newModuleTitle}
                                 onChange={(e) => setNewModuleTitle(e.target.value)}

@@ -166,7 +166,7 @@ const WaitingRoomPage = () => {
 
                     {/* Instructions Footer */}
                     <div className="bg-gray-50 px-10 py-6 border-t border-gray-200">
-                        <h4 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-3">Important Instructions</h4>
+                        <h2 className="text-sm font-bold text-gray-700 uppercase tracking-wide mb-3">Important Instructions</h2>
                         <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-2 text-sm text-gray-600">
                             <li className="flex items-center gap-2">
                                 <svg className="w-4 h-4 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>

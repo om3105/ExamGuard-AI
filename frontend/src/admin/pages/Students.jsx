@@ -186,9 +186,9 @@ const Students = () => {
 
                             {/* ── Student Profile Details ── */}
                             <div className="px-4 sm:px-8 sm:px-10 pb-6 border-t border-gray-100 pt-6">
-                                <h3 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                                <h2 className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4 flex items-center gap-2">
                                     <Users className="w-4 h-4 text-gray-300" /> Profile Details
-                                </h3>
+                                </h2>
                                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                                     <div className="bg-gray-50 rounded-xl px-4 py-3 border border-gray-100">
                                         <p className="text-[11px] text-gray-400 font-semibold uppercase tracking-wider">Full Name</p>
@@ -461,7 +461,7 @@ const Students = () => {
                         <div className="mx-auto flex items-center justify-center h-16 w-16 rounded-2xl bg-white shadow-sm border border-gray-100 mb-4">
                             <Users className="h-8 w-8 text-gray-400" />
                         </div>
-                        <h3 className="text-lg font-bold text-gray-900">No candidates found</h3>
+                        <h2 className="text-lg font-bold text-gray-900">No candidates found</h2>
                         <p className="mt-2 text-sm text-gray-500 max-w-sm mx-auto">
                             {searchTerm ? 'No matches found for your search query. Try a different name or email.' : 'Your student directory is currently empty. They will appear here once registered.'}
                         </p>
