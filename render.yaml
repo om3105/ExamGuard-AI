@@ -24,9 +24,9 @@ services:
       - key: GOOGLE_CLIENT_SECRET
         sync: false
       - key: GOOGLE_REDIRECT_URI
-        value: https://examguard-ai-i4o8.onrender.com/auth/google/callback
+        value: https://examguard-ai-316c.onrender.com/auth/google/callback
       - key: TRUSTED_HOSTS
-        value: examguard-ai-i4o8.onrender.com
+        value: examguard-ai-316c.onrender.com
       - key: MAX_REQUEST_BODY_BYTES
         value: "2097152"
       - key: ACCESS_TOKEN_EXPIRE_MINUTES
